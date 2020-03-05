@@ -5,5 +5,6 @@ from OR.core import views
 
 urlpatterns = [
     path('', views.home, name='home'),
+    path('singup/', views.singup, name='singup'),
     path('admin/', admin.site.urls),
 ]
