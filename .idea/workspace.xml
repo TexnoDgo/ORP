@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1fc1b5d6-1b9b-45bf-b7b6-801ec7185d1c" name="Default Changelist" comment="" />
+    <list default="true" id="1fc1b5d6-1b9b-45bf-b7b6-801ec7185d1c" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/ORP.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ORP.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ORP_site/OR/HomePage/templates/HomePage/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/ORP_site/OR/HomePage/templates/HomePage/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ORP_site/OR/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/ORP_site/OR/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ORP_site/OR/users/templates/users/singup.html" beforeDir="false" afterPath="$PROJECT_DIR$/ORP_site/OR/users/templates/users/singup.html" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -18,6 +24,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -33,9 +40,13 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
-    <state x="656" y="344" key="com.intellij.ide.util.TipDialog" timestamp="1583403582997">
+    <state x="491" y="163" key="SettingsEditor" timestamp="1583526455507">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="656" y="344" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1583403582997" />
+    <state x="491" y="163" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1583526455507" />
+    <state x="656" y="344" key="com.intellij.ide.util.TipDialog" timestamp="1583526470198">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="656" y="344" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1583526470198" />
   </component>
 </project>
