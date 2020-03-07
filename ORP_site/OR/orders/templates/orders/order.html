@@ -1,0 +1,18 @@
+{% extends "HomePage/base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Order" %} № {{ order.id }}{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <small>{{ order.author }}</small>
+        <small>{{ order.date_create }}</small>
+        <h2>{{ order.title }}</h2>
+        <p>{{ order.description }}</p>
+        <p>{% trans "Кол-во изделий: " %} {{ order.amount }}</p>
+        <p>{% trans "Город заказа: "%} {{ order.city }}</p>
+        <p>{% trans "Срок выполнения заказа: "%} {{ order.lead_time }}</p>
+        <p>{% trans "Предложенный бюджет: " %} {{ order.proposed_budget }}</p>
+        <p>{% trans "Активность заказа" %} {{ order.activity }}</p>
+        <p>{% trans "Статус заказа" %} {{ order.status }}</p>
+    </div>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "HomePage/base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Log Out" %}{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <legend class="border-bottom mb-4">{% trans "You have been logged out" %}</legend>
+        <div class="border-top pt-3">
+            <small class="text-muted">
+                <a href="{% url 'login' %}">Log In Again</a>
+            </small>
+        </div>
+    </div>
+{% endblock %}
+

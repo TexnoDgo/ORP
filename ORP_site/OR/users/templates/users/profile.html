@@ -1,0 +1,11 @@
+{% extends "HomePage/base.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% block title %}{% trans "SingUp" %}{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>{{ user.username }}</h1>
+    </div>
+{% endblock %}
+

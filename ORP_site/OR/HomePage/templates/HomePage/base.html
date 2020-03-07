@@ -8,13 +8,32 @@
 </head>
 <body>
     <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
-        <h5 class="my-0 mr-md-auto font-weight-normal">O&R Company</h5>
-      <nav class="my-2 my-md-0 mr-md-3">
-        <a class="p-2 text-dark" href="#">{% trans "How it work" %}</a>
-        <a class="p-2 text-dark" href="#">{% trans "Create order" %}</a>
-      </nav>
-      <a class="btn btn-outline-primary" href="#">{% trans "Sign up" %}</a>
-      <a class="btn btn-outline-success" href="#">{% trans "Sign in" %}</a>
+        <h5 class="my-0 mr-md-auto font-weight-normal"><a href="/">O&R Company</a></h5>
+        <a class="btn btn-warning" href="/order_create">{% trans "Create Order" %}</a>
+        <nav class="my-2 my-md-0 mr-md-3">
+            <a class="p-2 text-dark" href="/orders">{% trans "Orders" %}</a>
+            <a class="p-2 text-dark" href="#">{% trans "How it work" %}</a>
+            <a class="p-2 text-dark" href="#">{% trans "Create order" %}</a>
+        </nav>
+        <div>
+            {% if user.is_authenticated %}
+                <div class="btn-group">
+                  <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{ user.username}}
+                  </button>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item" href="{% url 'profile' %}">{% trans 'Profile' %}</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{% url 'logout' %}">{% trans "Logout" %}</a>
+                  </div>
+                </div>
+            {% else %}
+                <a class="btn btn-outline-success" href="{% url 'login' %}">{% trans "Login" %}</a>
+                <a class="btn btn-outline-primary" href="{% url 'register' %}">{% trans "Sign up" %}</a>
+            {% endif %}
+        </div>
     </div>
     {% block content %}
 
