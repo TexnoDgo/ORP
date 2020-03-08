@@ -3,6 +3,16 @@
 {% block title %}{% trans "All Orders" %}{% endblock %}
 
 {% block content %}
+    <div class="container">
+        <h2>{% trans "Confirmation of registration" %}</h2>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
     {% for order in all_orders %}
         <div class="container">
             <small>{{ order.author }}</small>

@@ -1,20 +1,24 @@
 {% extends "HomePage/base.html" %}
 {% load i18n %}
-{% block title %}{% trans "All Orders" %}{% endblock %}
+{% load crispy_forms_tags %}
+{% block title %}{% trans "Create Order" %}{% endblock %}
 
 {% block content %}
-    {% for order in all_orders %}
-        <div class="container">
-            <small>{{ order.author }}</small>
-            <small>{{ order.date_create }}</small>
-            <h2>{{ order.title }}</h2>
-            <p>{{ order.description }}</p>
-            <p>{% trans "Кол-во изделий: " %} {{ order.amount }}</p>
-            <p>{% trans "Город заказа: "%} {{ order.city }}</p>
-            <p>{% trans "Срок выполнения заказа: "%} {{ order.lead_time }}</p>
-            <p>{% trans "Предложенный бюджет: " %} {{ order.proposed_budget }}</p>
-            <p>{% trans "Активность заказа" %} {{ order.activity }}</p>
-            <p>{% trans "Статус заказа" %} {{ order.status }}</p>
+    <div class="container">
+        <h1 class="h3 mb-3 font-weight-normal">{% trans "Please create order" %}</h1>
+        <legend class="border-bottom mb-4">{% trans "Order Create" %}</legend>
+        <form class="text-left" method="POST">
+          <div class="container">
+          <img class="mb-4" src="/docs/4.4/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+          <div class="content-section">
+                {% csrf_token %}
+                <fieldset class="form-group">
+                    {{ form|crispy }}
+                </fieldset>
+          </div>
+          <button class="btn btn-lg btn-primary btn-block" type="submit">{% trans "CREATE" %}</button>
         </div>
-    {% endfor %}
+        </form>
+    </div>
 {% endblock %}
+
