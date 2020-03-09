@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, CreateView
 from .models import Order
-from .forms import OrderCreateForm
+from .forms import OrderCreateForm, OrderUpdateForm
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 
 def orders(request):
@@ -37,3 +38,22 @@ def order_create(request):
         form = OrderCreateForm()
 
     return render(request, 'orders/order_create.html', {'form': form})
+
+
+@login_required
+def order_update(request):
+    if request.method == 'POST':
+        c_form = OrderUpdateForm(request.POST, instance=request.user)
+        if c_form.is_valid():
+            c_form.save()
+            messages.success(request,
+                             f'Order № {{ order.id }} is Update!')  # Формирование сообщения Alert
+            return redirect('orders')  # Перенаправление на страницу Заказов
+    else:
+        c_form = OrderUpdateForm(instance=request.user)
+
+    context = {
+        'c_form': c_form
+    }
+
+    return render(request, 'orders/update.html', context)

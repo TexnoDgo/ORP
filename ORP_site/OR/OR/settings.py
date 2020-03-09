@@ -151,3 +151,9 @@ LOGIN_REDIRECT_URL = 'index'
 LOGIN_URL = 'login'
 
 SITE_ID = 1
+
+'''SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
+   'fields': 'id, name, email'
+}
+SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL = True'''

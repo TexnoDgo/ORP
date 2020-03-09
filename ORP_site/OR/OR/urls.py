@@ -24,6 +24,7 @@ urlpatterns = [
     path('orders/', include('orders.urls')),
     path('conf_reg/', user_views.conf_reg, name='conf_reg'),
     path('account/', include('allauth.urls')),
+    path('update/', orders_views.order_update, name='update'),
 ]
 
 if settings.DEBUG:
