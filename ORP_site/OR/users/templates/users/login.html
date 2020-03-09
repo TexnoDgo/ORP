@@ -1,4 +1,6 @@
 {% extends "HomePage/base.html" %}
+{% load socialaccount %}
+{% providers_media_js %}
 {% load i18n %}
 {% load crispy_forms_tags %}
 {% block title %}{% trans "Log In" %}{% endblock %}
@@ -6,6 +8,8 @@
 {% block content %}
     <div class="container">
         <h1 class="h3 mb-3 font-weight-normal">{% trans "Please sign in" %}</h1>
+        <button type="button" class="btn btn-outline-secondary btn-lg col-5"><a href="{% provider_login_url 'facebook' method='oauth2' %}">Continue with Facebook</a></button>
+        <button type="button" class="btn btn-outline-secondary btn-lg col-5"><a href="{% provider_login_url 'google' method='oauth2' %}">Continue with Google</a></button>
         <legend class="border-bottom mb-4">{% trans "Log In" %}</legend>
         <form class="text-left" method="POST">
           <div class="container">
@@ -16,7 +20,7 @@
                     {{ form|crispy }}
                 </fieldset>
           </div>
-          <button class="btn btn-lg btn-primary btn-block" type="submit">{% trans "Login" %}</button>
+          <button class="btn btn-lg btn-outline-secondary btn-block" type="submit">{% trans "Login" %}</button>
         </div>
         </form>
         <div class="border-top pt-3">

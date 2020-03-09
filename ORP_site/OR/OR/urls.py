@@ -11,6 +11,7 @@ from orders import views as orders_views
 from django.conf.urls import include
 
 
+
 urlpatterns = [
     path('', index, name='index'),
     path('register/', user_views.register, name='register'),
@@ -21,7 +22,8 @@ urlpatterns = [
     path('orders/', orders_views.orders, name='orders'),
     path('order_create/', orders_views.order_create, name='order_create'),
     path('orders/', include('orders.urls')),
-    path('conf_reg/', user_views.conf_reg, name='conf_reg')
+    path('conf_reg/', user_views.conf_reg, name='conf_reg'),
+    path('account/', include('allauth.urls')),
 ]
 
 if settings.DEBUG:
