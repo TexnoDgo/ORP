@@ -14,6 +14,8 @@
         <p>{% trans "Предложенный бюджет: " %} {{ order.proposed_budget }}</p>
         <p>{% trans "Активность заказа" %} {{ order.activity }}</p>
         <p>{% trans "Статус заказа" %} {{ order.status }}</p>
-        <button type="button" class="btn btn-warning"><a href="{% url 'update' %}">Update Order</a></button>
+        {% if user == order.author %}
+            <button type="button" class="btn btn-warning"><a href="{% url 'update' %}">Update Order</a></button>
+        {% endif %}
     </div>
 {% endblock %}

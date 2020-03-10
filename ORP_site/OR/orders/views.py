@@ -43,14 +43,15 @@ def order_create(request):
 @login_required
 def order_update(request):
     if request.method == 'POST':
-        c_form = OrderUpdateForm(request.POST, instance=request.user)
+        c_form = OrderUpdateForm(request.POST, instance=Order)  # РАЗОБРАТСЯ!! Что нужно передать чтобы получить автоза-
+                                                                # полнение формы.
         if c_form.is_valid():
             c_form.save()
             messages.success(request,
                              f'Order № {{ order.id }} is Update!')  # Формирование сообщения Alert
             return redirect('orders')  # Перенаправление на страницу Заказов
     else:
-        c_form = OrderUpdateForm(instance=request.user)
+        c_form = OrderUpdateForm(instance=Order)
 
     context = {
         'c_form': c_form

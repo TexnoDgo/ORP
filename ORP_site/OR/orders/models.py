@@ -14,6 +14,14 @@ class Order(models.Model):
     proposed_budget = models.CharField(max_length=40)  # Предложеный бюджет
     activity = models.BooleanField()  # Активность заказа
     status = models.CharField(max_length=10)  # Статус заказ
+    categories = models.ManyToManyField('OperationCategories', blank=True, related_name='orders')
+
+    def __str__(self):
+        return self.title
+
+
+class OperationCategories(models.Model):
+    title = models.CharField(max_length=30)
 
     def __str__(self):
         return self.title

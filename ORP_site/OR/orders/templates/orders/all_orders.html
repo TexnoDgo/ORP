@@ -23,6 +23,7 @@
             <p>{% trans "Город заказа: "%} {{ order.city }}</p>
             <p>{% trans "Срок выполнения заказа: "%} {{ order.lead_time }}</p>
             <p>{% trans "Предложенный бюджет: " %} {{ order.proposed_budget }}</p>
+            <p>{% trans "Категории: " %} {{ order.categories }} # Добавить категории и сортировку!!</p>
             <p>{% trans "Активность заказа" %} {{ order.activity }}</p>
             <p>{% trans "Статус заказа" %} {{ order.status }}</p>
         </div>
