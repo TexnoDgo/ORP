@@ -58,3 +58,22 @@ def order_update(request):
     }
 
     return render(request, 'orders/update.html', context)
+
+
+def test_order_create(request):
+    if request.method == 'POST':
+        form = OrderCreateForm(request.POST)
+
+        if form.is_valid():
+            order = form.save(commit=False)
+            order.author = request.user
+            order.save()
+            #form.save()  # Сохранение  формы
+            title = form.cleaned_data.get('title')  # Получение названи заказка из формы
+            messages.success(request,
+                             f'You order has been created!Wait for a response! ')  # Формирование сообщения со вложенным именем
+            return redirect('orders')  # Перенаправление на страницу подтверждения регистрации
+    else:
+        form = OrderCreateForm()
+
+    return render(request, 'orders/order_create_new.html', {'form': form})

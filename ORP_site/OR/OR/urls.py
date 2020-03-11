@@ -21,6 +21,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('orders/', orders_views.orders, name='orders'),
     path('order_create/', orders_views.order_create, name='order_create'),
+    path('order_create_new/', orders_views.test_order_create, name='order_create_new'),
     path('orders/', include('orders.urls')),
     path('conf_reg/', user_views.conf_reg, name='conf_reg'),
     path('account/', include('allauth.urls')),

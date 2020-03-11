@@ -1,0 +1,63 @@
+body {
+
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.good {
+    width: 60%;
+    position: absolute;
+    left: 20%;
+    background:#125a66;
+}
+
+.good .header {
+    height:100 px;
+    margin-bottom: 120px;
+    
+}
+
+.good .header .logo {
+    background:#aaaaaa;
+    width:20%;
+    float:left;
+    height: 80px;
+    text-align: center;
+}
+
+.good .header .header-text {
+    width:80%;
+    float:left;
+    padding-left: 10px;s
+    height: 100px;
+}
+
+.good .header .header-text .headline {
+    font-size: 20px;
+    background:#ffffff;
+    text-align: center;
+}
+
+.good .header .header-text .description {
+    font-size: 12px;
+    background:#cccccc;
+    text-align: center;
+}
+
+.content {
+    background:#3269a8;
+    min-height: 500px;
+}
+
+.content .form {
+    background:#cccccc;
+    width: 95%;
+}
+
+.content .form .top-form {
+    background:#aaaaaa;
+    width: 95%;
+    font-size: 10px;
+}
