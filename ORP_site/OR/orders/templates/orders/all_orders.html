@@ -20,7 +20,59 @@
             <p>filters</p>
         </div>
         <div class="orders-views">
-        {% for order in all_orders %}
+        {% for order in all_orders.object_list %}
+            <table>
+                <tbody>
+                    <tr>
+                        <td class="order-drawings" rowspan="6">Изображение заказа</td>
+                        <td class="order-title">{{ order.title }}</td>
+                        <td class="oreder-author">{{ order.author }}</td>
+                    </tr>
+                    <tr>
+                        <td class="order-description" rowspan="4">{{ order.description }}</td>
+                        <td class="order-date-create">{{ order.date_create }}</td>
+                    </tr>
+                    <tr>
+                        <td class="order-lead-time">{{ order.lead_time }}</td>
+                    </tr>
+                    <tr>
+                        <td class="order-amount">{{ order.amount }}</td>
+                    </tr>
+                    <tr>
+                        <td class="order-proposed-budget">{{ order.proposed_budget }}</td>
+                    </tr>
+                    <tr>
+                        <td class="order-city">{{ order.city }}</td>
+                        <td class="order-bottom-view"><a href="{{order.id}}">Подробнее</a></td>
+                    </tr>
+                    <tr>
+                        <td class="order-categories" colspan="3">{{ order.categories }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <hr>
+        {% endfor %}
+        </div>
+        <div class="pagination">
+            <ul>
+                {% if all_orders.has_previous %}
+                    <li><a href="?page={{ all_orders.previous_page_number }}">Previous</a></li>
+                {% endif %}
+                {% for pg in all_orders.paginator.page_range %}
+                    {% if all_orders.number == pg %}
+                        <li class="active"><a href="?page={{ pg }}">{{ pg }}</a></li>
+                    {% else %}
+                        <li><a href="?page={{ pg }}">{{ pg }}</a></li>
+                    {% endif %}
+                {% endfor %}
+                {% if all_orders.has_next %}
+                    <li><a href="?page={{ all_orders.next_page_number }}">Next</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+
             <div class="order-view">
                 <div class="osnova">
                     <div class="draw-pre">
@@ -37,14 +89,10 @@
                         <p class="lead_time">{% trans "Срок выполнения заказа: "%} {{ order.lead_time }}</p>
                         <p class="amount">{% trans "Кол-во изделий: " %} {{ order.amount }}</p>
                         <p class="proposed_budget">{% trans "Предложенный бюджет: " %} {{ order.proposed_budget }}</p>
-                        <button class="or-btn"><a href="{{order.id}}">Подробнее</a></button>
+                        <button class="or-btn" ><a href="{{order.id}}">Подробнее</a></button>
                     </div>
-                </div>              
+                </div>
                 <div class="category">
                     <p>{% trans "Категории: " %} {{ order.categories }} # Добавить категории и сортировку!!</p>
                 </div>
             </div>
-        {% endfor %}
-        </div>
-    </div>
-{% endblock %}

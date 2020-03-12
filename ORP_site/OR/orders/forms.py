@@ -6,7 +6,8 @@ from django.views.generic import CreateView
 class OrderCreateForm(forms.ModelForm):
     class Meta:
         model = Order
-        fields = ['title', 'description', 'amount', 'city', 'lead_time', 'proposed_budget', 'activity', 'status', 'categories']
+        fields = ['title', 'description', 'amount', 'city', 'lead_time', 'proposed_budget', 'activity',
+                  'status', 'categories']
 
         # Привязка авторезированого пользователя к автору заказа
         def form_valid(self, form):
@@ -17,4 +18,5 @@ class OrderCreateForm(forms.ModelForm):
 class OrderUpdateForm(forms.ModelForm):
     class Meta:
         model = Order
-        fields = ['title', 'description', 'amount', 'city', 'lead_time', 'proposed_budget', 'activity', 'status', 'categories']
+        fields = ['title', 'description', 'amount', 'city', 'lead_time', 'proposed_budget', 'activity',
+                  'status', 'categories']

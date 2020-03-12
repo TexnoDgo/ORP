@@ -31,7 +31,7 @@
                      
                      <div class="form-description">
                         <h1>Опишите проект подробнее</h1>
-                        <p>{{ form.description}}</p>
+                        <p class="fdp">{{ form.description}}</p>
                         <small>Напишите какую работу нужно выполнить или  укажите операции необходимые для изготовления вашего заказа</small>
                      </div>
                      
@@ -47,8 +47,28 @@
                      
                      <div class="form-categories">
                         <h1>Укажите подходящие категории</h1>
-                        <p>{{ form.}}</p>
+                        <p>{{ form.categories}}</p>
                         <small>Например: Токарная; Фрезерная; Лазерная резка; пр </small>
+                     </div>
+                     
+                     <div class="form-amount">
+                        <h1>Укажите количество изделий</h1>
+                        <p>{{ form.amount}}</p>
+                     </div>
+                     
+                     <div class="form-city">
+                        <h1>Укажите город получения заказа</h1>
+                        <p>{{ form.city}}</p>
+                     </div>
+                     
+                     <div class="form-lead_time">
+                        <h1>Укажите сроки выполнения</h1>
+                        <p>{{ form.lead_time}}</p>
+                     </div>
+                     
+                     <div class="form-proposed_budget">
+                        <h1>Предполагаемый бюджет проекта</h1>
+                        <p>{{ form.proposed_budget}}</p>
                      </div>
                         
                  </div>

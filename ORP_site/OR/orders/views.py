@@ -4,12 +4,24 @@ from .models import Order
 from .forms import OrderCreateForm, OrderUpdateForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 
 
 def orders(request):
     all_orders = Order.objects.all()
+
+    paginator = Paginator(all_orders, 3)
+
+    try:
+        page = int(request.GET.get('page', '1'))
+    except:
+        page = 1
+    try:
+        posts = paginator.page(page)
+    except(EmptyPage, InvalidPage):
+        posts = paginator.page(paginator.num_pages)
     context = {
-        'all_orders': all_orders
+        'all_orders': posts
     }
     return render(request, 'orders/all_orders.html', context)
 
