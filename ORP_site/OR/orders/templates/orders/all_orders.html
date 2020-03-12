@@ -1,31 +1,50 @@
 {% extends "HomePage/base.html" %}
 {% load i18n %}
 {% block title %}{% trans "All Orders" %}{% endblock %}
+{% load static %}
 
 {% block content %}
-    <div class="container">
-        <h2>{% trans "Confirmation of registration" %}</h2>
-        {% if messages %}
-            {% for message in messages %}
-                <div class="alert alert-{{ message.tags }}">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        {% endif %}
-    </div>
-    {% for order in all_orders %}
+    <link rel="stylesheet" href="{% static 'orders/style.css' %}">
+    <div class="page">
         <div class="container">
-            <small>{{ order.author }}</small>
-            <small>{{ order.date_create }}</small>
-            <h2><a href="{{order.id}}">{{ order.title }}</a></h2>
-            <p>{{ order.description }}</p>
-            <p>{% trans "Кол-во изделий: " %} {{ order.amount }}</p>
-            <p>{% trans "Город заказа: "%} {{ order.city }}</p>
-            <p>{% trans "Срок выполнения заказа: "%} {{ order.lead_time }}</p>
-            <p>{% trans "Предложенный бюджет: " %} {{ order.proposed_budget }}</p>
-            <p>{% trans "Категории: " %} {{ order.categories }} # Добавить категории и сортировку!!</p>
-            <p>{% trans "Активность заказа" %} {{ order.activity }}</p>
-            <p>{% trans "Статус заказа" %} {{ order.status }}</p>
+            <h2>{% trans "ALL ORDERS" %}</h2>
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
         </div>
-    {% endfor %}
+        <div class="orders-filter">
+            <p>filters</p>
+        </div>
+        <div class="orders-views">
+        {% for order in all_orders %}
+            <div class="order-view">
+                <div class="osnova">
+                    <div class="draw-pre">
+                        <p>Drawing preview</p>
+                    </div>
+                    <div class="tit-des-city">
+                        <h2 class="titile"><a>{{ order.title }}</a></h2>
+                        <p class="description">{{ order.description }}</p>
+                        <p class="city">{% trans "Город заказа: "%} {{ order.city }}</p>
+                    </div>
+                    <div class="other-pole">
+                        <p class="author">{{ order.author }}</p>
+                        <p class="date_create">{{ order.date_create }}</p>
+                        <p class="lead_time">{% trans "Срок выполнения заказа: "%} {{ order.lead_time }}</p>
+                        <p class="amount">{% trans "Кол-во изделий: " %} {{ order.amount }}</p>
+                        <p class="proposed_budget">{% trans "Предложенный бюджет: " %} {{ order.proposed_budget }}</p>
+                        <button class="or-btn"><a href="{{order.id}}">Подробнее</a></button>
+                    </div>
+                </div>              
+                <div class="category">
+                    <p>{% trans "Категории: " %} {{ order.categories }} # Добавить категории и сортировку!!</p>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
 {% endblock %}

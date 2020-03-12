@@ -61,3 +61,130 @@ body {
     width: 95%;
     font-size: 10px;
 }
+
+.page {
+    width: 70%;
+    position: absolute;
+    left: 15%;
+}
+
+.orders-filter {
+    background: #aaa195;
+    width: 30%;
+    float: left;
+}
+
+.orders-views {
+    background: #eee455;
+    width: 70%;
+    float: left;
+}
+
+.order-view {
+    background: #d437d1;
+    height: 360px;
+}
+
+.osnova {
+    background: #ccc666;
+    float: right;
+    width: 100%;
+    outline: 2px solid #000;
+}
+
+.draw-pre {
+    background: #2b4063;
+    width: 30%;
+    height: 300px;
+    float: left;
+    text-align: center;
+    outline: 2px solid #000;
+}
+
+.tit-des-city {
+    background: #4fc290;
+    width: 40%;
+    height: 300px;
+    float: left;
+    text-align: center;
+    outline: 2px solid #000;
+}
+
+.titile {
+    background: #eee455;
+    height:12%;
+    outline: 2px solid #000;
+}
+
+.description {
+    background: #aaa195;
+    outline: 2px solid #000;
+    height:80%;
+}
+
+.city {
+    background: #cccccc;
+    height:8%;
+    outline: 2px solid #000;
+}
+
+.other-pole {
+    background: #c4a931;
+    width: 30%;
+    height: 300px;
+    float: left;
+    text-align: center;
+    outline: 2px solid #000;
+    font-size: 10px;
+}
+
+.author {
+    height:15%;
+    background: #963826;
+    outline: 2px solid #000;
+}
+
+.date_create {
+    height:15%;
+    outline: 2px solid #000;
+}
+
+.lead_time {
+    height:15%;
+    background: #963826;
+    outline: 2px solid #000;
+}
+
+.amount {
+    height:15%;
+    outline: 2px solid #000;
+}
+
+.proposed_budget {
+    height:15%;
+    background: #963826;
+    outline: 2px solid #000;
+}
+
+.or-btn {
+    height:25%;
+    outline: 2px solid #000;
+}
+
+.category {
+    background: #963826;
+    height:60px;
+    width: 100%;
+    object-position: bottom;
+    margin-bottom: 20px;
+    outline: 2px solid #000;
+}
+
+
+
+
+
+
+
+
+
