@@ -96,3 +96,7 @@ body {
 .th {
     background-color: #7accee;
 }
+
+.pagination {
+    float: right;
+}

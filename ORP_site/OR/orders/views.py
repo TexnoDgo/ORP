@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, CreateView
-from .models import Order
+from .models import Order, OperationCategories
 from .forms import OrderCreateForm, OrderUpdateForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -21,7 +21,7 @@ def orders(request):
     except(EmptyPage, InvalidPage):
         posts = paginator.page(paginator.num_pages)
     context = {
-        'all_orders': posts
+        'all_orders': posts,
     }
     return render(request, 'orders/all_orders.html', context)
 
@@ -54,8 +54,9 @@ def order_create(request):
 
 @login_required
 def order_update(request):
+    old_form = Order.objects.filter(author=request.user).first()
     if request.method == 'POST':
-        c_form = OrderUpdateForm(request.POST, instance=Order)  # РАЗОБРАТСЯ!! Что нужно передать чтобы получить автоза-
+        c_form = OrderUpdateForm(request.POST, instance=old_form)  # РАЗОБРАТСЯ!! Что нужно передать чтобы получить автоза-
                                                                 # полнение формы.
         if c_form.is_valid():
             c_form.save()
@@ -63,7 +64,7 @@ def order_update(request):
                              f'Order № {{ order.id }} is Update!')  # Формирование сообщения Alert
             return redirect('orders')  # Перенаправление на страницу Заказов
     else:
-        c_form = OrderUpdateForm(instance=Order)
+        c_form = OrderUpdateForm(instance=old_form)
 
     context = {
         'c_form': c_form

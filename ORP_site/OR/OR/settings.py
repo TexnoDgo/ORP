@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'orders.apps.OrdersConfig',
     'crispy_forms',
+    'bootstrap_pagination',
 
     #allauth
     'allauth',
