@@ -1,21 +1,111 @@
 {% extends "HomePage/base.html" %}
 {% load i18n %}
 {% block title %}{% trans "Order" %} № {{ order.id }}{% endblock %}
+{% load static %}
 
 {% block content %}
-    <div class="container">
-        <small>{{ order.author }}</small>
-        <small>{{ order.date_create }}</small>
-        <h2>{{ order.title }}</h2>
-        <p>{{ order.description }}</p>
-        <p>{% trans "Кол-во изделий: " %} {{ order.amount }}</p>
-        <p>{% trans "Город заказа: "%} {{ order.city }}</p>
-        <p>{% trans "Срок выполнения заказа: "%} {{ order.lead_time }}</p>
-        <p>{% trans "Предложенный бюджет: " %} {{ order.proposed_budget }}</p>
-        <p>{% trans "Активность заказа" %} {{ order.activity }}</p>
-        <p>{% trans "Статус заказа" %} {{ order.status }}</p>
-        {% if user == order.author %}
-            <button type="button" class="btn btn-warning"><a href="{% url 'update' %}">Update Order</a></button>
-        {% endif %}
+    <link rel="stylesheet" href="{% static 'orders/order_style.css' %}">
+    <div class="vso">
+        <div class="vs">
+            {% if user == order.author %}
+                {% for form in suggestions %}
+                    <table class="table table-bordered table-dark">
+                        <tbody>
+                            <tr >
+                                <td >Автор предложения:</td>
+                                <td>{{ form.author }}</td>
+                                <td>Дата создания предложения: </td>
+                                <td>{{ form.date_create }}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="4">{{ form.offer_description }}</td>
+                            </tr>
+                            <tr>
+                                <td>Предложенная стоимость:</td>
+                                <td>{{ form.offer_price }}</td>
+                                <td>Срок выполнения до:</td>
+                                <td>{{ form.deadline }}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">Статус предложения: </td>
+                                <td colspan="2">{{ selected_offer }}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="4"><button type="button" class="btn btn-success">---------------------------Выбрать-------------------------</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <hr>
+                {% endfor %}
+            {% endif %}
+            <div><button type="button" class="btn btn-outline-info"><a href="/suggestion">-----------------Оставить предложение---------------</a></button></div>
+        </div>
+        <div class="vo">
+            <table class="table-dark">
+                <tbody>
+                    <tr>
+                        <td>Дата создания заказа:</td>
+                        <td>{{ order.date_create }}</td>
+                        <td>Автор заказа:</td>
+                        <td>{{ order.author }}</td>
+                        <td>Город заказа:</td>
+                        <td>{{ order.city }}</td>
+                    </tr>
+                    <tr>
+                        <td>Заголовок заказа</td>
+                        <td colspan="5">{{ order.title }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="6">Чертеж заказа:</td>
+                    </tr>
+                    <tr>
+                        <td colspan="6"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="5"></td>
+                        <td><button type="button" class="btn btn-danger">Загрузить файл -_-</button></td>
+                    </tr>
+                    <tr>
+                        <td>Файл</td>
+                        <td>Файл</td>
+                        <td>Файл</td>
+                        <td>Файл</td>
+                        <td>Файл</td>
+                        <td>Файл</td>
+                    </tr>
+                    <tr>
+                        <td colspan="6">Описание заказа:</td>
+                    </tr>
+                    <tr>
+                        <td colspan="6">{{ order.description }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">Количество изделий:</td>
+                        <td colspan="3">{{ order.amount }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">Срок выполнения заказа:</td>
+                        <td colspan="3">{{ order.lead_time }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">Бюджет заказа:</td>
+                        <td colspan="3">{{ order.proposed_budget }}</td>
+                    </tr>
+                    <tr>
+                        <td><button type="button" class="btn btn-dark">КНОПКА</button></td>
+                        <td><button type="button" class="btn btn-dark">КНОПКА</button></td>
+                        <td><button type="button" class="btn btn-dark">КНОПКА</button></td>
+                        <td><button type="button" class="btn btn-dark">КНОПКА</button></td>
+                        <td><button type="button" class="btn btn-dark">КНОПКА</button></td>
+                        <td>
+                            {% if user == order.author %}
+                                <button type="button" class="btn btn-warning"><a href="{% url 'update' %}">Update Order +_+</a></button>
+                                <!--  -->
+                            {% endif %}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 {% endblock %}

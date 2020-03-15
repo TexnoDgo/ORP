@@ -1,14 +1,17 @@
 from django.shortcuts import render, redirect
-from django.views.generic import ListView, CreateView
-from .models import Order, OperationCategories
-from .forms import OrderCreateForm, OrderUpdateForm
+from django.views.generic import ListView, CreateView, DetailView, UpdateView
+from .models import Order, OperationCategories, Suggestion
+from .forms import OrderCreateForm, OrderUpdateForm, SuggestionCreateForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
+from django.views import generic
 
 
 def orders(request):
     all_orders = Order.objects.all()
+
+    filters = OperationCategories.objects.all()
 
     paginator = Paginator(all_orders, 3)
 
@@ -22,15 +25,46 @@ def orders(request):
         posts = paginator.page(paginator.num_pages)
     context = {
         'all_orders': posts,
+        'filters': filters,
     }
     return render(request, 'orders/all_orders.html', context)
 
 
-class OrderListView(ListView):
+'''class OrderListView(ListView):
+    model = Order
+    print(model)
+    template_name = 'orders/all_orders.html'
+    context_object_name = 'all_orders'
+    ordering = ['-date_create']'''
+
+
+def order_categories(request, url):
+    all_orders = Order.objects.filter(categories__url=url)
+
+    filters = OperationCategories.objects.all()
+
+    paginator = Paginator(all_orders, 3)
+
+    try:
+        page = int(request.GET.get('page', '1'))
+    except:
+        page = 1
+    try:
+        posts = paginator.page(page)
+    except(EmptyPage, InvalidPage):
+        posts = paginator.page(paginator.num_pages)
+    context = {
+        'all_orders': posts,
+        'filters': filters,
+    }
+    return render(request, 'orders/all_orders.html', context)
+
+
+'''class OrderListView(ListView):
     model = Order
     template_name = 'orders/all_orders.html'  # <app>/<model>_<viewtype>.html
     context_object_name = 'order'
-    ordering = ['-date_ordered']
+    ordering = ['-date_ordered']'''
 
 
 def order_create(request):
@@ -54,23 +88,35 @@ def order_create(request):
 
 @login_required
 def order_update(request):
-    old_form = Order.objects.filter(author=request.user).first()
     if request.method == 'POST':
-        c_form = OrderUpdateForm(request.POST, instance=old_form)  # РАЗОБРАТСЯ!! Что нужно передать чтобы получить автоза-
+        c_form = OrderUpdateForm(request.POST)  # РАЗОБРАТСЯ!! Что нужно передать чтобы получить автоза-
                                                                 # полнение формы.
+
         if c_form.is_valid():
             c_form.save()
             messages.success(request,
                              f'Order № {{ order.id }} is Update!')  # Формирование сообщения Alert
             return redirect('orders')  # Перенаправление на страницу Заказов
     else:
-        c_form = OrderUpdateForm(instance=old_form)
+        c_form = OrderUpdateForm()
 
     context = {
         'c_form': c_form
     }
 
     return render(request, 'orders/update.html', context)
+
+
+class OrderUpdateView(UpdateView):
+    model = Order
+    fields = ['title', 'description', 'amount', 'city', 'lead_time', 'proposed_budget', 'activity',
+              'status', 'categories']
+
+    template_name = 'orders/all_orders.html'
+
+    def form_valid(self, form):
+        form.instace.author = self.request.user
+        return super().form_valid(form)
 
 
 def test_order_create(request):
@@ -90,3 +136,32 @@ def test_order_create(request):
         form = OrderCreateForm()
 
     return render(request, 'orders/order_create_new.html', {'form': form})
+
+@login_required
+def suggestion_create(request):
+    if request.method == 'POST':
+        suggestion = SuggestionCreateForm(request.POST)
+        if suggestion.is_valid():
+            sug = suggestion.save(commit=False)
+            sug.author = request.user
+            sug.save()
+            # form.save()  # Сохранение  формы
+            title = suggestion.cleaned_data.get('title')  # Получение названи заказка из формы
+            messages.success(request,
+                             f'You suggestion has been created!Wait for a response! ')  # Формирование сообщения со вложенным именем
+            return redirect('orders')  # Перенаправление на страницу подтверждения регистрации
+    else:
+         suggestion = SuggestionCreateForm()
+
+    return render(request, 'orders/suggestion_create.html', {'suggestion': suggestion})
+
+
+class OrderAndSuggestionView(DetailView):
+
+    model = Order
+
+    def get_context_data(self, **kwargs):
+        context = super(OrderAndSuggestionView, self).get_context_data(**kwargs)
+        a = self.object.id
+        context['suggestions'] = Suggestion.objects.filter(order_id=a)
+        return context

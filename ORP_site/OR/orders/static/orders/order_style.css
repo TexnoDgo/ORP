@@ -1,0 +1,17 @@
+.vso {
+    width: 70%;
+    position: absolute;
+    left: 15%;
+}
+
+.vso .vs {
+
+    width: 30%;
+    float:left;
+}
+
+.vso .vo {
+    width: 65%;
+    float: left;
+    margin-left: 5%;
+}

@@ -17,6 +17,8 @@ class Order(models.Model):
     status = models.CharField(max_length=10)  # Статус заказ
     categories = models.ManyToManyField('OperationCategories', blank=True, related_name='orders')
 
+    objects = models.Manager()
+
     def __str__(self):
         return self.title
 
@@ -24,10 +26,20 @@ class Order(models.Model):
 class OperationCategories(models.Model):
     title = models.CharField(max_length=30)
 
+    objects = models.Manager()
+
     def __str__(self):
         return self.title
 
 
+class Suggestion(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.PROTECT)
+    author = models.ForeignKey(User, on_delete=models.PROTECT)
+    date_create = models.DateTimeField(default=timezone.now)
+    offer_description = models.TextField()
+    deadline = models.DateTimeField()
+    offer_price = models.PositiveIntegerField()
+    selected_offer = models.BooleanField()
 
-#class Files(models.Model):
-    #title = models.FileField()
+    def __str__(self):
+        return self.offer_description

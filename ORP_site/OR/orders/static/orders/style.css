@@ -69,9 +69,10 @@ body {
 }
 
 .orders-filter {
-    background: #aaa195;
     width: 30%;
     float: left;
+    border: 1px solid #595959;
+
 }
 
 .orders-views {
@@ -79,10 +80,19 @@ body {
     float: left;
 }
 
-.table{
+
+
+.pagination {
+    float: right;
+}
+
+
+
+
+.table {
     width: 100%;
     border-collapse:collapse;
-    border-spacing:0
+    border-spacing;
 }
 .table, td, th {
     border: 1px solid #595959;
@@ -95,8 +105,4 @@ body {
 }
 .th {
     background-color: #7accee;
-}
-
-.pagination {
-    float: right;
 }

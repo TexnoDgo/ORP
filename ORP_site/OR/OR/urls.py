@@ -20,12 +20,14 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
     path('admin/', admin.site.urls),
     path('orders/', orders_views.orders, name='orders'),
+    #path('orders/', orders_views.OrderListView.as_view(), name='orders'),
     path('order_create/', orders_views.order_create, name='order_create'),
     path('order_create_new/', orders_views.test_order_create, name='order_create_new'),
     path('orders/', include('orders.urls')),
     path('conf_reg/', user_views.conf_reg, name='conf_reg'),
     path('account/', include('allauth.urls')),
     path('update/', orders_views.order_update, name='update'),
+    path('suggestion', orders_views.suggestion_create, name='suggestion'),
 ]
 
 if settings.DEBUG:

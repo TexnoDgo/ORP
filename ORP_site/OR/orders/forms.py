@@ -1,5 +1,5 @@
 from django import forms
-from .models import Order
+from .models import Order, Suggestion
 from django.views.generic import CreateView
 
 
@@ -20,3 +20,10 @@ class OrderUpdateForm(forms.ModelForm):
         model = Order
         fields = ['title', 'description', 'amount', 'city', 'lead_time', 'proposed_budget', 'activity',
                   'status', 'categories']
+
+
+class SuggestionCreateForm(forms.ModelForm):
+    class Meta:
+        model = Suggestion
+        fields = ['order', 'date_create', 'offer_description', 'deadline', 'offer_price', 'selected_offer']
+
