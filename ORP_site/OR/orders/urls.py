@@ -6,7 +6,10 @@ from . import views
 
 
 urlpatterns = [
-    url(r'^(?P<pk>\d+)$', views.OrderAndSuggestionView.as_view(model=Order, template_name='orders/order.html')),
+    url(r'^(?P<pk>\d+)$', views.OrderAndSuggestionView.as_view(model=Order, template_name='orders/order.html'),
+        name='order_detail'),
     path(r'<slug:url>/', views.order_categories, name='order_categories'),
-    #url(r'^(?P<pk>\d+)/update/', views.OrderUpdateView.as_view(), name='order-update'), #template_name='orders/update.html'
+    url(r'^(?P<pk>\d+)/update/', views.OrderUpdateView.as_view(model=Order, template_name='orders/update.html'),
+        name='order_update'),
+    # template_name='orders/update.html'
 ]

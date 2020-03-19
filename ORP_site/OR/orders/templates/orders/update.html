@@ -16,7 +16,7 @@
                <div class="content-section">
                     {% csrf_token %}
                     <fieldset class="form-group">
-                        {{ c_form|crispy }}
+                        {{ form|crispy }}
                     </fieldset>
                 </div>
                 <button class="btn btn-lg btn-primary btn-block" type="submit">{% trans "Update" %}</button>

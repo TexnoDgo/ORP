@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
+from django.urls import reverse
 
 
 class Order(models.Model):
@@ -21,6 +22,9 @@ class Order(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse('order_detail', kwargs={'pk': self.pk})
 
 
 class OperationCategories(models.Model):
@@ -43,3 +47,10 @@ class Suggestion(models.Model):
 
     def __str__(self):
         return self.offer_description
+
+
+class Message(models.Model):
+    suggestion = models.ForeignKey(Suggestion, on_delete=models.PROTECT)
+    date_create = models.DateTimeField(default=timezone.now)
+    text = models.TextField()
+    status = models.CharField(max_length=10)

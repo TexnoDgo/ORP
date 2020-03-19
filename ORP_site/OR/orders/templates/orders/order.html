@@ -28,10 +28,13 @@
                             </tr>
                             <tr>
                                 <td colspan="2">Статус предложения: </td>
-                                <td colspan="2">{{ selected_offer }}</td>
+                                <td colspan="2">{{ form.selected_offer }}</td>
                             </tr>
                             <tr>
                                 <td colspan="4"><button type="button" class="btn btn-success">---------------------------Выбрать-------------------------</button></td>
+                            </tr>
+                            <tr>
+                                <td colspan="4"> <a href="/suggestion/{{form.id}}">---------------------------Подробнее--------------------------</a></td>
                             </tr>
                         </tbody>
                     </table>
@@ -99,7 +102,7 @@
                         <td><button type="button" class="btn btn-dark">КНОПКА</button></td>
                         <td>
                             {% if user == order.author %}
-                                <button type="button" class="btn btn-warning"><a href="{% url 'update' %}">Update Order +_+</a></button>
+                                <button type="button" class="btn btn-warning"><a href="//127.0.0.1:8000/orders/{{order.id}}/update">Update Order +_+</a></button>
                                 <!--  -->
                             {% endif %}
                         </td>

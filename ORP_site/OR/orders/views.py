@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from django.views.generic import ListView, CreateView, DetailView, UpdateView
-from .models import Order, OperationCategories, Suggestion
+from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
+from .models import Order, OperationCategories, Suggestion, Message
 from .forms import OrderCreateForm, OrderUpdateForm, SuggestionCreateForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -112,10 +112,8 @@ class OrderUpdateView(UpdateView):
     fields = ['title', 'description', 'amount', 'city', 'lead_time', 'proposed_budget', 'activity',
               'status', 'categories']
 
-    template_name = 'orders/all_orders.html'
-
     def form_valid(self, form):
-        form.instace.author = self.request.user
+        form.instance.author = self.request.user
         return super().form_valid(form)
 
 
@@ -165,3 +163,9 @@ class OrderAndSuggestionView(DetailView):
         a = self.object.id
         context['suggestions'] = Suggestion.objects.filter(order_id=a)
         return context
+
+
+class DeleteOrderView(DeleteView):
+
+    model = Order
+
