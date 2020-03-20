@@ -9,7 +9,7 @@
         <div class="vs">
             {% if user == order.author %}
                 {% for form in suggestions %}
-                    <table class="table table-bordered table-dark">
+                    <table class="table2">
                         <tbody>
                             <tr >
                                 <td >Автор предложения:</td>
@@ -31,20 +31,30 @@
                                 <td colspan="2">{{ form.selected_offer }}</td>
                             </tr>
                             <tr>
-                                <td colspan="4"><button type="button" class="btn btn-success">---------------------------Выбрать-------------------------</button></td>
+                                <td colspan="4"><button type="button" class="btn btn-success">-------------------------Выбрать-----------------------</button></td>
                             </tr>
                             <tr>
-                                <td colspan="4"> <a href="/suggestion/{{form.id}}">---------------------------Подробнее--------------------------</a></td>
+                                <td colspan="4">
+                                    <a href="/suggestion/{{form.id}}">
+                                        <button type="button" class="btn btn-outline-dark">
+                                            -----------------------Подробнее----------------------
+                                        </button>
+                                    </a>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
                     <hr>
                 {% endfor %}
             {% endif %}
-            <div><button type="button" class="btn btn-outline-info"><a href="/suggestion">-----------------Оставить предложение---------------</a></button></div>
+            {% if user == order.author %}
+                <p>Good day!</p>
+            {% else %}
+                <div><button type="button" class="btn btn-outline-info"><a href="/suggestion">-----------------Оставить предложение---------------</a></button></div>
+            {% endif %}
         </div>
         <div class="vo">
-            <table class="table-dark">
+            <table class="table">
                 <tbody>
                     <tr>
                         <td>Дата создания заказа:</td>

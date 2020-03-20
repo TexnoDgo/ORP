@@ -1,0 +1,35 @@
+{% extends "HomePage/base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Dashboard Order" %}{% endblock %}
+{% load static %}
+
+{% block content %}
+    <div class="container">
+        <table>
+        <tbody>
+            <tr>
+                <td bgcolor="#0F4B81">Мои заказы</td>
+                <td><a href="{% url 'dashboard' %}">Информационная панель</a></td>
+                <td><a href="#">Сообщения</a></td>
+                <td><a href="#">Отзывы</a></td>
+            </tr>
+            <tr>
+                <td colspan="4">Мои заказы</td>
+            </tr>
+            <tr>
+                <td><a href="{% url 'dashboard-order-dis' %}">Заказы в обсуждении</a></td>
+                <td bgcolor="#0F4B81">Заказы в работе</td>
+                <td>Выполненные заказы</td>
+                <td>Избранные заказы</td>
+            </tr>
+            <tr>
+                <td colspan="4">управление проектами</td>
+            </tr>
+            <tr>
+                <td colspan="4">Заказы по фильтрам</td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends "HomePage/base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Dashboard" %}{% endblock %}
+{% load static %}
+
+{% block content %}
+    <div class="container">
+        <table>
+            <tbody>
+                <tr>
+                    <td><a href="{% url 'dashboard-order' %}">Мои заказы</a></td>
+                    <td bgcolor="#0F4B81">Информационная панель</td>
+                    <td><a href="#">Сообщения</a></td>
+                    <td><a href="#">Отзывы</a></td>
+                </tr>
+                <tr>
+                    <td colspan="3">Все заказы:
+                        {% for order in user_order %}
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td><a href="orders/{{order.id}}">{{ order.title }}</a></td>
+                                    <td>Заказчик/Исполнитель</td>
+                                    <td>Срок исполнения</td>
+                                    <td>{{ order.proposed_budget }}</td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                        <hr>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>{{ user.username }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Ретинг</td>
+                                </tr>
+                                <tr>
+                                    <td>---------------Статистика--------------</td>
+                                </tr>
+                                <tr>
+                                    <td>Заказов создано: {{ user_order_count }}</td>
+                                </tr>
+                                <tr>
+                                    <td>в работе</td>
+                                </tr>
+                                <tr>
+                                    <td>выполнено</td>
+                                </tr>
+                                <tr>
+                                    <td>Предложения</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4">Лента новостей</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

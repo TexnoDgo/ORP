@@ -28,6 +28,7 @@ urlpatterns = [
     path('account/', include('allauth.urls')),
     path('update/', orders_views.order_update, name='update'),
     path('suggestion', orders_views.suggestion_create, name='suggestion'),
+    path('dashboard', include('dashboard.urls')),
 ]
 
 if settings.DEBUG:
