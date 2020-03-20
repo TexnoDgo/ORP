@@ -11,5 +11,4 @@ urlpatterns = [
     path(r'<slug:url>/', views.order_categories, name='order_categories'),
     url(r'^(?P<pk>\d+)/update/', views.OrderUpdateView.as_view(model=Order, template_name='orders/update.html'),
         name='order_update'),
-    # template_name='orders/update.html'
 ]

@@ -1,0 +1,39 @@
+{% extends "HomePage/base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Order" %} № {{ order.id }}{% endblock %}
+{% load static %}
+
+{% block content %}
+    <link rel="stylesheet" href="{% static 'orders/order_style.css' %}">
+    <div class="vso">
+        <div class="vs">
+            <table class="table2">
+                <tbody>
+                    <tr >
+                        <td >Автор предложения:</td>
+                        <td>{{ suggestion.author }}</td>
+                        <td>Дата создания предложения: </td>
+                        <td>{{ suggestion.date_create }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">{{ suggestion.offer_description }}</td>
+                    </tr>
+                    <tr>
+                        <td>Предложенная стоимость:</td>
+                        <td>{{ suggestion.offer_price }}</td>
+                        <td>Срок выполнения до:</td>
+                        <td>{{ suggestion.deadline }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">Статус предложения: </td>
+                        <td colspan="2">{{ suggestion.selected_offer }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4"><button type="button" class="btn btn-success">-------------------------Выбрать-----------------------</button></td>
+                    </tr>
+                </tbody>
+            </table>
+            <hr>
+        </div>
+    </div>
+{% endblock %}

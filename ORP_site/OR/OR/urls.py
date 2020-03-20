@@ -3,10 +3,12 @@ from django.contrib.auth import views as auth_views
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
+from django.conf.urls import url
 
 from HomePage.views import index
 from users import views as user_views
 from orders import views as orders_views
+from orders.models import Suggestion
 
 from django.conf.urls import include
 
@@ -29,6 +31,9 @@ urlpatterns = [
     path('update/', orders_views.order_update, name='update'),
     path('suggestion', orders_views.suggestion_create, name='suggestion'),
     path('dashboard', include('dashboard.urls')),
+    url(r'suggestion/(?P<pk>\d+)$', orders_views.SuggestionView.as_view(model=Suggestion,
+                                                                   template_name='orders/suggestion_view.html'),
+        name='suggestion_detail'),
 ]
 
 if settings.DEBUG:

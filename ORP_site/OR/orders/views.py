@@ -169,3 +169,7 @@ class DeleteOrderView(DeleteView):
 
     model = Order
 
+
+class SuggestionView(DetailView):
+
+    model = Suggestion
