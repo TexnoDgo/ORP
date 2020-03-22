@@ -2,20 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1fc1b5d6-1b9b-45bf-b7b6-801ec7185d1c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/ORP_site/OR/orders/migrations/0008_message.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/ORP.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ORP.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ORP_site/OR/orders/migrations/0009_suggestion_status.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ORP_site/.idea/ORP_site.iml" beforeDir="false" afterPath="$PROJECT_DIR$/ORP_site/.idea/ORP_site.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ORP_site/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/ORP_site/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ORP_site/OR/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/ORP_site/OR/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ORP_site/OR/orders/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/ORP_site/OR/orders/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ORP_site/OR/orders/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/ORP_site/OR/orders/forms.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ORP_site/OR/orders/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/ORP_site/OR/orders/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ORP_site/OR/orders/static/orders/order_style.css" beforeDir="false" afterPath="$PROJECT_DIR$/ORP_site/OR/orders/static/orders/order_style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ORP_site/OR/orders/templates/orders/order.html" beforeDir="false" afterPath="$PROJECT_DIR$/ORP_site/OR/orders/templates/orders/order.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ORP_site/OR/orders/templates/orders/update.html" beforeDir="false" afterPath="$PROJECT_DIR$/ORP_site/OR/orders/templates/orders/update.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ORP_site/OR/orders/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/ORP_site/OR/orders/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ORP_site/OR/orders/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/ORP_site/OR/orders/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,7 +38,7 @@
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/ORP_site/venv/Scripts" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
@@ -102,10 +94,10 @@
     </state>
     <state x="476" y="185" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1584475526154" />
     <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1583778436668" />
-    <state x="349" y="0" key="SettingsEditor" timestamp="1584475541236">
+    <state x="349" y="0" key="SettingsEditor" timestamp="1584722096536">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="349" y="0" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1584475541236" />
+    <state x="349" y="0" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1584722096536" />
     <state x="491" y="163" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1583612280042" />
     <state x="467" y="241" key="com.intellij.ide.util.TipDialog" timestamp="1584635078893">
       <screen x="0" y="0" width="1366" height="728" />

@@ -43,6 +43,7 @@ class Suggestion(models.Model):
     offer_description = models.TextField()
     deadline = models.DateTimeField()
     offer_price = models.PositiveIntegerField()
+    status = models.CharField(max_length=10, default='N0ne')
     selected_offer = models.BooleanField()
 
     def __str__(self):
