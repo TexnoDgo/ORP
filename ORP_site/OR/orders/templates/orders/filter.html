@@ -18,8 +18,8 @@
             {% endif %}
         </div>
         <div class="orders-filter">
-            <p>Categories filter:</p>
             <div class="container-mb-2">
+                <p>Categories filter:</p>
                 {% for category in filters %}
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
@@ -31,8 +31,16 @@
                 {% endfor %}
 
             </div>
-            <div>
+            <div class="container-mb-2">
                 <p>City filter:</p>
+                {% for city in all_city %}
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
+                      <label class="form-check-label" for="defaultCheck1">
+                        <a href="#" class="filter-menu">{{ city.title }}</a>
+                      </label>
+                    </div>
+                {% endfor %}
             </div>
             <button type="button"><a href=""></a>Применить</button>
         </div>

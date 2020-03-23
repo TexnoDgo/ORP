@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
-from .models import Order, OperationCategories, Suggestion, Message
+from .models import Order, OperationCategories, Suggestion, Message, AllCity
 from .forms import OrderCreateForm, OrderUpdateForm, SuggestionCreateForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -12,6 +12,8 @@ def orders(request):
     all_orders = Order.objects.all()
 
     filters = OperationCategories.objects.all()
+
+    all_city = AllCity.objects.all()
 
     paginator = Paginator(all_orders, 3)
 
@@ -26,6 +28,7 @@ def orders(request):
     context = {
         'all_orders': posts,
         'filters': filters,
+        'all_city': all_city,
     }
     return render(request, 'orders/all_orders.html', context)
 
@@ -163,6 +166,12 @@ class OrderAndSuggestionView(DetailView):
         context = super(OrderAndSuggestionView, self).get_context_data(**kwargs)
         a = self.object.id
         context['suggestions'] = Suggestion.objects.filter(order_id=a)
+        ord_sug = Suggestion.objects.filter(order_id=a)
+        count = 0
+        for sug in ord_sug:
+            if sug.selected_offer:
+                count += 1
+        context['true_sug'] = count
         return context
 
 
@@ -172,6 +181,19 @@ class DeleteOrderView(DeleteView):
 
 class SuggestionView(DetailView):
     model = Suggestion
+
+    def get_context_data(self, **kwargs):
+        context = super(SuggestionView, self).get_context_data(**kwargs)
+        a = self.object.order.pk
+        ord_sug = Suggestion.objects.filter(order_id=a)
+        count = 0
+        for sug in ord_sug:
+            if sug.selected_offer:
+                count += 1
+        context['true_sug'] = count
+        return context
+
+
 
 
 def change_status(request, pk):
@@ -190,6 +212,8 @@ def filter_category(request, pk):
 
     filters = OperationCategories.objects.all()
 
+    all_city = AllCity.objects.all()
+
     paginator = Paginator(all_orders, 3)
 
     try:
@@ -203,5 +227,6 @@ def filter_category(request, pk):
     context = {
         'all_orders': posts,
         'filters': filters,
+        'all_city': all_city,
     }
     return render(request, 'orders/filter.html', context)

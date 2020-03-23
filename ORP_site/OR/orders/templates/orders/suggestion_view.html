@@ -29,7 +29,25 @@
                         <td colspan="2">{{ suggestion.selected_offer }}</td>
                     </tr>
                     <tr>
-                        <td colspan="4"><button type="button" class="btn btn-success">-------------------------Выбрать-----------------------</button></td>
+                        <td colspan="4">
+                            {% if true_sug == 0 %}
+                                <a href="{% url 'change_status' pk=suggestion.pk %}">
+                                    <button class="btn btn-success" id="click_button">
+                                        -------------------------Выбрать-----------------------
+                                    </button>
+                                </a>
+                            {% else %}
+                                {% if suggestion.selected_offer == True %}
+                                    <a href="{% url 'change_status' pk=suggestion.pk %}">
+                                    <button class="btn btn-danger" id="cancel_button">
+                                        ------------------------Отменить-----------------------
+                                    </button>
+                                    </a>
+                                {% else %}
+                                    <p>Чебурек!)</p>
+                                {% endif %}
+                            {% endif %}
+                        </td>
                     </tr>
                 </tbody>
             </table>
