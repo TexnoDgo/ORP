@@ -7,7 +7,7 @@ class OrderCreateForm(forms.ModelForm):
     class Meta:
         model = Order
         fields = ['title', 'description', 'amount', 'city', 'lead_time', 'proposed_budget', 'activity',
-                  'status', 'categories']
+                  'categories']
 
         # Привязка авторезированого пользователя к автору заказа
         def form_valid(self, form):
@@ -18,12 +18,12 @@ class OrderCreateForm(forms.ModelForm):
 class OrderUpdateForm(forms.ModelForm):
     class Meta:
         model = Order
-        fields = ['title', 'description', 'amount', 'city', 'lead_time', 'proposed_budget', 'activity',
-                  'status', 'categories']
+        fields = ['title', 'description', 'amount', 'city', 'lead_time', 'proposed_budget', 'status',
+                  'categories']
 
 
 class SuggestionCreateForm(forms.ModelForm):
     class Meta:
         model = Suggestion
-        fields = ['order', 'date_create', 'offer_description', 'deadline', 'offer_price', 'status', 'selected_offer']
+        fields = ['date_create', 'offer_description', 'deadline', 'offer_price', 'status', 'selected_offer']
 

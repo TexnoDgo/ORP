@@ -10,10 +10,8 @@
     <legend class="border-bottom mb-4">{% trans "CREATE ORDER" %}</legend>
         <form class="text-left" method="POST">
             <div class="container">
-                <img class="mb-4" src="/docs/4.4/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
                 <div class="content-section">
                     {% csrf_token %}
-
                     <div class="form-title">
                         {{ form.title|as_crispy_field}}
                         <small>Введите заголовок заказа. Например: Изготовить токарную детать, выполнить токарную обработку</small>
@@ -52,9 +50,9 @@
                         {{ form.categories|as_crispy_field}}
                         <small>Выберите категории под которые подпадает ваш заказ.</small>
                     </div>
-
+                    <hr>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">{% trans "CREATE" %}</button>
                 </div>
-                <button class="btn btn-lg btn-primary btn-block" type="submit">{% trans "CREATE" %}</button>
             </div>
         </form>
 </div>

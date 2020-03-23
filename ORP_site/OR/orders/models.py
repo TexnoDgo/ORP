@@ -4,18 +4,41 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 
 
+class AllCity(models.Model):
+    title = models.CharField(max_length=50, default='not_selected')
+
+    objects = models.Manager()
+
+    def __str__(self):
+        return self.title
+
+
 class Order(models.Model):
+    BUDGET_EXAMPLE = (
+        ('Неизвестный', 'Неизвестный'),
+        ('Малый бюджет 20-50$', 'Малый бюджет 20-50$'),
+        ('Средний бюджет 50-250$', 'Средний бюджет 50-250$'),
+        ('Высокий бюджет 250$+', 'Высокий бюджет 250$+')
+    )
+
+    ORDER_STATUS = (
+        ('В обсуждении', 'В обсуждении'),
+        ('В работe', 'В работe'),
+        ('Выполненый', 'Выполненый'),
+        ('Отменённый', 'Отменённый')
+    )
+
     author = models.ForeignKey(User, on_delete=models.PROTECT)  # Автор заказа. Автоматически
     date_create = models.DateTimeField(default=timezone.now)  # Время создания заказа. Автоматически
     title = models.CharField(max_length=100)  # Заголовок заказа
     description = models.TextField()  # Описание заказа
     #order_files = models.ManyToManyField('Files', blank=True, related_name='orders_file')  # Прикрипленные файлы
     amount = models.PositiveIntegerField()  # Кол-во изделий
-    city = models.CharField(max_length=30)  # Грод заказа
+    city = models.ForeignKey(AllCity, on_delete=models.PROTECT)  # Город заказа
     lead_time = models.DateField()  # Срок выполнения заказа
-    proposed_budget = models.CharField(max_length=40)  # Предложеный бюджет
+    proposed_budget = models.CharField(max_length=40, choices=BUDGET_EXAMPLE, default='Неизвестный')  # Предложеный бюджет
     activity = models.BooleanField()  # Активность заказа
-    status = models.CharField(max_length=10)  # Статус заказ
+    status = models.CharField(max_length=20, choices=ORDER_STATUS, default='В обсуждении')  # Статус заказ
     categories = models.ManyToManyField('OperationCategories', blank=True, related_name='orders')
 
     objects = models.Manager()

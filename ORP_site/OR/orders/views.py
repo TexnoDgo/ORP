@@ -66,7 +66,7 @@ def order_categories(request, url):
     context_object_name = 'order'
     ordering = ['-date_ordered']'''
 
-
+@login_required
 def order_create(request):
     if request.method == 'POST':
         form = OrderCreateForm(request.POST)
@@ -75,7 +75,7 @@ def order_create(request):
             order = form.save(commit=False)
             order.author = request.user
             order.save()
-            #form.save()  # Сохранение  формы
+            # form.save()  # Сохранение  формы
             title = form.cleaned_data.get('title')  # Получение названи заказка из формы
             messages.success(request,
                              f'You order has been created!Wait for a response! ')  # Формирование сообщения со вложенным именем
@@ -90,7 +90,7 @@ def order_create(request):
 def order_update(request):
     if request.method == 'POST':
         c_form = OrderUpdateForm(request.POST)  # РАЗОБРАТСЯ!! Что нужно передать чтобы получить автоза-
-                                                                # полнение формы.
+        # полнение формы.
 
         if c_form.is_valid():
             c_form.save()
@@ -125,7 +125,7 @@ def test_order_create(request):
             order = form.save(commit=False)
             order.author = request.user
             order.save()
-            #form.save()  # Сохранение  формы
+            # form.save()  # Сохранение  формы
             title = form.cleaned_data.get('title')  # Получение названи заказка из формы
             messages.success(request,
                              f'You order has been created!Wait for a response! ')  # Формирование сообщения со вложенным именем
@@ -135,13 +135,15 @@ def test_order_create(request):
 
     return render(request, 'orders/order_create_new.html', {'form': form})
 
+
 @login_required
-def suggestion_create(request):
+def suggestion_create(request, pk):
     if request.method == 'POST':
         suggestion = SuggestionCreateForm(request.POST)
         if suggestion.is_valid():
             sug = suggestion.save(commit=False)
             sug.author = request.user
+            sug.order = Order.objects.get(pk=pk)
             sug.save()
             # form.save()  # Сохранение  формы
             title = suggestion.cleaned_data.get('title')  # Получение названи заказка из формы
@@ -149,13 +151,12 @@ def suggestion_create(request):
                              f'You suggestion has been created!Wait for a response! ')  # Формирование сообщения со вложенным именем
             return redirect('orders')  # Перенаправление на страницу подтверждения регистрации
     else:
-         suggestion = SuggestionCreateForm()
+        suggestion = SuggestionCreateForm()
 
     return render(request, 'orders/suggestion_create.html', {'suggestion': suggestion})
 
 
 class OrderAndSuggestionView(DetailView):
-
     model = Order
 
     def get_context_data(self, **kwargs):
@@ -166,10 +167,41 @@ class OrderAndSuggestionView(DetailView):
 
 
 class DeleteOrderView(DeleteView):
-
     model = Order
 
 
 class SuggestionView(DetailView):
-
     model = Suggestion
+
+
+def change_status(request, pk):
+    suggestion = Suggestion.objects.get(pk=pk)
+    stat = suggestion.selected_offer
+    if stat:
+        suggestion.selected_offer = False
+    else:
+        suggestion.selected_offer = True
+    suggestion.save()
+    return redirect(request.META['HTTP_REFERER'])
+
+
+def filter_category(request, pk):
+    all_orders = Order.objects.filter(categories__in=pk).order_by("-date_create")
+
+    filters = OperationCategories.objects.all()
+
+    paginator = Paginator(all_orders, 3)
+
+    try:
+        page = int(request.GET.get('page', '1'))
+    except:
+        page = 1
+    try:
+        posts = paginator.page(page)
+    except(EmptyPage, InvalidPage):
+        posts = paginator.page(paginator.num_pages)
+    context = {
+        'all_orders': posts,
+        'filters': filters,
+    }
+    return render(request, 'orders/filter.html', context)

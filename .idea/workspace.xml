@@ -2,12 +2,28 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1fc1b5d6-1b9b-45bf-b7b6-801ec7185d1c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/ORP_site/OR/orders/migrations/0009_suggestion_status.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ORP_site/OR/orders/migrations/0010_auto_20200322_2305.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ORP_site/OR/orders/migrations/0011_auto_20200322_2307.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ORP_site/OR/orders/migrations/0012_auto_20200322_2310.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ORP_site/OR/orders/migrations/0013_auto_20200322_2312.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ORP_site/OR/orders/migrations/0014_auto_20200322_2329.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ORP_site/OR/orders/migrations/0015_auto_20200323_0004.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ORP_site/OR/orders/migrations/0016_auto_20200323_0013.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ORP_site/OR/orders/templates/orders/filter.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ORP_site/OR/OR/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/ORP_site/OR/OR/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ORP_site/OR/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/ORP_site/OR/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ORP_site/OR/orders/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/ORP_site/OR/orders/admin.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ORP_site/OR/orders/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/ORP_site/OR/orders/forms.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ORP_site/OR/orders/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/ORP_site/OR/orders/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ORP_site/OR/orders/static/orders/order_update.css" beforeDir="false" afterPath="$PROJECT_DIR$/ORP_site/OR/orders/static/orders/order_update.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ORP_site/OR/orders/templates/orders/all_orders.html" beforeDir="false" afterPath="$PROJECT_DIR$/ORP_site/OR/orders/templates/orders/all_orders.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ORP_site/OR/orders/templates/orders/order.html" beforeDir="false" afterPath="$PROJECT_DIR$/ORP_site/OR/orders/templates/orders/order.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ORP_site/OR/orders/templates/orders/order_create.html" beforeDir="false" afterPath="$PROJECT_DIR$/ORP_site/OR/orders/templates/orders/order_create.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ORP_site/OR/orders/templates/orders/order_create_new.html" beforeDir="false" afterPath="$PROJECT_DIR$/ORP_site/OR/orders/templates/orders/order_create_new.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ORP_site/OR/orders/templates/orders/update.html" beforeDir="false" afterPath="$PROJECT_DIR$/ORP_site/OR/orders/templates/orders/update.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ORP_site/OR/orders/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/ORP_site/OR/orders/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ORP_site/OR/orders/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/ORP_site/OR/orders/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,10 +115,10 @@
     </state>
     <state x="349" y="0" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1584722096536" />
     <state x="491" y="163" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1583612280042" />
-    <state x="467" y="241" key="com.intellij.ide.util.TipDialog" timestamp="1584635078893">
+    <state x="467" y="241" key="com.intellij.ide.util.TipDialog" timestamp="1584889611281">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="467" y="241" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1584635078893" />
+    <state x="467" y="241" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1584889611281" />
     <state x="656" y="344" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1583788624242" />
     <state x="443" y="158" width="479" height="475" key="search.everywhere.popup" timestamp="1584552880357">
       <screen x="0" y="0" width="1366" height="728" />

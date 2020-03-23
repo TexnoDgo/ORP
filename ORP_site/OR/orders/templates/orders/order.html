@@ -5,6 +5,7 @@
 
 {% block content %}
     <link rel="stylesheet" href="{% static 'orders/order_style.css' %}">
+
     <div class="vso">
         <div class="vs">
             {% if user == order.author %}
@@ -15,7 +16,7 @@
                                 <td >Автор предложения:</td>
                                 <td>{{ form.author }}</td>
                                 <td>Дата создания предложения: </td>
-                                <td>{{ form.date_create }}< /td>
+                                <td>{{ form.date_create }}</td>
                             </tr>
                             <tr>
                                 <td colspan="4">{{ form.offer_description }}</td>
@@ -31,11 +32,17 @@
                                 <td colspan="2">{{ form.selected_offer }}</td>
                             </tr>
                             <tr>
-                                <td colspan="4"><button type="button" class="btn btn-success">-------------------------Выбрать-----------------------</button></td>
+                                <td colspan="4">
+                                    <a href="{% url 'change_status' pk=form.pk %}">
+                                        <button class="btn btn-success" id="click_button">
+                                            -------------------------Выбрать-----------------------
+                                        </button>
+                                    </a>
+                                </td>
                             </tr>
                             <tr>
                                 <td colspan="4">
-                                    <a href="/suggestion/{{form.id}}">
+                                    <a href="/suggestion/view/{{form.id}}">
                                         <button type="button" class="btn btn-outline-dark">
                                             -----------------------Подробнее----------------------
                                         </button>
@@ -50,7 +57,7 @@
             {% if user == order.author %}
                 <p>Good day!</p>
             {% else %}
-                <div><button type="button" class="btn btn-outline-info"><a href="/suggestion">-----------------Оставить предложение---------------</a></button></div>
+                <div><button type="button" class="btn btn-outline-info"><a href="{% url 'suggestion' pk=order.pk %}">-----------------Оставить предложение---------------</a></button></div>
             {% endif %}
         </div>
         <div class="vo">

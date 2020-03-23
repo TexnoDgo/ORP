@@ -8,11 +8,9 @@ from django.conf.urls import url
 from HomePage.views import index
 from users import views as user_views
 from orders import views as orders_views
-from orders.models import Suggestion
+from orders.models import Suggestion, Order
 
 from django.conf.urls import include
-
-
 
 urlpatterns = [
     path('', index, name='index'),
@@ -22,17 +20,17 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
     path('admin/', admin.site.urls),
     path('orders/', orders_views.orders, name='orders'),
-    #path('orders/', orders_views.OrderListView.as_view(), name='orders'),
+    url(r'orders/filter/(?P<pk>\d+)$', orders_views.filter_category, name='order_category_view'),
     path('order_create/', orders_views.order_create, name='order_create'),
     path('order_create_new/', orders_views.test_order_create, name='order_create_new'),
     path('orders/', include('orders.urls')),
     path('conf_reg/', user_views.conf_reg, name='conf_reg'),
     path('account/', include('allauth.urls')),
     path('update/', orders_views.order_update, name='update'),
-    path('suggestion', orders_views.suggestion_create, name='suggestion'),
+    url(r'suggestion/(?P<pk>\d+)$', orders_views.suggestion_create, name='suggestion'),
     path('dashboard', include('dashboard.urls')),
-    url(r'suggestion/(?P<pk>\d+)$', orders_views.SuggestionView.as_view(model=Suggestion,
-                                                                   template_name='orders/suggestion_view.html'),
+    url(r'suggestion/view/(?P<pk>\d+)$', orders_views.SuggestionView.as_view(model=Suggestion,
+                                                                        template_name='orders/suggestion_view.html'),
         name='suggestion_detail'),
 ]
 
