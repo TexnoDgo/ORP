@@ -6,6 +6,7 @@ from django.core.paginator import Paginator
 
 def index(request):
     user_order = Order.objects.filter(author=request.user)
+
     count = 0
     for order in user_order:
         count += 1

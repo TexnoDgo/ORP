@@ -42,6 +42,11 @@
                         <small>Выберите город в который отправится заказ</small>
                     </div>
 
+                    <div class="form-city">
+                        {{ form.pdf_view|as_crispy_field}}
+                        <small>Выберите обложку заказка</small>
+                    </div>
+
                     <div class="form-lead_time">
                         {{ form.lead_time|as_crispy_field}}
                         <small>Установите сроки выполнения работ.</small>

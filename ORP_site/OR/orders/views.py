@@ -112,7 +112,7 @@ def order_update(request):
 
 class OrderUpdateView(UpdateView):
     model = Order
-    fields = ['title', 'description', 'amount', 'city', 'lead_time', 'proposed_budget', 'activity',
+    fields = ['title', 'description', 'amount', 'city', 'pdf_view', 'lead_time', 'proposed_budget', 'activity',
               'status', 'categories']
 
     def form_valid(self, form):

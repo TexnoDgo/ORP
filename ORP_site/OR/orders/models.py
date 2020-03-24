@@ -3,6 +3,14 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
 
+from pdf2image.exceptions import (
+    PDFInfoNotInstalledError,
+    PDFPageCountError,
+    PDFSyntaxError
+)
+
+from pdf2image import convert_from_path, convert_from_bytes
+
 
 class AllCity(models.Model):
     title = models.CharField(max_length=50, default='not_selected')
@@ -33,6 +41,9 @@ class Order(models.Model):
     title = models.CharField(max_length=100)  # Заголовок заказа
     description = models.TextField()  # Описание заказа
     #order_files = models.ManyToManyField('Files', blank=True, related_name='orders_file')  # Прикрипленные файлы
+    pdf_view = models.FileField(default='default.pdf', upload_to='pdf')  # Файл обложки заказа PDF
+    image_view = models.ImageField(default='default.jpg', upload_to='image_preview')
+    other_files = models.FileField(default='default.jpg', upload_to='otherFiles')  # Другие файлы заказа
     amount = models.PositiveIntegerField()  # Кол-во изделий
     city = models.ForeignKey(AllCity, on_delete=models.PROTECT)  # Город заказа
     lead_time = models.DateField()  # Срок выполнения заказа
@@ -48,6 +59,13 @@ class Order(models.Model):
 
     def get_absolute_url(self):
         return reverse('order_detail', kwargs={'pk': self.pk})
+
+    def save(self, *args, **kwargs):  # Преобразование изображения
+        super(Order, self).save(*args, **kwargs)
+
+        convert = convert_from_path(self.pdf_view.path)
+        convert.save(self.image_view.path)
+
 
 
 class OperationCategories(models.Model):
