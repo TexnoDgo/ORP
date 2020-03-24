@@ -33,14 +33,14 @@
                             {% if true_sug == 0 %}
                                 <a href="{% url 'change_status' pk=suggestion.pk %}">
                                     <button class="btn btn-success" id="click_button">
-                                        -------------------------Выбрать-----------------------
+                                        -----------------------Выбрать----------------------
                                     </button>
                                 </a>
                             {% else %}
                                 {% if suggestion.selected_offer == True %}
                                     <a href="{% url 'change_status' pk=suggestion.pk %}">
                                     <button class="btn btn-danger" id="cancel_button">
-                                        ------------------------Отменить-----------------------
+                                        ----------------------Отменить---------------------
                                     </button>
                                     </a>
                                 {% else %}

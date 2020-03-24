@@ -194,8 +194,6 @@ class SuggestionView(DetailView):
         return context
 
 
-
-
 def change_status(request, pk):
     suggestion = Suggestion.objects.get(pk=pk)
     stat = suggestion.selected_offer

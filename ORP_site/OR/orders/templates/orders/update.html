@@ -7,6 +7,14 @@
 {% block content %}
     <link rel="stylesheet" href="{% static 'orders/order_update.css' %}">
     <div class="ccc">
+        <nav aria-label="breadcrumb">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'orders' %}">All orders</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'order_detail' pk=order.pk %}">Order {{ order.title }}</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Update order</li>
+              </ol>
+         </nav>
         <legend class="border-bottom mb-4">{% trans "Update Order" %}</legend>
         <form class="text-left" method="POST" enctype="multipart/form-data">
            <div class="aaa">

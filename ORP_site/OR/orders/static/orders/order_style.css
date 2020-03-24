@@ -14,13 +14,14 @@ body {
 
 .vso .vs {
 
-    width: 30%;
+    width: 40%;
     float: left;
     border: 1px solid #595959;
+    font-size:10px;
 }
 
 .vso .vo {
-    width: 70%;
+    width: 60%;
     float: left;
 }
 

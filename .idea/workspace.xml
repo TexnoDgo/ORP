@@ -2,27 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1fc1b5d6-1b9b-45bf-b7b6-801ec7185d1c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/ORP_site/OR/orders/migrations/0010_auto_20200322_2305.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ORP_site/OR/orders/migrations/0011_auto_20200322_2307.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ORP_site/OR/orders/migrations/0012_auto_20200322_2310.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ORP_site/OR/orders/migrations/0013_auto_20200322_2312.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ORP_site/OR/orders/migrations/0014_auto_20200322_2329.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ORP_site/OR/orders/migrations/0015_auto_20200323_0004.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ORP_site/OR/orders/migrations/0016_auto_20200323_0013.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ORP_site/OR/orders/templates/orders/filter.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ORP_site/OR/OR/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/ORP_site/OR/OR/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ORP_site/OR/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/ORP_site/OR/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ORP_site/OR/orders/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/ORP_site/OR/orders/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ORP_site/OR/orders/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/ORP_site/OR/orders/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ORP_site/OR/orders/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/ORP_site/OR/orders/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ORP_site/OR/orders/static/orders/order_update.css" beforeDir="false" afterPath="$PROJECT_DIR$/ORP_site/OR/orders/static/orders/order_update.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ORP_site/OR/orders/static/orders/order_style.css" beforeDir="false" afterPath="$PROJECT_DIR$/ORP_site/OR/orders/static/orders/order_style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ORP_site/OR/orders/templates/orders/all_orders.html" beforeDir="false" afterPath="$PROJECT_DIR$/ORP_site/OR/orders/templates/orders/all_orders.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ORP_site/OR/orders/templates/orders/filter.html" beforeDir="false" afterPath="$PROJECT_DIR$/ORP_site/OR/orders/templates/orders/filter.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ORP_site/OR/orders/templates/orders/order.html" beforeDir="false" afterPath="$PROJECT_DIR$/ORP_site/OR/orders/templates/orders/order.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ORP_site/OR/orders/templates/orders/order_create.html" beforeDir="false" afterPath="$PROJECT_DIR$/ORP_site/OR/orders/templates/orders/order_create.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ORP_site/OR/orders/templates/orders/order_create_new.html" beforeDir="false" afterPath="$PROJECT_DIR$/ORP_site/OR/orders/templates/orders/order_create_new.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ORP_site/OR/orders/templates/orders/suggestion_view.html" beforeDir="false" afterPath="$PROJECT_DIR$/ORP_site/OR/orders/templates/orders/suggestion_view.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ORP_site/OR/orders/templates/orders/update.html" beforeDir="false" afterPath="$PROJECT_DIR$/ORP_site/OR/orders/templates/orders/update.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ORP_site/OR/orders/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/ORP_site/OR/orders/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ORP_site/OR/orders/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/ORP_site/OR/orders/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

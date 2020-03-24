@@ -7,72 +7,82 @@
     <link rel="stylesheet" href="{% static 'orders/order_style.css' %}">
 
     <div class="vso">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'orders' %}">All orders</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Order {{ order.title }}</li>
+          </ol>
+        </nav>
         <div class="vs">
-            {% if user == order.author %}
-                {% for form in suggestions %}
-                    <table class="table2">
-                        <tbody>
-                            <tr >
-                                <td >Автор предложения:</td>
-                                <td>{{ form.author }}</td>
-                                <td>Дата создания предложения: </td>
-                                <td>{{ form.date_create }}</td>
-                            </tr>
-                            <tr>
-                                <td colspan="4">{{ form.offer_description }}</td>
-                            </tr>
-                            <tr>
-                                <td>Предложенная стоимость:</td>
-                                <td>{{ form.offer_price}}&#8372;</td>
-                                <td>Срок выполнения до:</td>
-                                <td>{{ form.deadline }}</td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">Статус предложения: </td>
-                                <td colspan="2">{{ form.selected_offer }}</td>
-                            </tr>
-                            <tr>
-                                <td colspan="4">
-                                    {% if true_sug == 0 %}
-                                        <a href="{% url 'change_status' pk=form.pk %}">
-                                            <button class="btn btn-success" id="click_button">
-                                                -------------------------Выбрать-----------------------
-                                            </button>
-                                        </a>
-                                    {% else %}
-                                        {% if form.selected_offer == True %}
+            <div>
+                {% if user == order.author %}
+                    {% for form in suggestions %}
+                        <table class="table2">
+                            <tbody>
+                                <tr >
+                                    <td >Автор предложения:</td>
+                                    <td>{{ form.author }}</td>
+                                    <td>Дата создания предложения: </td>
+                                    <td>{{ form.date_create }}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4">{{ form.offer_description }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Предложенная стоимость:</td>
+                                    <td>{{ form.offer_price}}&#8372;</td>
+                                    <td>Срок выполнения до:</td>
+                                    <td>{{ form.deadline }}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">Статус предложения: </td>
+                                    <td colspan="2">{{ form.selected_offer }}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4">
+                                        {% if true_sug == 0 %}
                                             <a href="{% url 'change_status' pk=form.pk %}">
-                                            <button class="btn btn-danger" id="cancel_button">
-                                                ------------------------Отменить-----------------------
-                                            </button>
+                                                <button class="btn btn-success" id="click_button">
+                                                    ----------------------Выбрать---------------------
+                                                </button>
                                             </a>
                                         {% else %}
-                                            <p>Чебурек!)</p>
+                                            {% if form.selected_offer == True %}
+                                                <a href="{% url 'change_status' pk=form.pk %}">
+                                                <button class="btn btn-danger" id="cancel_button">
+                                                    ----------------------Отменить--------------------
+                                                </button>
+                                                </a>
+                                            {% else %}
+                                                <p>Чебурек!)</p>
+                                            {% endif %}
                                         {% endif %}
-                                    {% endif %}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="4">
-                                    <a href="/suggestion/view/{{form.id}}">
-                                        <button type="button" class="btn btn-outline-dark">
-                                            -----------------------Подробнее----------------------
-                                        </button>
-                                    </a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <hr>
-                {% endfor %}
-            {% endif %}
-            {% if user == order.author %}
-                <p>Good day!</p>
-            {% else %}
-                <div><button type="button" class="btn btn-outline-info"><a href="{% url 'suggestion' pk=order.pk %}">-----------------Оставить предложение---------------</a></button></div>
-            {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4">
+                                        <a href="/suggestion/view/{{form.id}}">
+                                            <button type="button" class="btn btn-outline-dark">
+                                                --------------------Подробнее--------------------
+                                            </button>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <hr>
+                    {% endfor %}
+                {% endif %}
+                {% if user == order.author %}
+                    <p>Good day!</p>
+                {% else %}
+                    <div><button type="button" class="btn btn-outline-info"><a href="{% url 'suggestion' pk=order.pk %}">-----------------Оставить предложение---------------</a></button></div>
+                {% endif %}
+            </div>
         </div>
         <div class="vo">
+            <div class="container">
             <table class="table">
                 <tbody>
                     <tr>
@@ -138,6 +148,7 @@
                     </tr>
                 </tbody>
             </table>
+            </div>
         </div>
     </div>
 {% endblock %}
