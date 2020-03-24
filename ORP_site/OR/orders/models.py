@@ -63,8 +63,12 @@ class Order(models.Model):
     def save(self, *args, **kwargs):  # Преобразование изображения
         super(Order, self).save(*args, **kwargs)
 
-        convert = convert_from_path(self.pdf_view.path)
-        convert.save(self.image_view.path)
+        #convert = convert_from_path(self.pdf_view.path)
+        aaa = self.pdf_view.path
+        print(aaa)
+
+        convert = convert_from_bytes(open('C:/PP/ORP/ORP_site/OR/media/pdf/{}'.format(self.pdf_view), 'rb').read())
+        #convert.save(self.image_view.path)
 
 
 
