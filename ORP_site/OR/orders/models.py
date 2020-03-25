@@ -3,13 +3,9 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
 
-from pdf2image.exceptions import (
-    PDFInfoNotInstalledError,
-    PDFPageCountError,
-    PDFSyntaxError
-)
+import ghostscript
+import locale
 
-from pdf2image import convert_from_path, convert_from_bytes
 
 
 class AllCity(models.Model):
@@ -63,8 +59,27 @@ class Order(models.Model):
     def save(self, *args, **kwargs):  # Преобразование изображения
         super(Order, self).save(*args, **kwargs)
 
-        convert = convert_from_path(self.pdf_view.path)
-        convert.save(self.image_view.path)
+        def pdf2jpeg(pdf_input_path, jpeg_output_path):
+            args = ["pef2jpeg",  # actual value doesn't matter
+                    "-dNOPAUSE",
+                    "-sDEVICE=jpeg",
+                    "-r144",
+                    "-sOutputFile=" + jpeg_output_path,
+                    pdf_input_path]
+
+            encoding = locale.getpreferredencoding()
+            args = [a.encode(encoding) for a in args]
+
+            ghostscript.Ghostscript(*args)
+
+        way = 'C:/PP/ORP/ORP_site/OR/media/image_preview/' + (str(self.pdf_view))[3:-3] + 'jpg'
+
+        print(way)
+
+        pdf2jpeg(
+            self.pdf_view.path,
+            way,
+        )
 
 
 

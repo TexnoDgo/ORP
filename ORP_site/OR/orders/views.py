@@ -72,7 +72,7 @@ def order_categories(request, url):
 @login_required
 def order_create(request):
     if request.method == 'POST':
-        form = OrderCreateForm(request.POST)
+        form = OrderCreateForm(request.POST, request.FILES)
 
         if form.is_valid():
             order = form.save(commit=False)
@@ -92,7 +92,7 @@ def order_create(request):
 @login_required
 def order_update(request):
     if request.method == 'POST':
-        c_form = OrderUpdateForm(request.POST)  # РАЗОБРАТСЯ!! Что нужно передать чтобы получить автоза-
+        c_form = OrderUpdateForm(request.POST, request.FILES)  # РАЗОБРАТСЯ!! Что нужно передать чтобы получить автоза-
         # полнение формы.
 
         if c_form.is_valid():
