@@ -59,6 +59,7 @@ class Order(models.Model):
     def save(self, *args, **kwargs):  # Преобразование изображения
         super(Order, self).save(*args, **kwargs)
 
+<<<<<<< HEAD
         def pdf2jpeg(pdf_input_path, jpeg_output_path):
             args = ["pef2jpeg",  # actual value doesn't matter
                     "-dNOPAUSE",
@@ -80,6 +81,14 @@ class Order(models.Model):
             self.pdf_view.path,
             way,
         )
+=======
+        #convert = convert_from_path(self.pdf_view.path)
+        aaa = self.pdf_view.path
+        print(aaa)
+
+        convert = convert_from_bytes(open('C:/PP/ORP/ORP_site/OR/media/pdf/{}'.format(self.pdf_view), 'rb').read())
+        #convert.save(self.image_view.path)
+>>>>>>> 177d35fb2ace158bf2aecbcccca9863f5cadf989
 
 
 
