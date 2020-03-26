@@ -3,10 +3,6 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
 
-import ghostscript
-import locale
-
-
 
 class AllCity(models.Model):
     title = models.CharField(max_length=50, default='not_selected')
@@ -20,16 +16,17 @@ class AllCity(models.Model):
 class Order(models.Model):
     BUDGET_EXAMPLE = (
         ('Неизвестный', 'Неизвестный'),
-        ('Малый бюджет 20-50$', 'Малый бюджет 20-50$'),
-        ('Средний бюджет 50-250$', 'Средний бюджет 50-250$'),
-        ('Высокий бюджет 250$+', 'Высокий бюджет 250$+')
+        ('Малый 20-50$', 'Малый 20-50$'),
+        ('Средний 50-250$', 'Средний 50-250$'),
+        ('Высокий 250$+', 'Высокий 250$+')
     )
 
     ORDER_STATUS = (
         ('В обсуждении', 'В обсуждении'),
         ('В работe', 'В работe'),
         ('Выполненый', 'Выполненый'),
-        ('Отменённый', 'Отменённый')
+        ('Отменённый', 'Отменённый'),
+        ('Избранный', 'Избранный')
     )
 
     author = models.ForeignKey(User, on_delete=models.PROTECT)  # Автор заказа. Автоматически
@@ -55,41 +52,6 @@ class Order(models.Model):
 
     def get_absolute_url(self):
         return reverse('order_detail', kwargs={'pk': self.pk})
-
-    def save(self, *args, **kwargs):  # Преобразование изображения
-        super(Order, self).save(*args, **kwargs)
-
-<<<<<<< HEAD
-        def pdf2jpeg(pdf_input_path, jpeg_output_path):
-            args = ["pef2jpeg",  # actual value doesn't matter
-                    "-dNOPAUSE",
-                    "-sDEVICE=jpeg",
-                    "-r144",
-                    "-sOutputFile=" + jpeg_output_path,
-                    pdf_input_path]
-
-            encoding = locale.getpreferredencoding()
-            args = [a.encode(encoding) for a in args]
-
-            ghostscript.Ghostscript(*args)
-
-        way = 'C:/PP/ORP/ORP_site/OR/media/image_preview/' + (str(self.pdf_view))[3:-3] + 'jpg'
-
-        print(way)
-
-        pdf2jpeg(
-            self.pdf_view.path,
-            way,
-        )
-=======
-        #convert = convert_from_path(self.pdf_view.path)
-        aaa = self.pdf_view.path
-        print(aaa)
-
-        convert = convert_from_bytes(open('C:/PP/ORP/ORP_site/OR/media/pdf/{}'.format(self.pdf_view), 'rb').read())
-        #convert.save(self.image_view.path)
->>>>>>> 177d35fb2ace158bf2aecbcccca9863f5cadf989
-
 
 
 class OperationCategories(models.Model):

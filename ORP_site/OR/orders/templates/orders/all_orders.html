@@ -56,10 +56,16 @@
                     <tr>
                         <td class="order-drawings" rowspan="6">
                             Изображение заказа
-                            <img src="{{order.image_view.url}}">
+                            <img src="#">
                         </td>
-                        <td class="order-title">{{ order.title }}</td>
-                        <td class="oreder-author">{{ order.author }}</td>
+                        <td class="order-title">
+                            Заголовок заказа:
+                            <span class="badge badge-secondary">{{ order.title }}</span>
+                        </td>
+                        <td class="oreder-author">
+                            Автор заказа:
+                            <span class="badge badge-secondary">{{ order.author }}</span>
+                        </td>
                     </tr>
                     <tr>
                         <td class="order-description" rowspan="4">{{ order.description }}</td>
@@ -76,13 +82,14 @@
                     </tr>
                     <tr>
                         <td class="order-city">{{ order.city }}</td>
-                        <td class="order-bottom-view"><a href="{{order.id}}">Подробнее</a></td>
+                        <td class="order-bottom-view">
+                            <a class="btn btn-success btn-sm" href="{{order.id}}">Подробнее</a>
+                        </td>
                     </tr>
                     <tr>
                         <td class="order-categories" colspan="3">
                             {% for cat in order.categories.all %}
-                                <small>{{ cat }}</small>
-                                <small>,</small>
+                                <span class="badge badge-info">{{ cat }}</span>
                             {% endfor %}
                         </td>
 

@@ -2,6 +2,7 @@
 {% load i18n %}
 {% block title %}{% trans "Dashboard Order" %}{% endblock %}
 {% load static %}
+{% load bootstrap_pagination %}
 
 {% block content %}
     <div class="container">
@@ -9,27 +10,76 @@
         <tbody>
             <tr>
                 <td bgcolor="#0F4B81">Мои заказы</td>
+                <td><a href="#">Мои предложения</a></td>
                 <td><a href="{% url 'dashboard' %}">Информационная панель</a></td>
                 <td><a href="#">Сообщения</a></td>
                 <td><a href="#">Отзывы</a></td>
             </tr>
             <tr>
-                <td colspan="4">Мои заказы</td>
+                <td colspan="5">Мои заказы</td>
             </tr>
             <tr>
                 <td><a href="{% url 'dashboard-order-dis' %}">Заказы в обсуждении</a></td>
                 <td bgcolor="#0F4B81">Заказы в работе</td>
-                <td>Выполненные заказы</td>
+                <td><a href="{% url 'dashboard_order_ready' %}">Выполненные заказы</a></td>
+                <td>Отмененные заказы</td>
                 <td>Избранные заказы</td>
             </tr>
             <tr>
-                <td colspan="4">управление проектами</td>
+                <td colspan="5">управление проектами</td>
             </tr>
             <tr>
-                <td colspan="4">Заказы по фильтрам</td>
+                <div class="container">
+                        <td colspan="5">
+                        {% for one_order in order %}
+                            {% if one_order.status == 'В работe' %}
+                                <table class="table-dark">
+                                    <tbody>
+                                        <tr>
+                                            <td class="order-drawings" rowspan="6">Изображение заказа</td>
+                                            <td class="order-title">{{ one_order.title }}</td>
+                                            <td class="oreder-author">{{ one_order.author }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="order-description" rowspan="4">{{ one_order.description }}</td>
+                                            <td class="order-date-create">{{ one_order.date_create }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="order-lead-time">{{ one_order.lead_time }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="order-amount">{{ one_order.amount }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="order-proposed-budget">{{ one_order.proposed_budget }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="order-city">{{ one_order.city }}</td>
+                                            <td class="order-bottom-view">
+                                                <a class="btn btn-success" href="{% url 'order_detail' one_order.id %}">Подробнее</a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="order-categories" colspan="3">
+                                                {% for cat in one_order.categories.all %}
+                                                    <span class="badge badge-info">{{ cat }}</span>
+                                                {% endfor %}
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <hr>
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                </div>
             </tr>
         </tbody>
     </table>
+    <div class="pagination">
+            {% bootstrap_paginate order range=3 %}
+        </div>
     </div>
 
 {% endblock %}

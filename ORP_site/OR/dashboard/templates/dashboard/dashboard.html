@@ -2,6 +2,7 @@
 {% load i18n %}
 {% block title %}{% trans "Dashboard" %}{% endblock %}
 {% load static %}
+{% load bootstrap_pagination %}
 
 {% block content %}
     <div class="container">
@@ -9,12 +10,13 @@
             <tbody>
                 <tr>
                     <td><a href="{% url 'dashboard-order' %}">Мои заказы</a></td>
+                    <td><a href="#">Мои предложения</a></td>
                     <td bgcolor="#0F4B81">Информационная панель</td>
                     <td><a href="#">Сообщения</a></td>
                     <td><a href="#">Отзывы</a></td>
                 </tr>
                 <tr>
-                    <td colspan="3">Все заказы:
+                    <td colspan="4">Все заказы:
                         {% for order in user_order %}
                         <table>
                             <tbody>
@@ -49,10 +51,13 @@
                                     <td>Заказов создано: {{ user_order_count }}</td>
                                 </tr>
                                 <tr>
-                                    <td>в работе</td>
+                                    <td>В обсуждении: {{ user_order_count_dis }}</td>
                                 </tr>
                                 <tr>
-                                    <td>выполнено</td>
+                                    <td>В работе: {{ user_order_count_in_work }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Выполнено: {{ user_order_count_ready }}</td>
                                 </tr>
                                 <tr>
                                     <td>Предложения</td>
@@ -62,7 +67,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="4">Лента новостей</td>
+                    <td colspan="5">Лента новостей</td>
                 </tr>
             </tbody>
         </table>

@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="{% static 'orders/order_style.css' %}">
 
     <div class="vso">
+        <!--Навигация-->
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
@@ -14,6 +15,7 @@
             <li class="breadcrumb-item active" aria-current="page">Order {{ order.title }}</li>
           </ol>
         </nav>
+        <!--Предложения-->
         <div class="vs">
             <div>
                 {% if user == order.author %}
@@ -37,19 +39,25 @@
                                 </tr>
                                 <tr>
                                     <td colspan="2">Статус предложения: </td>
-                                    <td colspan="2">{{ form.selected_offer }}</td>
+                                    <td colspan="2">
+                                        {% if form.selected_offer %}
+                                            <span class="badge badge-success">Принят</span>
+                                        {% else %}
+                                            <span class="badge badge-warning">Отменен</span>
+                                        {% endif %}
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td colspan="4">
                                         {% if true_sug == 0 %}
-                                            <a href="{% url 'change_status' pk=form.pk %}">
+                                            <a href="{% url 'status_in_work' pk=form.pk %}">
                                                 <button class="btn btn-success" id="click_button">
                                                     ----------------------Выбрать---------------------
                                                 </button>
                                             </a>
                                         {% else %}
                                             {% if form.selected_offer == True %}
-                                                <a href="{% url 'change_status' pk=form.pk %}">
+                                                <a href="{% url 'status_in_work' pk=form.pk %}">
                                                 <button class="btn btn-danger" id="cancel_button">
                                                     ----------------------Отменить--------------------
                                                 </button>
@@ -81,73 +89,112 @@
                 {% endif %}
             </div>
         </div>
+        <!--Заказ-->
         <div class="vo">
             <div class="container">
-            <table class="table">
-                <tbody>
-                    <tr>
-                        <td>Дата создания заказа:</td>
-                        <td>{{ order.date_create }}</td>
-                        <td>Автор заказа:</td>
-                        <td>{{ order.author }}</td>
-                        <td>Город заказа:</td>
-                        <td>{{ order.city }}</td>
-                    </tr>
-                    <tr>
-                        <td>Заголовок заказа</td>
-                        <td colspan="5">{{ order.title }}</td>
-                    </tr>
-                    <tr>
-                        <td colspan="6">Чертеж заказа:</td>
-                    </tr>
-                    <tr>
-                        <td colspan="6"></td>
-                    </tr>
-                    <tr>
-                        <td colspan="5"></td>
-                        <td><button type="button" class="btn btn-danger">Загрузить файл -_-</button></td>
-                    </tr>
-                    <tr>
-                        <td>Файл</td>
-                        <td>Файл</td>
-                        <td>Файл</td>
-                        <td>Файл</td>
-                        <td>Файл</td>
-                        <td>Файл</td>
-                    </tr>
-                    <tr>
-                        <td colspan="6">Описание заказа:</td>
-                    </tr>
-                    <tr>
-                        <td colspan="6">{{ order.description }}</td>
-                    </tr>
-                    <tr>
-                        <td colspan="3">Количество изделий:</td>
-                        <td colspan="3">{{ order.amount }}</td>
-                    </tr>
-                    <tr>
-                        <td colspan="3">Срок выполнения заказа:</td>
-                        <td colspan="3">{{ order.lead_time }}</td>
-                    </tr>
-                    <tr>
-                        <td colspan="3">Бюджет заказа:</td>
-                        <td colspan="3">{{ order.proposed_budget }}</td>
-                    </tr>
-                    <tr>
-                        <td><button type="button" class="btn btn-dark">КНОПКА</button></td>
-                        <td><button type="button" class="btn btn-dark">КНОПКА</button></td>
-                        <td><button type="button" class="btn btn-dark">КНОПКА</button></td>
-                        <td><button type="button" class="btn btn-dark">КНОПКА</button></td>
-                        <td><button type="button" class="btn btn-dark">КНОПКА</button></td>
-                        <td>
-                            {% if user == order.author %}
-                                <button type="button" class="btn btn-warning"><a href="//127.0.0.1:8000/orders/{{order.id}}/update">Update Order +_+</a></button>
-                                <!--  -->
-                            {% endif %}
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                 <!--Статусы зказов-->
+                <p>
+                    Статус заказа:
+                    {% if order.status == 'В обсуждении' %}
+                        <span class="badge badge-pill badge-warning">{{ order.status }}</span>
+                    {% elif order.status == 'В работe' %}
+                        <span class="badge badge-pill badge-success">{{ order.status }}</span>
+                    {% elif order.status == 'Выполненый' %}
+                        <span class="badge badge-pill badge-secondary">{{ order.status }}</span>
+                    {% elif order.status == 'Отменённый' %}
+                        <span class="badge badge-pill badge-danger">{{ order.status }}</span>
+                    {% endif %}
+
+                </p>
+                <!--Таблица зказа-->
+                <table class="table">
+                    <tbody>
+
+                        <tr>
+                            <td>Дата создания заказа:</td>
+                            <td>{{ order.date_create }}</td>
+                            <td>Автор заказа:</td>
+                            <td>{{ order.author }}</td>
+                            <td>Город заказа:</td>
+                            <td>{{ order.city }}</td>
+                        </tr>
+                        <tr>
+                            <td>Заголовок заказа</td>
+                            <td colspan="5">{{ order.title }}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="6">Чертеж заказа:</td>
+                        </tr>
+                        <tr>
+                            <td colspan="6"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="5"></td>
+                            <td><button type="button" class="btn btn-danger">Загрузить файл -_-</button></td>
+                        </tr>
+                        <tr>
+                            <td colspan="6">Файлы</td>
+                        </tr>
+                        <tr>
+                            <td colspan="6">Описание заказа:</td>
+                        </tr>
+                        <tr>
+                            <td colspan="6">{{ order.description }}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">Количество изделий:</td>
+                            <td colspan="3">{{ order.amount }}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">Срок выполнения заказа:</td>
+                            <td colspan="3">{{ order.lead_time }}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">Бюджет заказа:</td>
+                            <td colspan="3">{{ order.proposed_budget }}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                {% if user == order.author %}
+                                    {% if order.status == 'В работe' %}
+                                        <button type="button" class="btn btn-outline-primary">
+                                            <a href="{% url 'status_ready' object.id %}">
+                                                Заказ выполнен
+                                            </a>
+                                        </button>
+                                    {% elif order.status == 'Выполненый' %}
+                                        <button type="button" class="btn btn-outline-primary">
+                                            <a href="{% url 'status_ready' object.id %}">
+                                                Доработать заказ
+                                            </a>
+                                        </button>
+                                    {% endif %}
+                                    <!-- -->
+                                {% endif %}
+                            </td>
+                            <td colspan="2">
+                                {% if user == order.author %}
+                                    <button type="button" class="btn btn-warning">
+                                        <a href="//127.0.0.1:8000/orders/{{order.id}}/update">
+                                            Изменить заказ
+                                        </a>
+                                    </button>
+                                    <!-- Изменить ссылку на Url-->
+                                {% endif %}
+                            </td>
+                            <td colspan="2">
+                                {% if user == order.author %}
+                                    <button type="button" class="btn btn-danger">
+                                        <a href="{% url 'order_delete' object.id %}">
+                                            Удалить заказ
+                                        </a>
+                                    </button>
+                                    <!--  -->
+                                {% endif %}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

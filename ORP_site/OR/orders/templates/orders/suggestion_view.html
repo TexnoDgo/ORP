@@ -5,53 +5,56 @@
 
 {% block content %}
     <link rel="stylesheet" href="{% static 'orders/order_style.css' %}">
-    <div class="vso">
-        <div class="vs">
-            <table class="table2">
-                <tbody>
-                    <tr >
-                        <td >Автор предложения:</td>
-                        <td>{{ suggestion.author }}</td>
-                        <td>Дата создания предложения: </td>
-                        <td>{{ suggestion.date_create }}</td>
-                    </tr>
-                    <tr>
-                        <td colspan="4">{{ suggestion.offer_description }}</td>
-                    </tr>
-                    <tr>
-                        <td>Предложенная стоимость:</td>
-                        <td>{{ suggestion.offer_price }}</td>
-                        <td>Срок выполнения до:</td>
-                        <td>{{ suggestion.deadline }}</td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">Статус предложения: </td>
-                        <td colspan="2">{{ suggestion.selected_offer }}</td>
-                    </tr>
-                    <tr>
-                        <td colspan="4">
-                            {% if true_sug == 0 %}
-                                <a href="{% url 'change_status' pk=suggestion.pk %}">
-                                    <button class="btn btn-success" id="click_button">
-                                        -----------------------Выбрать----------------------
-                                    </button>
+    <div class="container">
+        <table class="table2">
+            <tbody>
+                <tr >
+                    <td >Автор предложения:</td>
+                    <td>{{ suggestion.author }}</td>
+                    <td>Дата создания предложения: </td>
+                    <td>{{ suggestion.date_create }}</td>
+                </tr>
+                <tr>
+                    <td colspan="4">{{ suggestion.offer_description }}</td>
+                </tr>
+                <tr>
+                    <td>Предложенная стоимость:</td>
+                    <td>{{ suggestion.offer_price }}</td>
+                    <td>Срок выполнения до:</td>
+                    <td>{{ suggestion.deadline }}</td>
+                </tr>
+                <tr>
+                    <td colspan="2">Статус предложения: </td>
+                    <td colspan="2">
+                        {% if suggestion.selected_offer %}
+                            <span class="badge badge-success">Принят</span>
+                        {% else %}
+                            <span class="badge badge-warning">Отменен</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        {% if true_sug == 0 %}
+                            <a href="{% url 'status_in_work' pk=suggestion.pk %}">
+                                <button class="btn btn-success" id="click_button">
+                                    -----------------------Выбрать----------------------
+                                </button>
+                            </a>
+                        {% else %}
+                            {% if suggestion.selected_offer == True %}
+                                <a href="{% url 'status_in_work' pk=suggestion.pk %}">
+                                <button class="btn btn-danger" id="cancel_button">
+                                    ----------------------Отменить---------------------
+                                </button>
                                 </a>
                             {% else %}
-                                {% if suggestion.selected_offer == True %}
-                                    <a href="{% url 'change_status' pk=suggestion.pk %}">
-                                    <button class="btn btn-danger" id="cancel_button">
-                                        ----------------------Отменить---------------------
-                                    </button>
-                                    </a>
-                                {% else %}
-                                    <p>Чебурек!)</p>
-                                {% endif %}
+                                <p>Чебурек!)</p>
                             {% endif %}
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <hr>
-        </div>
+                        {% endif %}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 {% endblock %}

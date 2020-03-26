@@ -4,8 +4,8 @@ from .models import Order, OperationCategories, Suggestion, Message, AllCity
 from .forms import OrderCreateForm, OrderUpdateForm, SuggestionCreateForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.paginator import Paginator
-from django.views import generic
 
 
 def orders(request):
@@ -175,8 +175,17 @@ class OrderAndSuggestionView(DetailView):
         return context
 
 
-class DeleteOrderView(DeleteView):
+class DeleteOrderView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+
     model = Order
+
+    success_url = '/'
+
+    def test_func(self):
+        order = self.get_object()
+        if self.request.user == order.author:
+            return True
+        return False
 
 
 class SuggestionView(DetailView):
@@ -194,15 +203,36 @@ class SuggestionView(DetailView):
         return context
 
 
-def change_status(request, pk):
+# ---------------------------------------------Функции изминения статусов заказов -------------------------------------
+def status_in_work(request, pk):  # Заказ в работе
     suggestion = Suggestion.objects.get(pk=pk)
+    print(suggestion)
+    order_pk = suggestion.order.pk
+    print(order_pk)
+    order = Order.objects.get(pk=order_pk)
+    print(order)
     stat = suggestion.selected_offer
     if stat:
         suggestion.selected_offer = False
+        order.status = 'В обсуждении'
     else:
         suggestion.selected_offer = True
+        order.status = 'В работe'
     suggestion.save()
+    order.save()
     return redirect(request.META['HTTP_REFERER'])
+
+
+def status_ready(request, pk):
+    order = Order.objects.get(pk=pk)
+    if order.status == 'В работe':
+        order.status = 'Выполненый'
+    else:
+        order.status = 'В работe'
+    order.save()
+    return redirect(request.META['HTTP_REFERER'])
+
+# -----------------------------------------------Конец функций изминения заказов-------------------------------------
 
 
 def filter_category(request, pk):
