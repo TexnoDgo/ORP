@@ -23,15 +23,15 @@ body {
 .vso .vo {
     width: 60%;
     float: left;
-    background-color: #4111C0;
 }
 
 .table {
-    background-color: #0F4C81;
-    color: white;
+    color: gray;
 }
 
-.table2 {
+.vso .vs .table {
     background-color: #4184C0;
     color: white;
+    width: 500px;
+
 }
