@@ -124,11 +124,23 @@
                             <td colspan="8">Чертеж. Превью</td>
                         </tr>
                         <tr>
-                            <td colspan="8">ФАйлы</td>
+                            <td colspan="8">
+                                {% if files %}
+                                    {% for file in files %}
+                                        <a href="#" class="badge badge-primary">{{ file }}</a>
+                                    {% endfor %}
+                                {% else %}
+                                    <p>No Files!</p>
+                                {% endif %}
+                            </td>
                         </tr>
                         <tr>
                             <td>Описание:</td>
-                            <td colspan="7"><span class="badge badge-pill badge-light">{{ order.description }}</span></td>
+                            <td colspan="7">
+                                <span class="badge badge-pill badge-light">
+                                    {{ order.description }}
+                                </span>
+                            </td>
                         </tr>
                         <tr>
                             <td colspan="2">Количество изделий:</td>

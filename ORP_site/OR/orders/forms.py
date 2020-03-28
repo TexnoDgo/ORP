@@ -1,23 +1,21 @@
 from django import forms
-from .models import Order, Suggestion
+from .models import Order, Suggestion, File
 from django.views.generic import CreateView
 
 
 class OrderCreateForm(forms.ModelForm):
+
+    files = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}), required=False)
+
     class Meta:
         model = Order
         fields = ['title', 'description', 'amount', 'city', 'lead_time', 'pdf_view', 'proposed_budget', 'activity',
-                  'categories']
+                  'categories', 'files']
 
         # Привязка авторезированого пользователя к автору заказа
         def form_valid(self, form):
             form.instance.author = self.request.user
             return super().form_valid(form)
-
-
-class FileForm(forms.ModelForm):
-    class Meta:
-        pass
 
 
 class OrderUpdateForm(forms.ModelForm):

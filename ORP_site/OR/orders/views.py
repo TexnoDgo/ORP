@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
-from .models import Order, OperationCategories, Suggestion, Message, AllCity
+from .models import Order, OperationCategories, Suggestion, Message, AllCity, File
 from .forms import OrderCreateForm, OrderUpdateForm, SuggestionCreateForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -73,10 +73,17 @@ def order_categories(request, url):
 def order_create(request):
     if request.method == 'POST':
         form = OrderCreateForm(request.POST, request.FILES)
+        files = request.FILES.getlist('files')
 
         if form.is_valid():
             order = form.save(commit=False)
             order.author = request.user
+            print(form.save().pk)
+            if files:
+                for f in files:
+                    print(f)
+                    fl = File(order=Order.objects.get(pk=order.id), file=f)
+                    fl.save()
             order.save()
             # form.save()  # Сохранение  формы
             title = form.cleaned_data.get('title')  # Получение названи заказка из формы
@@ -165,7 +172,10 @@ class OrderAndSuggestionView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(OrderAndSuggestionView, self).get_context_data(**kwargs)
         a = self.object.id
+
         context['suggestions'] = Suggestion.objects.filter(order_id=a)
+
+        context['files'] = File.objects.filter(order_id=a)
         ord_sug = Suggestion.objects.filter(order_id=a)
         count = 0
         for sug in ord_sug:
