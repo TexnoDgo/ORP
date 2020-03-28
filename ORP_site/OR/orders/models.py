@@ -31,19 +31,22 @@ class Order(models.Model):
 
     author = models.ForeignKey(User, on_delete=models.PROTECT)  # Автор заказа. Автоматически
     date_create = models.DateTimeField(default=timezone.now)  # Время создания заказа. Автоматически
-    title = models.CharField(max_length=100)  # Заголовок заказа
-    description = models.TextField()  # Описание заказа
+    title = models.CharField(max_length=100, verbose_name='Заголовок')  # Заголовок заказа
+    description = models.TextField(verbose_name='Описание заказ')  # Описание заказа
     #order_files = models.ManyToManyField('Files', blank=True, related_name='orders_file')  # Прикрипленные файлы
     pdf_view = models.FileField(default='default.pdf', upload_to='pdf')  # Файл обложки заказа PDF
     image_view = models.ImageField(default='default.jpg', upload_to='image_preview')
     other_files = models.FileField(default='default.jpg', upload_to='otherFiles')  # Другие файлы заказа
-    amount = models.PositiveIntegerField()  # Кол-во изделий
-    city = models.ForeignKey(AllCity, on_delete=models.PROTECT)  # Город заказа
-    lead_time = models.DateField()  # Срок выполнения заказа
-    proposed_budget = models.CharField(max_length=40, choices=BUDGET_EXAMPLE, default='Неизвестный')  # Предложеный бюджет
+    amount = models.PositiveIntegerField(verbose_name='Кол-во изделий')  # Кол-во изделий
+    city = models.ForeignKey(AllCity, on_delete=models.PROTECT, verbose_name='Город заказа')  # Город заказа
+    lead_time = models.DateField(verbose_name='Срок выполнения')  # Срок выполнения заказа
+    proposed_budget = models.CharField(max_length=40, choices=BUDGET_EXAMPLE, default='Неизвестный',
+                                       verbose_name='Бюджет')  # Предложеный бюджет
     activity = models.BooleanField()  # Активность заказа
-    status = models.CharField(max_length=20, choices=ORDER_STATUS, default='В обсуждении')  # Статус заказ
-    categories = models.ManyToManyField('OperationCategories', blank=True, related_name='orders')
+    status = models.CharField(max_length=20, choices=ORDER_STATUS, default='В обсуждении',
+                              verbose_name='Статус заказа')  # Статус заказ
+    categories = models.ManyToManyField('OperationCategories', blank=True, related_name='orders',
+                                        verbose_name='Категории')
 
     objects = models.Manager()
 
@@ -61,6 +64,18 @@ class OperationCategories(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class File(models.Model):
+    file = models.FileField(upload_to='files', blank=True, null=True, verbose_name='Файл')
+    order = models.ForeignKey(Order, blank=True, null=True, on_delete=models.PROTECT)
+
+    class Meta:
+        verbose_name = 'Файлы'
+        verbose_name_plural = 'Файлы'
+
+    def __str__(self):
+        return self.file
 
 
 class Suggestion(models.Model):

@@ -15,6 +15,11 @@ class OrderCreateForm(forms.ModelForm):
             return super().form_valid(form)
 
 
+class FileForm(forms.ModelForm):
+    class Meta:
+        pass
+
+
 class OrderUpdateForm(forms.ModelForm):
     class Meta:
         model = Order
