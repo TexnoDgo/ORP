@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'bootstrap_pagination',
     'dashboard',
+    'chat.apps.ChatConfig',
 
     #allauth
     'allauth',
