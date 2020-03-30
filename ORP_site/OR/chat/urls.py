@@ -1,6 +1,7 @@
 from django.views.generic import DetailView
 from django.conf.urls import url
 from . import views
+from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
     url(r'^dialogs/$', login_required(views.DialogsView.as_view()), name='dialogs'),

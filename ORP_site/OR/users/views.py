@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
+from django.views.generic import ListView
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
+from django.contrib.auth.models import User
 
 
 def register(request):
@@ -47,3 +49,7 @@ def profile(request):
     }
 
     return render(request, 'users/profile.html', context)
+
+
+class UserListViews(ListView):
+    model = User
