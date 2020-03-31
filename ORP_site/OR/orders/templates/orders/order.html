@@ -15,7 +15,7 @@
             <li class="breadcrumb-item active" aria-current="page">Order {{ order.title }}</li>
           </ol>
         </nav>
-        <!--Предложения-->
+        <!--Предложения для автора-->
         <div class="vs">
             <div>
                 {% if user == order.author %}
@@ -83,6 +83,51 @@
                         <hr>
                     {% endfor %}
                 {% endif %}
+
+                {% for form in suggestions %}
+                    {% if user == form.author %}
+                        <table class="table2">
+                            <tbody>
+                                <tr >
+                                    <td >Автор предложения:</td>
+                                    <td>{{ form.author }}</td>
+                                    <td>Дата создания предложения: </td>
+                                    <td>{{ form.date_create }}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4">{{ form.offer_description }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Предложенная стоимость:</td>
+                                    <td>{{ form.offer_price}}&#8372;</td>
+                                    <td>Срок выполнения до:</td>
+                                    <td>{{ form.deadline }}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">Статус предложения: </td>
+                                    <td colspan="2">
+                                        {% if form.selected_offer %}
+                                            <span class="badge badge-success">Принят</span>
+                                        {% else %}
+                                            <span class="badge badge-warning">Отменен</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4">
+                                        <a href="/suggestion/view/{{form.id}}">
+                                            <button type="button" class="btn btn-outline-dark">
+                                                --------------------Подробнее--------------------
+                                            </button>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <hr>
+                    {% endif %}
+                {% endfor %}
+
                 {% if user == order.author %}
                     <p>Good day!</p>
                 {% else %}

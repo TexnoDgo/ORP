@@ -1,61 +1,38 @@
 from django.shortcuts import render, redirect, reverse
 from django.views.generic import DetailView, View
-from .models import Chat
-from .forms import MessageForm
 from django.db.models import Count
+from django.contrib import messages
+from django.http import HttpResponseRedirect
+
+from orders.models import Suggestion, Order
+from .models import Message
+from .forms import MessageCreateForm
 
 
-class DialogsView(DetailView):
-    def get(self, request):
-        chats = Chat.objects.filter(members__in=[request.user.id])
-        return render(request, 'chat/dialogs.html', {'user_profile': request.user, 'chats': chats})
-
-
-    def get_companion(user, chat):
-        for u in chat.members.all():
-            if u != user:
-                return u
-        return None
-
-
-class MessagesView(View):
-    def get(self, request, chat_id):
-        try:
-            chat = Chat.objects.get(id=chat_id)
-            if request.user in chat.members.all():
-                chat.message_set.filter(is_readed=False).exclude(author=request.user).update(is_readed=True)
-            else:
-                chat = None
-        except Chat.DoesNotExist:
-            chat = None
-
-        return render(
-            request,
-            'chat/messages.html',
-            {
-                'user_profile': request.user,
-                'chat': chat,
-                'form': MessageForm()
-            }
-        )
-
-    def post(self, request, chat_id):
-        form = MessageForm(data=request.POST)
+def message_of_suggestion(request, pk):
+    suggestion = Suggestion.objects.get(pk=pk)
+    suggestion_order = Order.objects.get(pk=suggestion.order.pk)
+    if request.method == 'POST':
+        form = MessageCreateForm(request.POST)
         if form.is_valid():
-            message = form.save(commit=False)
-            message.chat_id = chat_id
-            message.author = request.user
-            message.save()
-        return redirect(reverse('users:messages', kwargs={'chat_id': chat_id}))
+            mes_form = form.save(commit=False)
+            mes_form.suggestion = suggestion
+            # Выбор автора сообщения
+            mes_form.member = request.user
+            mes_form.save()
+            title = form.cleaned_data.get('message')
+            messages.success(request,
+                             f'You are create first MESSAGE! ')
+            return HttpResponseRedirect(request.path_info)
+    else:
+        form = MessageCreateForm()
 
+    message = Message.objects.filter(suggestion_id=pk)
 
-class CreateDialogView(View):
-    def get(self, request, user_id):
-        chats = Chat.objects.filter(members__in=[request.user.id, user_id], type=Chat.DIALOG).annotate(c=Count('members')).filter(c=2)
-        if chats.count() == 0:
-            chat = Chat.objects.create()
-            chat.members.add(request.user)
-            chat.members.add(user_id)
-        else:
-            chat = chats.first()
-        return redirect(reverse('users:messages', kwargs={'chat_id': chat.id}))
+    context = {
+        'message1': message,
+        'suggestion': suggestion,
+        'form': form,
+        'suggestion_order': suggestion_order,
+    }
+    return render(request, 'orders/suggestion_view.html', context)

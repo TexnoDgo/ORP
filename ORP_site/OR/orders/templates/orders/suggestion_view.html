@@ -1,10 +1,16 @@
 {% extends "HomePage/base.html" %}
 {% load i18n %}
+{% load crispy_forms_tags %}
 {% block title %}{% trans "Order" %} № {{ order.id }}{% endblock %}
 {% load static %}
 
 {% block content %}
+
+    <!-- Load Style -->
     <link rel="stylesheet" href="{% static 'orders/order_style.css' %}">
+    <!-- Load Style -->
+
+    <!-- Suggestion -->
     <div class="container">
         <table class="table2">
             <tbody>
@@ -57,4 +63,75 @@
             </tbody>
         </table>
     </div>
+    <!-- Suggestion -->
+
+    <!-- Dialog -->
+    <div class="container">
+        <div class="card rare-wind-gradient chat-room">
+            <div class="card-body">
+                <div class="row px-lg-2 px-2">
+                    <div class="col-md-6 col-xl-12 pl-md-3 px-lg-auto px-0">
+                        <div class="chat-message">
+
+                            <!-- CHAT -->
+                            <ul class="list-unstyled chat-1 scrollbar-light-blue">
+                                {% for mes in message1 %}
+                                    {% if mes.member == suggestion.author %}
+                                        <li class="d-flex justify-content-between mb-4">
+                                        <img src="{{ user.profile.image.url }}" alt="avatar"
+                                             class="avatar rounded-circle mr-2 ml-lg-3 ml-0 z-depth-1"
+                                             width="150" height="150">
+                                            <div class="chat-body white p-3 ml-2 z-depth-1">
+                                            <div class="header">
+                                                  <strong class="primary-font">{{ mes.member }}</strong>
+                                                  <small class="pull-right text-muted"><i class="far fa-clock"></i>
+                                                      {{ mes.pub_date }}
+                                                  </small>
+                                            </div>
+                                            <hr class="w-100">
+                                            <p class="mb-0">
+                                              {{mes.message}}
+                                            </p>
+                                            </div>
+                                        </li>
+                                    {% else %}
+                                        <li class="d-flex justify-content-between mb-4">
+                                            <div class="chat-body white p-3 z-depth-1">
+                                                <div class="header">
+                                                    <strong class="primary-font">{{ mes.member }}</strong>
+                                                    <small class="pull-right text-muted"><i class="far fa-clock"></i>
+                                                        {{ mes.pub_date }}
+                                                    </small>
+                                                </div>
+                                                <hr class="w-100">
+                                                <p class="mb-0">
+                                                {{mes.message}}
+                                                </p>
+                                            </div>
+                                        <img src="{{ user.profile.image.url }}" alt="avatar"
+                                             class="avatar rounded-circle mr-0 ml-3 z-depth-1"
+                                             width="150" height="150">
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                            <!-- CHAT -->
+
+                            <form class="form-group" method="post">
+                                {% csrf_token %}
+                                <div class="white">
+                                    <div class="basic-textarea">
+                                        <textarea class="form-control pl-2 my-0" id="exampleFormControlTextarea2" rows="3" placeholder="Type your message here..." name="message"></textarea>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-outline-pink btn-rounded btn-sm waves-effect waves-dark float-right">Отправить</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Dialog -->
+
 {% endblock %}

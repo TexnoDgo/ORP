@@ -90,10 +90,3 @@ class Suggestion(models.Model):
 
     def __str__(self):
         return self.offer_description
-
-
-class Message(models.Model):
-    suggestion = models.ForeignKey(Suggestion, on_delete=models.PROTECT)
-    date_create = models.DateTimeField(default=timezone.now)
-    text = models.TextField()
-    status = models.CharField(max_length=10)

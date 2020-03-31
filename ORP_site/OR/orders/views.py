@@ -1,11 +1,14 @@
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
-from .models import Order, OperationCategories, Suggestion, Message, AllCity, File
+from .models import Order, OperationCategories, Suggestion, AllCity, File
 from .forms import OrderCreateForm, OrderUpdateForm, SuggestionCreateForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.paginator import Paginator
+
+from chat.models import Message
+from chat.forms import MessageCreateForm
 
 
 def orders(request):
@@ -204,12 +207,15 @@ class SuggestionView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(SuggestionView, self).get_context_data(**kwargs)
         a = self.object.order.pk
+        sug_mes = Message.objects.filter(suggestion_id=a)
         ord_sug = Suggestion.objects.filter(order_id=a)
         count = 0
         for sug in ord_sug:
             if sug.selected_offer:
                 count += 1
         context['true_sug'] = count
+        context['messages'] = sug_mes
+        print(context)
         return context
 
 

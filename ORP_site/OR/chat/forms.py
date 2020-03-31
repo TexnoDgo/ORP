@@ -1,9 +1,8 @@
 from django import forms
-from .models import Chat, Message
+from .models import Message
 
 
-class MessageForm(forms.ModelForm):
+class MessageCreateForm(forms.ModelForm):
     class Meta:
         model = Message
         fields = ['message']
-        labels = {'message': ""}
