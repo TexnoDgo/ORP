@@ -20,9 +20,6 @@ def message_of_suggestion(request, pk):
             # Выбор автора сообщения
             mes_form.member = request.user
             mes_form.save()
-            title = form.cleaned_data.get('message')
-            messages.success(request,
-                             f'You are create first MESSAGE! ')
             return HttpResponseRedirect(request.path_info)
     else:
         form = MessageCreateForm()
