@@ -90,7 +90,7 @@
                                 {% for mes in message1 %}
                                     {% if mes.member == suggestion.author %}
                                         <li class="d-flex justify-content-between mb-4">
-                                        <img src="{{ user.profile.image.url }}" alt="avatar"
+                                        <img src="{{ suggestion.author.profile.image.url }}" alt="avatar"
                                              class="avatar rounded-circle mr-2 ml-lg-3 ml-0 z-depth-1"
                                              width="150" height="150">
                                             <div class="chat-body white p-3 ml-2 z-depth-1">
@@ -120,7 +120,7 @@
                                                 {{mes.message}}
                                                 </p>
                                             </div>
-                                        <img src="{{ user.profile.image.url }}" alt="avatar"
+                                        <img src="{{ suggestion_order.author.profile.image.url }}" alt="avatar"
                                              class="avatar rounded-circle mr-0 ml-3 z-depth-1"
                                              width="150" height="150">
                                         </li>

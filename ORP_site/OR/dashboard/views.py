@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
-from orders.models import Order
+from orders.models import Order, Suggestion
 from django.core.paginator import Paginator
 
 
@@ -87,3 +87,27 @@ def dashboard_order_ready(request):
         'order': posts,
     }
     return render(request, 'dashboard/dashboard-order-ready.html', context)
+
+
+def dashboard_sug_active(request):
+
+    suggestions = Suggestion.objects.filter(author=request.user)
+
+    orders = Order.objects.all()
+
+    paginator = Paginator(suggestions, 3)
+
+    try:
+        page = int(request.GET.get('page', '1'))
+    except:
+        page = 1
+    try:
+        posts = paginator.page(page)
+    except(EmptyPage, InvalidPage):
+        posts = paginator.page(paginator.num_pages)
+
+    context = {
+        'suggestions': posts,
+        'orders': orders,
+    }
+    return render(request, 'dashboard/dashboard-sug-active.html', context)

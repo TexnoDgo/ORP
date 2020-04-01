@@ -7,12 +7,16 @@
 {% block content %}
     <link rel="stylesheet" href="{% static 'orders/style.css' %}">
     <div class="page">
+        <!--Навигация-->
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
             <li class="breadcrumb-item active" aria-current="page">All orders</li>
           </ol>
         </nav>
+        <!--Навигация-->
+
+        <!--Уведомления-->
         <div class="container">
             <h2>{% trans "ALL ORDERS" %}</h2>
             {% if messages %}
@@ -23,6 +27,9 @@
                 {% endfor %}
             {% endif %}
         </div>
+        <!--Уведомления-->
+
+        <!--Фильтры-->
         <div class="orders-filter">
             <div class="container-mb-2">
                 <p>Categories filter:</p>
@@ -49,6 +56,9 @@
             </div>
             <button type="button"><a href=""></a>Применить</button>
         </div>
+        <!--Фильтры-->
+
+        <!--Заказы-->
         <div class="orders-views">
         {% for order in all_orders.object_list %}
             <table class="table-dark">
@@ -56,7 +66,7 @@
                     <tr>
                         <td class="order-drawings" rowspan="6">
                             Изображение заказа
-                            <img src="#">
+                            <img src="{{order.image_view.url }}" width="300" height="300">
                         </td>
                         <td class="order-title">
                             Заголовок заказа:
@@ -99,9 +109,13 @@
             <hr>
         {% endfor %}
         </div>
+        <!--Заказы-->
+
+        <!--Пагинация-->
         <div class="pagination">
             {% bootstrap_paginate all_orders range=10 %}
         </div>
+        <!--Пагинация-->
 
 
     </div>

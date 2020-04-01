@@ -7,12 +7,12 @@
 {% block content %}
     <link rel="stylesheet" href="{% static 'dashboard/style.css' %}">
         <div class="container">
-        <table>
+        <table class="table-dark">
             <tbody>
                 <tr>
                     <td bgcolor="#0F4B81">Мои заказы</td>
-                    <td><a href="#">Мои предложения</a></td>
-                    <td><a href="/dashboard">Информационная панель</a></td>
+                    <td><a href="{% url 'dashboard_sug_active' %}">Мои предложения</a></td>
+                    <td><a href="{% url 'dashboard' %}">Информационная панель</a></td>
                     <td><a href="#">Сообщения</a></td>
                     <td><a href="#">Отзывы</a></td>
                 </tr>
@@ -37,7 +37,9 @@
                                 <table class="table-dark">
                                     <tbody>
                                         <tr>
-                                            <td class="order-drawings" rowspan="6">Изображение заказа</td>
+                                            <td class="order-drawings" rowspan="6">
+                                                <img src="{{one_order.image_view.url }}" width="300" height="300">
+                                            </td>
                                             <td class="order-title">{{ one_order.title }}</td>
                                             <td class="oreder-author">{{ one_order.author }}</td>
                                         </tr>

@@ -55,7 +55,9 @@
             <table class="table-dark">
                 <tbody>
                     <tr>
-                        <td class="order-drawings" rowspan="6">Изображение заказа</td>
+                        <td class="order-drawings" rowspan="6">
+                            <img src="{{order.image_view.url }}" width="300" height="300">
+                        </td>
                         <td class="order-title">{{ order.title }}</td>
                         <td class="oreder-author">{{ order.author }}</td>
                     </tr>

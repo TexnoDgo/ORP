@@ -6,11 +6,11 @@
 
 {% block content %}
     <div class="container">
-        <table>
+        <table class="table-dark">
             <tbody>
-                <tr>
+                <tr class="thead-dark">
                     <td><a href="{% url 'dashboard-order' %}">Мои заказы</a></td>
-                    <td><a href="#">Мои предложения</a></td>
+                    <td><a href="{% url 'dashboard_sug_active' %}">Мои предложения</a></td>
                     <td bgcolor="#0F4B81">Информационная панель</td>
                     <td><a href="#">Сообщения</a></td>
                     <td><a href="#">Отзывы</a></td>

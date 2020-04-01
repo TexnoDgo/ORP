@@ -34,8 +34,8 @@ class Order(models.Model):
     title = models.CharField(max_length=100, verbose_name='Заголовок')  # Заголовок заказа
     description = models.TextField(verbose_name='Описание заказ')  # Описание заказа
     #order_files = models.ManyToManyField('Files', blank=True, related_name='orders_file')  # Прикрипленные файлы
-    pdf_view = models.FileField(default='default.pdf', upload_to='pdf', verbose_name='Обложка заказа')  # Файл обложки заказа PDF
-    image_view = models.ImageField(default='default.jpg', upload_to='image_preview')
+    pdf_view = models.FileField(default='default.pdf', upload_to='pdf', verbose_name='Обложка заказа pdf')  # Файл обложки заказа PDF
+    image_view = models.ImageField(default='default.jpg', upload_to='image_preview', verbose_name='Обложка заказа image')
     other_files = models.FileField(default='default.jpg', upload_to='otherFiles')  # Другие файлы заказа
     amount = models.PositiveIntegerField(verbose_name='Кол-во изделий')  # Кол-во изделий
     city = models.ForeignKey(AllCity, on_delete=models.PROTECT, verbose_name='Город заказа')  # Город заказа

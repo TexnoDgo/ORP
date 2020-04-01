@@ -1,0 +1,238 @@
+{% extends "HomePage/base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Dashboard Order" %}{% endblock %}
+{% load static %}
+{% load bootstrap_pagination %}
+
+{% block content %}
+
+    <link rel="stylesheet" href="{% static 'dashboard/style.css' %}">
+        <div class="container">
+
+            <!-- Заглавная таблица -->
+            <table>
+                <tbody>
+                    <tr>
+                        <td><a href="{% url 'dashboard-order' %}">Мои заказы</a></td>
+                        <td bgcolor="#0F4B81">Мои предложения</td>
+                        <td ><a href="{% url 'dashboard' %}">Информационная панель</a></td>
+                        <td ><a href="#">Сообщения</a></td>
+                        <td ><a href="#">Отзывы</a></td>
+                    </tr>
+                    <tr>
+                        <td colspan="5">Мои предложения</td>
+                    </tr>
+                    <tr>
+                        <td bgcolor="#0F4B81">Предложения в обсуждении</td>
+                        <td><a href="#">Предложения в работе</a></td>
+                        <td><a href="#">Выполненые предложения</a></td>
+                        <td><a href="#">Отклоненные предложения</a></td>
+                        <td><a href="#">Архив</a></td>
+                    </tr>
+                    <tr>
+                        <td colspan="5">управление проектами</td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- Заглавная таблица -->
+
+            <!-- Таблица Заказ + Предложение -->
+            <table>
+                <tbody>
+                    <tr>
+                        <td>-------------</td>
+                        <td>-------------</td>
+                        <td>-------------</td>
+                        <td>-------------</td>
+                        <td>-------------</td>
+                    </tr>
+                    <tr>
+                        <div class="container">
+                            <td colspan="5">
+                                {% for form in suggestions %}
+                                {% csrf_token %}
+                                    <!--Заказ-->
+                                    {% for one_order in orders %}
+                                        {% if form.order.id == one_order.id %}
+                                            <div class="vo">
+                                                <div class="container">
+                                                     <!--Статусы зказов-->
+                                                    <p>
+                                                        Статус заказа:
+                                                        {% if one_order.status == 'В обсуждении' %}
+                                                            <span class="badge badge-pill badge-warning">{{ one_order.status }}</span>
+                                                        {% elif one_order.status == 'В работe' %}
+                                                            <span class="badge badge-pill badge-success">{{ one_order.status }}</span>
+                                                        {% elif one_order.status == 'Выполненый' %}
+                                                            <span class="badge badge-pill badge-secondary">{{ one_order.status }}</span>
+                                                        {% elif one_order.status == 'Отменённый' %}
+                                                            <span class="badge badge-pill badge-danger">{{ one_order.status }}</span>
+                                                        {% endif %}
+
+                                                    </p>
+                                                    <!--Таблица зказа-->
+                                                    <table class="table-dark">
+                                                        <tbody>
+                                                            <tr class="table-primary">
+                                                                <td colspan="2">Заказ создан:</td>
+                                                                <td colspan="2"><span class="badge badge-info">{{ one_order.date_create }}</span></td>
+                                                                <td colspan="2">Автор заказа:</td>
+                                                                <td colspan="2"><span class="badge badge-info">{{ one_order.author }}</span></td>
+                                                            </tr>
+                                                            <tr class="table-primary">
+                                                                <td colspan="2">Заголовок заказа:</td>
+                                                                <td colspan="6"><span class="badge badge-pill badge-light">{{ one_order.title }}</span></td>
+                                                            </tr>
+                                                            <tr class="table-primary">
+                                                                <td colspan="8">Чертеж. Превью
+                                                                    <img src="{{one_order.image_view}}">
+                                                                </td>
+                                                            </tr>
+                                                            <tr class="table-primary">
+                                                                <td colspan="8">
+                                                                    {% if files %}
+                                                                        {% for file in files %}
+                                                                            <a href="#" class="badge badge-primary">{{ file }}</a>
+                                                                        {% endfor %}
+                                                                    {% else %}
+                                                                        <p>No Files!</p>
+                                                                    {% endif %}
+                                                                </td>
+                                                            </tr>
+                                                            <tr class="table-primary">
+                                                                <td>Описание:</td>
+                                                                <td colspan="7">
+                                                                    <span class="badge badge-pill badge-light">
+                                                                        {{ one_order.description }}
+                                                                    </span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr class="table-primary">
+                                                                <td colspan="2">Количество изделий:</td>
+                                                                <td colspan="2"><span class="badge badge-pill badge-light">{{ one_order.amount }}</span></td>
+                                                                <td colspan="2">Срок выполнения заказа:</td>
+                                                                <td colspan="2"><span class="badge badge-pill badge-light">{{ one_order.lead_time }}</span></td>
+                                                            </tr>
+                                                            <tr class="table-primary">
+                                                                <td colspan="2">Бюджет заказа:</td>
+                                                                <td colspan="2"><span class="badge badge-pill badge-light">{{ one_order.proposed_budget }}</span></td>
+                                                                <td colspan="2">Город заказа:</td>
+                                                                <td colspan="2"><span class="badge badge-pill badge-light">{{ one_order.city }}</span></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td colspan="2">
+                                                                    {% if user == one_order.author %}
+                                                                        {% if order.status == 'В работe' %}
+                                                                            <a href="{% url 'status_ready' object.id %}"
+                                                                               class="btn btn-primary  btn-lg active btn-sm"
+                                                                               role="button" aria-pressed="true">
+                                                                                Заказ выполнен
+                                                                            </a>
+                                                                        {% elif order.status == 'Выполненый' %}
+                                                                            <a href="{% url 'status_ready' object.id %}"
+                                                                               class="btn btn-secondary btn-lg active btn-sm"
+                                                                               role="button" aria-pressed="true">
+                                                                                Доработать заказ
+                                                                            </a>
+                                                                        {% endif %}
+                                                                        <!-- -->
+                                                                    {% endif %}
+                                                                </td>
+                                                                <td colspan="2">
+                                                                    {% if user == order.author %}
+                                                                        <button type="button" class="btn btn-warning">
+                                                                            <a href="//127.0.0.1:8000/orders/{{order.id}}/update">
+                                                                                Изменить заказ
+                                                                            </a>
+                                                                        </button>
+                                                                        <!-- Изменить ссылку на Url-->
+                                                                    {% endif %}
+                                                                </td>
+                                                                <td colspan="2">
+                                                                    {% if user == order.author %}
+                                                                        <a href="{% url 'order_delete' object.id %}" class="btn btn-danger btn-lg active btn-sm" role="button" aria-pressed="true">Удалить заказ</a>
+                                                                        <!--  -->
+                                                                    {% endif %}
+                                                                </td>
+                                                                <td colspan="2">
+
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                    <!--Заказ-->
+                                    <hr>
+                                    <!--Предложение-->
+                                    <table class="table-dark">
+                                        <tbody>
+                                            <tr >
+                                                <td >Автор предложения:</td>
+                                                <td>{{ form.author }}</td>
+                                                <td>Дата создания предложения: </td>
+                                                <td>{{ form.date_create }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="4">{{ form.offer_description }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Предложенная стоимость:</td>
+                                                <td>{{ form.offer_price}}&#8372;</td>
+                                                <td>Срок выполнения до:</td>
+                                                <td>{{ form.deadline }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2">Статус предложения: </td>
+                                                <td colspan="2">
+                                                    {% if form.selected_offer %}
+                                                        <span class="badge badge-success">Принят</span>
+                                                    {% else %}
+                                                        <span class="badge badge-warning">Отменен</span>
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="4">
+                                                    {% if true_sug == 0 %}
+                                                        <a href="{% url 'status_in_work' pk=form.pk %}">
+                                                            <button class="btn btn-success" id="click_button">
+                                                                ----------------------Выбрать---------------------
+                                                            </button>
+                                                        </a>
+                                                    {% else %}
+                                                        {% if form.selected_offer == True %}
+                                                            <a href="{% url 'status_in_work' pk=form.pk %}">
+                                                            <button class="btn btn-danger" id="cancel_button">
+                                                                ----------------------Отменить--------------------
+                                                            </button>
+                                                            </a>
+                                                        {% endif %}
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="4">
+                                                    <a href="/suggestion/view/{{form.id}}">
+                                                        <button type="button" class="btn btn-outline-dark">
+                                                            --------------------Подробнее--------------------
+                                                        </button>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <!--Предложение-->
+                                {% endfor %}
+                            </td>
+                        </div>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- Таблица Заказ + Предложение -->
+
+        </div>
+{% endblock %}
+
