@@ -18,7 +18,7 @@ def orders(request):
 
     all_city = AllCity.objects.all()
 
-    paginator = Paginator(all_orders, 3)
+    paginator = Paginator(all_orders, 4)
 
     try:
         page = int(request.GET.get('page', '1'))

@@ -1,5 +1,5 @@
 body {
-
+    height: 100%;
 }
 
 
@@ -70,15 +70,16 @@ body {
 }
 
 .orders-filter {
-    width: 30%;
+    width: 20%;
     float: left;
-    border: 1px solid #595959;
+    border: 5px solid #ffffff;
 
 }
 
 .orders-views {
-    width: 70%;
+    width: 80%;
     float: left;
+    border: 5px solid #ffffff;
 }
 
 
@@ -88,8 +89,6 @@ body {
 }
 
 
-
-
 .table {
     width: 100%;
     border-collapse:collapse;
@@ -97,7 +96,7 @@ body {
 
 }
 .table, td, th {
-    border: 1px solid #595959;
+    border: 1px solid #C8CBCF;
     width: 300px;
     text-align: center;
 }
@@ -105,9 +104,16 @@ body {
     padding: 3px;
     width: 30px;
     height: 35px;
-    text-align: center;
+    text-align: left;
 }
 .th {
     background-color: #7accee;
     text-align: center;
+}
+
+.page-footer {
+    margin-bottom: -100px;
+    /*Минус Высота футера*/
+    height: 100px;
+    /*Высота футера*/
 }

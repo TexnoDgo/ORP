@@ -16,13 +16,18 @@ body {
 
     width: 40%;
     float: left;
-    border: 1px solid #595959;
+    border: 5px solid #ffffff;
     font-size: 15px;
 }
+.vso .vs .but {
+    text-align: center;
+}
+
 
 .vso .vo {
     width: 60%;
     float: left;
+    border: 5px solid #ffffff;
 }
 
 .table {
