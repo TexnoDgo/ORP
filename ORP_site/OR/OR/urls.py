@@ -5,7 +5,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.conf.urls import url
 
-from HomePage.views import index
+from HomePage.views import index, index2
 from chat import views as chat_views
 from users import views as user_views
 from orders import views as orders_views
@@ -17,6 +17,7 @@ from django.conf.urls import include
 
 urlpatterns = [
     path('', index, name='index'),
+    path('example/', index2, name='index2'),
 
     path('register/', user_views.register, name='register'),
     path('all_users/', user_views.UserListViews.as_view(), name='all_users'),

@@ -6,6 +6,7 @@
 
 {% block content %}
 <link rel="stylesheet" href="{% static 'orders/style.css' %}">
+{% csrf_token %}
 <div class="container">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
@@ -17,86 +18,85 @@
         <form class="text-left" method="POST" enctype="multipart/form-data">
             <div class="container">
                 <div class="content-section">
-                    {% csrf_token %}
-                    <div class="form-title">
-                        {{ form.title|as_crispy_field}}
-                        <small>Введите заголовок заказа. Например: Изготовить токарную детать, выполнить токарную обработку</small>
-                    </div>
-                    <hr>
+                        <div class="form-title">
+                            {{ order_form.title}}
+                            <small>Введите заголовок заказа. Например: Изготовить токарную детать, выполнить токарную обработку</small>
+                        </div>
+                        <hr>
 
-                    <div class="form-description">
-                        {{ form.description|as_crispy_field}}
-                        <small>Опишите подробно работу которую необходимо выполнить.</small>
-                    </div>
-                    <hr>
+                        <div class="form-description">
+                            {{ order_form.description}}
+                            <small>Опишите подробно работу которую необходимо выполнить.</small>
+                        </div>
+                        <hr>
 
-                    <div class="form-files">
-                        <small></small>
-                    </div>
+                        <div class="form-files">
+                            <small></small>
+                        </div>
 
 
-                    <div class="form-amount">
-                        {{ form.amount|as_crispy_field}}
-                        <small>Укажите количество изделий.</small>
-                    </div>
-                    <hr>
+                        <div class="form-amount">
+                            {{ order_form.amount}}
+                            <small>Укажите количество изделий.</small>
+                        </div>
+                        <hr>
 
-                    <div class="form-city">
-                        {{ form.city|as_crispy_field}}
-                        <small>Выберите город в который отправится заказ</small>
-                    </div>
-                    <hr>
+                        <div class="form-city">
+                            {{ order_form.city}}
+                            <small>Выберите город в который отправится заказ</small>
+                        </div>
+                        <hr>
 
-                    <table>
-                        <tr>
-                            <td>
-                                <div class="form-city">
-                                    {{ form.image_view|as_crispy_field}}
-                                    <small>Выберите обложку заказка</small>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="form-files">
-                                    {{ form.files|as_crispy_field}}
-                                    <small>Выберите Чертеж</small>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="form-files">
-                                    {{ form.files|as_crispy_field}}
-                                    <small>Выберите файлы.</small>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="form-files">
-                                    {{ form.files|as_crispy_field}}
-                                    <small>Выберите файлы.</small>
-                                </div>
-                            </td>
-                        </tr>
-                    </table>
-                    <hr>
+                        <table>
+                            <tr>
+                                <td>
+                                    <div class="form-city">
+                                        {{ order_form.image_view}}
+                                        <small>Выберите обложку заказка</small>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-files">
+                                        {{ order_form.files}}
+                                        <small>Выберите Чертеж</small>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-files">
+                                        {{ order_form.files}}
+                                        <small>Выберите файлы.</small>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-files">
+                                        {{ order_form.files}}
+                                        <small>Выберите файлы.</small>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <hr>
 
-                    <div class="form-lead_time">
-                        {{ form.lead_time|as_crispy_field}}
-                        <small>Установите сроки выполнения работ.</small>
-                    </div>
-                    <hr>
+                        <div class="form-lead_time">
+                            {{ order_form.lead_time}}
+                            <small>Установите сроки выполнения работ.</small>
+                        </div>
+                        <hr>
 
-                    <div class="form-proposed_budget">
-                        {{ form.proposed_budget|as_crispy_field}}
-                        <small>Укажите предположительный бюджет.</small>
-                    </div>
-                    <hr>
+                        <div class="form-proposed_budget">
+                            {{ order_form.proposed_budget}}
+                            <small>Укажите предположительный бюджет.</small>
+                        </div>
+                        <hr>
 
-                    <div class="form-categories">
-                        {{ form.categories|as_crispy_field}}
-                        <small>Выберите категории под которые подпадает ваш заказ.</small>
-                    </div>
+                        <div class="form-categories">
+                            {{ order_form.categories}}
+                            <small>Выберите категории под которые подпадает ваш заказ.</small>
+                        </div>
 
-                    <hr>
-                    <button class="btn btn-lg btn-primary btn-block" type="submit">{% trans "CREATE" %}</button>
-                    <hr>
+                        <hr>
+                        <button class="btn btn-lg btn-primary btn-block" type="submit">{% trans "CREATE" %}</button>
+                        <hr>
                 </div>
             </div>
         </form>

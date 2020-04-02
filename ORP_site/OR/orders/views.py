@@ -75,13 +75,13 @@ def order_categories(request, url):
 @login_required
 def order_create(request):
     if request.method == 'POST':
-        form = OrderCreateForm(request.POST, request.FILES)
+        order_form = OrderCreateForm(request.POST, request.FILES)
         files = request.FILES.getlist('files')
 
-        if form.is_valid():
-            order = form.save(commit=False)
+        if order_form.is_valid():
+            order = order_form.save(commit=False)
             order.author = request.user
-            print(form.save().pk)
+            print(order_form.save().pk)
             if files:
                 for f in files:
                     print(f)
@@ -89,14 +89,14 @@ def order_create(request):
                     fl.save()
             order.save()
             # form.save()  # Сохранение  формы
-            title = form.cleaned_data.get('title')  # Получение названи заказка из формы
+            title = order_form.cleaned_data.get('title')  # Получение названи заказка из формы
             messages.success(request,
                              f'You order has been created!Wait for a response! ')  # Формирование сообщения со вложенным именем
             return redirect('orders')  # Перенаправление на страницу подтверждения регистрации
     else:
-        form = OrderCreateForm()
+        order_form = OrderCreateForm()
 
-    return render(request, 'orders/order_create.html', {'form': form})
+    return render(request, 'orders/order_create.html', {'order_form': order_form})
 
 
 @login_required

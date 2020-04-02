@@ -32,16 +32,12 @@
         <!--Фильтры-->
         <div class="orders-filter">
             <div class="container-mb-2">
-                <p>Categories filter:</p>
-                {% for category in filters %}
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                      <label class="form-check-label" for="defaultCheck1">
-                        <a href="{% url 'order_category_view' pk=category.pk %}" class="filter-menu">{{ category.title }}</a>
-                          <!---->
-                      </label>
-                    </div>
-                {% endfor %}
+                <ul class="list-group">
+                  <li class="list-group-item active">Categories filter:</li>
+                  {% for category in filters %}
+                    <a href="{% url 'order_category_view' pk=category.pk %}" class="filter-menu"><li class="list-group-item">{{ category.title }}</li></a>
+                  {% endfor %}
+                </ul>
             </div>
             <div class="container-mb-2">
                 <p>City filter:</p>
