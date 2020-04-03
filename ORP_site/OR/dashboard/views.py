@@ -1,7 +1,15 @@
 from django.shortcuts import render
+from django.http import HttpResponseRedirect
+
+from django.core.paginator import Paginator
+
 from django.contrib.auth.models import User
 from orders.models import Order, Suggestion
-from django.core.paginator import Paginator
+from chat.models import Message
+
+from chat.forms import MessageCreateForm
+
+
 
 
 def index(request):
@@ -111,3 +119,12 @@ def dashboard_sug_active(request):
         'orders': orders,
     }
     return render(request, 'dashboard/dashboard-sug-active.html', context)
+
+
+def dialogsView(request):
+    suggestion = Suggestion.objects.filter(author=request.user)
+
+    context = {
+        'suggestion': suggestion,
+    }
+    return render(request, 'dashboard/dashboard-messages.html', context)

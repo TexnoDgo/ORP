@@ -9,8 +9,8 @@ class OrderCreateForm(forms.ModelForm):
 
     class Meta:
         model = Order
-        fields = ['title', 'description', 'amount', 'city', 'lead_time', 'pdf_view', 'proposed_budget', 'activity',
-                  'categories', 'files']
+        fields = ['title', 'description', 'amount', 'city', 'lead_time', 'pdf_view', 'image_view', 'proposed_budget',
+                  'activity', 'categories', 'files']
 
         # Привязка авторезированого пользователя к автору заказа
         def form_valid(self, form):
@@ -19,10 +19,13 @@ class OrderCreateForm(forms.ModelForm):
 
 
 class OrderUpdateForm(forms.ModelForm):
+
+    files = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}), required=False)
+
     class Meta:
         model = Order
-        fields = ['title', 'description', 'amount', 'city', 'lead_time', 'pdf_view', 'proposed_budget', 'status',
-                  'categories']
+        fields = ['title', 'description', 'amount', 'city', 'lead_time', 'image_view', 'pdf_view', 'proposed_budget',
+                  'status', 'categories', 'files']
 
 
 class SuggestionCreateForm(forms.ModelForm):

@@ -45,9 +45,24 @@
                             <small>Измените город в который отправится заказ</small>
                         </div>
 
-                        <div class="form-city">
-                            {{ form.image_view|as_crispy_field}}
+                        <div class="form-image">
+                            {{ form.image_view}}
                             <small>Измените обложку заказа.</small>
+                        </div>
+
+                        <div class="form-files">
+                            {{ form.files|as_crispy_field}}
+                            <small>Выберите Чертеж</small>
+                        </div>
+
+                        <div class="form-files">
+                            {{ form.files|as_crispy_field}}
+                            <small>Выберите файлы.</small>
+                        </div>
+
+                        <div class="form-files">
+                            {{ form.files|as_crispy_field}}
+                            <small>Выберите файлы.</small>
                         </div>
 
                         <div class="form-lead_time">

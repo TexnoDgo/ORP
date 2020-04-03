@@ -5,83 +5,158 @@
 {% load bootstrap_pagination %}
 
 {% block content %}
-    <link rel="stylesheet" href="{% static 'dashboard/style.css' %}">
-        <div class="container">
-        <table class="table-dark">
-            <tbody>
-                <tr>
-                    <td bgcolor="#0F4B81">Мои заказы</td>
-                    <td><a href="{% url 'dashboard_sug_active' %}">Мои предложения</a></td>
-                    <td><a href="{% url 'dashboard' %}">Информационная панель</a></td>
-                    <td><a href="#">Сообщения</a></td>
-                    <td><a href="#">Отзывы</a></td>
-                </tr>
-                <tr>
-                    <td colspan="5">Мои заказы</td>
-                </tr>
-                <tr>
-                    <td><a href="{% url 'dashboard-order-dis' %}">Заказы в обсуждении</a></td>
-                    <td><a href="{% url 'dashboard-order' %}">Заказы в работе</a></td>
-                    <td bgcolor="#0F4B81">Выполненные заказы</td>
-                    <td>Отмененные заказы</td>
-                    <td>Избранные заказы</td>
-                </tr>
-                <tr>
-                    <td colspan="5">управление проектами</td>
-                </tr>
-                <tr>
-                    <div class="container">
-                        <td colspan="5">
-                        {% for one_order in order %}
-                            {% if one_order.status == 'Выполненый' %}
-                                <table class="table-dark">
-                                    <tbody>
-                                        <tr>
-                                            <td class="order-drawings" rowspan="6">
-                                                <img src="{{one_order.image_view.url }}" width="300" height="300">
-                                            </td>
-                                            <td class="order-title">{{ one_order.title }}</td>
-                                            <td class="oreder-author">{{ one_order.author }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="order-description" rowspan="4">{{ one_order.description }}</td>
-                                            <td class="order-date-create">{{ one_order.date_create }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="order-lead-time">{{ one_order.lead_time }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="order-amount">{{ one_order.amount }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="order-proposed-budget">{{ one_order.proposed_budget }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="order-city">{{ one_order.city }}</td>
-                                            <td class="order-bottom-view">
-                                                <a class="btn btn-success" href="{{one_order.id}}">Подробнее</a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="order-categories" colspan="3">
-                                                {% for cat in one_order.categories.all %}
-                                                    <span class="badge badge-info">{{ cat }}</span>
-                                                {% endfor %}
-                                            </td>
 
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <hr>
-                            {% endif %}
-                        {% endfor %}
-                    </td>
-                    </div>
-                </tr>
-            </tbody>
-        </table>
-        <div class="pagination">
-            {% bootstrap_paginate order range=3 %}
-        </div>
+    <link rel="stylesheet" href="{% static 'dashboard/style.css' %}">
+
+    <div class="container" id="wefwe">
+
+    <ul class="list-unstyled chat-1 scrollbar-light-blue">
+
+        <!-- Верхний блок -->
+        <li href="#" class="list-group-item list-group-item-dark">
+            <ul class="list-group list-group-horizontal">
+
+                <li class="list-group-item list-group-item-action active">
+                    <h6> Мои заказы</h6>
+                </li>
+
+                <a href="{% url 'dashboard_sug_active' %}" class="list-group-item list-group-item-action list-group-item-dark">
+                    <h6>Мои предложения</h6>
+                </a>
+
+                <a href="{% url 'dashboard' %}" class="list-group-item list-group-item-action list-group-item-dark">
+                    <h6>Info панель</h6>
+                </a>
+
+                <a href="{% url 'dashboard-messages' %}" class="list-group-item list-group-item-action list-group-item-dark">
+                    <h6>Сообщения</h6>
+                </a>
+
+                <a href="" class="list-group-item list-group-item-action list-group-item-dark">
+                    <h6>Отзывы</h6>
+                </a>
+
+            </ul>
+        </li>
+        <!-- Верхний блок -->
+
+        <!-- Средний блок -->
+        <li href="#" class="list-group-item list-group-item-dark">
+            <ul class="list-group list-group-horizontal">
+
+                <a href="{% url 'dashboard-order-dis' %}" class="list-group-item list-group-item-action list-group-item-secondary">
+                    <h6>Заказы в обсуждении</h6>
+                </a>
+
+                <a href="{% url 'dashboard-order' %}" class="list-group-item list-group-item-action list-group-item-secondary">
+                    <h6>Заказы в работе</h6>
+                </a>
+
+                <li class="list-group-item list-group-item-action active">
+                    <h6>Выполненные заказы</h6>
+                </li>
+
+                <a href="" class="list-group-item list-group-item-action list-group-item-secondary">
+                    <h6>Отмененные заказы</h6>
+                </a>
+
+                <a href="" class="list-group-item list-group-item-action list-group-item-secondary">
+                    <h6>Избранные заказы</h6>
+                </a>
+
+            </ul>
+        </li>
+        <!-- Средний блок -->
+
+        <!-- Нижний блок -->
+        <li class="list-group-item list-group-item-dark">
+            {% for one_order in order %}
+                {% if one_order.status == 'Выполненый' %}
+                    <a href="{% url 'order_detail' pk=one_order.id %}" class="list-group-item list-group-item-action list-group-item-secondary">
+                        <table class="" width="1000" height="300">
+                                <tbody>
+                                    <tr >
+                                        <td class="order-drawings" rowspan="6">
+                                            <small>Обложка заказа:</small>
+                                            <img src="{{one_order.image_view.url }}" width="300" height="auto">
+                                        </td>
+                                        <td class="order-title">
+                                            <h5>Заголовок заказа:<span class="badge badge-dark">{{ one_order.title }}</span></h5>
+                                        </td>
+                                        <td class="oreder-author">
+                                            <h5>Автор заказа:<span class="badge badge-dark">{{ one_order.author }}</span></h5>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="order-description" rowspan="5">{{ one_order.description }}</td>
+                                        <td class="order-date-create">
+                                            <h6>Дата создания:
+                                                <span class="badge badge-dark">
+                                                    {{ one_order.date_create }}
+                                                </span>
+                                            </h6>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="order-lead-time">
+                                            <h6>Дата готовности:
+                                                <span class="badge badge-dark">
+                                                    {{ one_order.lead_time }}
+                                                </span>
+                                            </h6>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="order-amount">
+                                            <h6>Кол-во изделий:
+                                                <span class="badge badge-dark">
+                                                    {{ one_order.amount }}
+                                                </span>
+                                            </h6>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="order-proposed-budget">
+                                            <h6>Предлогаемый бюджет:
+                                                <span class="badge badge-dark">
+                                                    {{ one_order.proposed_budget }}
+                                                </span>
+                                            </h6>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="order-bottom-view">
+                                            <h6>Город заказа:
+                                                <span class="badge badge-dark">
+                                                    {{ one_order.city }}
+                                                </span>
+                                            </h6>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="order-categories" colspan="3">
+                                            <h6>Категории заказа:
+                                                {% for cat in one_order.categories.all %}
+                                                    <span class="badge badge-info">
+                                                        {{ cat }}
+                                                    </span>
+                                                {% endfor %}
+                                            </h6>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                    </a>
+                    <hr>
+                {% endif %}
+            {% endfor %}
+
+        </li>
+        <!-- Нижний блок -->
+    </ul>
+    <div class="pagination">
+        {% bootstrap_paginate order range=3 %}
     </div>
+</div>
+
 {% endblock %}
