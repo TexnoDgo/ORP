@@ -45,28 +45,13 @@
                 <!--Заказы и предложения инфопанели-->
                 <li class="list-group-item list-group-item list-group-item-dark">
                     <ul class="list-group">
-                        {% for order in user_order %}
-                            <a href="orders/{{order.id}}" class="list-group-item list-group-item-action list-group-item-secondary">
-                                <table>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <small>{{ order.title }}</small>
-                                            </td>
-                                            <td>
-                                                <small>Заказчик/Исполнитель</small>
-                                            </td>
-                                            <td>
-                                                <small>Срок исполнения</small>
-                                            </td>
-                                            <td>
-                                                <small>{{ order.proposed_budget }}</small>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                        <li class="list-group-item active">
+                            Диалоги
+                        </li>
+                        {% for sug in suggestions %}
+                            <a href="{% url 'dashboard-message-view' pk=sug.id %}" class="list-group-item list-group-item-action list-group-item-secondary">
+                                {{sug.order}}
                             </a>
-                            <hr>
                         {% endfor %}
                     </ul>
                 </li>
@@ -74,39 +59,12 @@
 
                 <!--Информация о пользователе-->
                 <li class="list-group-item list-group-item-dark">
-                        <ul class="list-group">
-                              <li href="" class="list-group-item active">
-                                  {{ user.username }}
-                              </li>
-
-                              <li href="" class="list-group-item list-group-item-action list-group-item-secondary">
-                                  <img src="{{ user.profile.image.url }}" width="200">
-                              </li>
-
-                              <li class="list-group-item d-flex justify-content-between align-items-center list-group-item-secondary">
-                                    Рейтинг
-                                    <span class="badge badge-primary badge-pill">14</span>
-                              </li>
-                              <li class="list-group-item d-flex justify-content-between align-items-center list-group-item-secondary">
-                                    Заказов создано
-                                    <span class="badge badge-primary badge-pill">{{ user_order_count }}</span>
-                              </li>
-                              <li class="list-group-item d-flex justify-content-between align-items-center list-group-item-secondary">
-                                    В обсуждении
-                                    <span class="badge badge-primary badge-pill">{{ user_order_count_dis }}</span>
-                              </li>
-                              <li class="list-group-item d-flex justify-content-between align-items-center list-group-item-secondary">
-                                    В работе
-                                    <span class="badge badge-primary badge-pill">{{ user_order_count_in_work }}</span>
-                              </li>
-                              <li class="list-group-item d-flex justify-content-between align-items-center list-group-item-secondary">
-                                    Выполнено
-                                    <span class="badge badge-primary badge-pill">{{ user_order_count_ready }}</span>
-                              </li>
-                              <li class="list-group-item d-flex justify-content-between align-items-center list-group-item-secondary">
-                                    Предложения
-                              </li>
-                        </ul>
+                    <ul class="list-group">
+                        <li href="" class="list-group-item active">
+                            {{ user.username }}
+                        </li>
+                        <h1> --------Добро пожаловать в сообщения!-------</h1>
+                    </ul>
                 </li>
                 <!--Информация о пользователе-->
             </ul>

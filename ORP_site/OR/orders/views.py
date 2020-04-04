@@ -6,6 +6,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.paginator import Paginator
+from django import forms
 
 from chat.models import Message
 from chat.forms import MessageCreateForm
@@ -122,6 +123,7 @@ def order_update(request):
 
 class OrderUpdateView(UpdateView):
     model = Order
+
     fields = ['title', 'description', 'amount', 'city', 'image_view', 'pdf_view', 'lead_time', 'proposed_budget', 'activity',
               'status', 'categories']
 

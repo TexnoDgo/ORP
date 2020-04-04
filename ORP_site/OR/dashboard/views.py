@@ -122,9 +122,37 @@ def dashboard_sug_active(request):
 
 
 def dialogsView(request):
-    suggestion = Suggestion.objects.filter(author=request.user)
+    suggestions = Suggestion.objects.filter(author=request.user)
 
     context = {
-        'suggestion': suggestion,
+        'suggestions': suggestions,
     }
     return render(request, 'dashboard/dashboard-messages.html', context)
+
+
+def messages(request, pk):
+    suggestions = Suggestion.objects.filter(author=request.user)
+    suggestion = Suggestion.objects.get(pk=pk)
+    suggestion_order = Order.objects.get(pk=suggestion.order.pk)
+    if request.method == 'POST':
+        form = MessageCreateForm(request.POST)
+        if form.is_valid():
+            mes_form = form.save(commit=False)
+            mes_form.suggestion = suggestion
+            # Выбор автора сообщения
+            mes_form.member = request.user
+            mes_form.save()
+            return HttpResponseRedirect(request.path_info)
+    else:
+        form = MessageCreateForm()
+
+    message = Message.objects.filter(suggestion_id=pk)
+
+    context = {
+        'message1': message,
+        'suggestions': suggestions,
+        'suggestion': suggestion,
+        'form': form,
+        'suggestion_order': suggestion_order,
+    }
+    return render(request, 'dashboard/dashboard-message-view.html', context)

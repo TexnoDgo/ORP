@@ -4,6 +4,7 @@ from django.urls import path, re_path
 from .views import index, dashboard_order, dashboard_order_dis, dashboard_order_ready, dashboard_sug_active, dialogsView
 from orders import views
 from orders.models import Order
+from dashboard import views as das_views
 
 urlpatterns = [
     path('', index, name='dashboard'),
@@ -13,6 +14,7 @@ urlpatterns = [
     path('/dashboard-order/ready', dashboard_order_ready, name='dashboard_order_ready'),
 
     path('/dashboard-messages', dialogsView, name='dashboard-messages'),
+    re_path('/dashboard-message-view/(?P<pk>\d+)$', das_views.messages, name='dashboard-message-view'),
 
     path('/dashboard-sug/active', dashboard_sug_active, name='dashboard_sug_active'),
 

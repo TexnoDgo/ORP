@@ -1,0 +1,149 @@
+{% extends "HomePage/base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Dashboard" %}{% endblock %}
+{% load static %}
+{% load bootstrap_pagination %}
+
+{% block content %}
+    <link rel="stylesheet" href="{% static 'dashboard/style.css' %}">
+
+
+    <div class="container" id="wefwe">
+
+        <ul class="list-unstyled chat-1 scrollbar-light-blue">
+
+            <!-- Верхний блок -->
+            <li href="#" class="list-group-item list-group-item-dark">
+                <ul class="list-group list-group-horizontal">
+
+                    <a href="{% url 'dashboard-order' %}" class="list-group-item list-group-item-action list-group-item-dark">
+                        <h6> Мои заказы</h6>
+                    </a>
+
+                    <a href="{% url 'dashboard_sug_active' %}" class="list-group-item list-group-item-action list-group-item-dark">
+                        <h6>Мои предложения</h6>
+                    </a>
+
+                    <a href="{% url 'dashboard' %}" class="list-group-item list-group-item-action list-group-item-dark">
+                        <h6>Info панель</h6>
+                    </a>
+
+                    <li  class="list-group-item list-group-item-action active ">
+                        <h6>Сообщения</h6>
+                    </li>
+
+                    <a href="" class="list-group-item list-group-item-action list-group-item-dark">
+                        <h6>Отзывы</h6>
+                    </a>
+
+                </ul>
+            </li>
+            <!-- Верхний блок -->
+
+            <!-- Средний блок -->
+            <ul class="list-group list-group-horizontal" >
+                <!--Заказы на которые добавлены предложения-->
+                <li class="list-group-item list-group-item list-group-item-dark" >
+                    <ul class="list-group">
+                        <li class="list-group-item active">
+                            Диалоги
+                        </li>
+                        {% for sug in suggestions %}
+                            <a href="{% url 'dashboard-message-view' pk=sug.id %}" class="list-group-item list-group-item-action list-group-item-secondary">
+                                {{sug.order}}
+                            </a>
+                        {% endfor %}
+                    </ul>
+                </li>
+                <!--Заказы на которые добавлены предложения-->
+
+                <!--Чат-->
+                <li class="list-group-item list-group-item-dark">
+                    <table width="885">
+                        <ul class="list-group">
+                        <!-- Dialog -->
+                        <div class="container">
+                            <div class="card rare-wind-gradient chat-room">
+                                <div class="card-body">
+                                    <div class="row px-lg-2 px-2">
+                                        <div class="col-md-6 col-xl-12 pl-md-3 px-lg-auto px-0">
+                                            <div class="chat-message">
+
+                                                <!-- CHAT -->
+                                                <ul class="list-unstyled chat-1 scrollbar-light-blue">
+                                                    {% for mes in message1 %}
+                                                        {% if mes.member == suggestion.author %}
+                                                            <li class="d-flex justify-content-between mb-4">
+                                                            <img src="{{ suggestion.author.profile.image.url }}" alt="avatar"
+                                                                 class="avatar rounded-circle mr-2 ml-lg-3 ml-0 z-depth-1"
+                                                                 width="150" height="150">
+                                                                <div class="chat-body white p-3 ml-2 z-depth-1">
+                                                                <div class="header">
+                                                                      <strong class="primary-font">{{ mes.member }}</strong>
+                                                                      <small class="pull-right text-muted"><i class="far fa-clock"></i>
+                                                                          {{ mes.pub_date }}
+                                                                      </small>
+                                                                </div>
+                                                                <hr class="w-100">
+                                                                <p class="mb-0">
+                                                                  {{mes.message}}
+                                                                </p>
+                                                                </div>
+                                                            </li>
+                                                        {% else %}
+                                                            <li class="d-flex justify-content-between mb-4">
+                                                                <div class="chat-body white p-3 z-depth-1">
+                                                                    <div class="header">
+                                                                        <strong class="primary-font">{{ mes.member }}</strong>
+                                                                        <small class="pull-right text-muted"><i class="far fa-clock"></i>
+                                                                            {{ mes.pub_date }}
+                                                                        </small>
+                                                                    </div>
+                                                                    <hr class="w-100">
+                                                                    <p class="mb-0">
+                                                                    {{mes.message}}
+                                                                    </p>
+                                                                </div>
+                                                            <img src="{{ suggestion_order.author.profile.image.url }}" alt="avatar"
+                                                                 class="avatar rounded-circle mr-0 ml-3 z-depth-1"
+                                                                 width="150" height="150">
+                                                            </li>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </ul>
+                                                <!-- CHAT -->
+
+                                                <form class="form-group" method="post">
+                                                    {% csrf_token %}
+                                                    <div class="white">
+                                                        <div class="basic-textarea">
+                                                            <textarea class="form-control pl-2 my-0" id="exampleFormControlTextarea2" rows="3" placeholder="Type your message here..." name="message"></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <button type="submit" class="btn btn-outline-pink btn-rounded btn-sm waves-effect waves-dark float-right">Отправить</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Dialog -->
+                    </ul>
+                    </table>
+
+                </li>
+                <!--Чат-->
+            </ul>
+            <!-- Средний блок -->
+
+            <!-- Нижний блок -->
+            <a href="#" class="list-group-item list-group-item-action list-group-item-secondary">
+                Лента новостей
+            </a>
+            <!-- Нижний блок -->
+
+        </ul>
+
+    </div>
+{% endblock %}
