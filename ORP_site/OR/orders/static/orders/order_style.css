@@ -41,6 +41,10 @@ body {
 
 }
 
+.order-image {
+    width: 500px;
+}
+
 
 .card.chat-room .members-panel-1,
 .card.chat-room .chat-1 {

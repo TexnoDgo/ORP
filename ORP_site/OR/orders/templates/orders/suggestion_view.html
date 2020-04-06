@@ -24,7 +24,11 @@
 
     <!-- Suggestion -->
     <div class="container">
-        <table class="table2">
+        <li href="#" class="list-group-item list-group-item-action list-group-item-dark">
+            Предложение
+        </li>
+        <li href="#" class="list-group-item list-group-item-action list-group-item-secondary">
+            <table class="table2">
             <tbody>
                 <tr >
                     <td >Автор предложения:</td>
@@ -51,29 +55,34 @@
                         {% endif %}
                     </td>
                 </tr>
-                <tr>
-                    <td colspan="4">
-                        {% if true_sug == 0 %}
+                {% if true_sug == 0 %}
+                    <tr>
+                        <td colspan="4">
                             <a href="{% url 'status_in_work' pk=suggestion.pk %}">
                                 <button class="btn btn-success" id="click_button">
                                     -----------------------Выбрать----------------------
                                 </button>
                             </a>
-                        {% else %}
-                            {% if suggestion.selected_offer == True %}
+                        </td>
+                    </tr>
+                {% else %}
+                    {% if suggestion.selected_offer == True %}
+                        <tr>
+                            <td colspan="4">
                                 <a href="{% url 'status_in_work' pk=suggestion.pk %}">
                                 <button class="btn btn-danger" id="cancel_button">
                                     ----------------------Отменить---------------------
                                 </button>
                                 </a>
-                            {% else %}
-                                <p>Чебурек!)</p>
-                            {% endif %}
-                        {% endif %}
-                    </td>
-                </tr>
+                    {% else %}
+
+                    {% endif %}
+                            </td>
+                        </tr>
+                {% endif %}
             </tbody>
         </table>
+        </li>
     </div>
     <!-- Suggestion -->
 

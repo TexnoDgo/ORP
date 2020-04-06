@@ -20,12 +20,10 @@ class OrderCreateForm(forms.ModelForm):
 
 class OrderUpdateForm(forms.ModelForm):
 
-    files = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}), required=False)
-
     class Meta:
         model = Order
         fields = ['title', 'description', 'amount', 'city', 'lead_time', 'image_view', 'pdf_view', 'proposed_budget',
-                  'status', 'categories', 'files']
+                  'status', 'categories']
 
 
 class SuggestionCreateForm(forms.ModelForm):

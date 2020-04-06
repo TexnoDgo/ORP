@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 from .models import Order, OperationCategories, Suggestion, AllCity, File
-from .forms import OrderCreateForm, OrderUpdateForm, SuggestionCreateForm
+from .forms import OrderCreateForm, SuggestionCreateForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -12,8 +12,9 @@ from chat.models import Message
 from chat.forms import MessageCreateForm
 
 
+# Все заказы
 def orders(request):
-    all_orders = Order.objects.all()
+    all_orders = Order.objects.all().order_by('-date_create')
 
     filters = OperationCategories.objects.all()
 
@@ -73,6 +74,7 @@ def order_categories(request, url):
     context_object_name = 'order'
     ordering = ['-date_ordered']'''
 
+
 @login_required
 def order_create(request):
     if request.method == 'POST':
@@ -100,36 +102,23 @@ def order_create(request):
     return render(request, 'orders/order_create.html', {'order_form': order_form})
 
 
-@login_required
-def order_update(request):
-    if request.method == 'POST':
-        c_form = OrderUpdateForm(request.POST, request.FILES)  # РАЗОБРАТСЯ!! Что нужно передать чтобы получить автоза-
-        # полнение формы.
-
-        if c_form.is_valid():
-            c_form.save()
-            messages.success(request,
-                             f'Order № {{ order.id }} is Update!')  # Формирование сообщения Alert
-            return redirect('orders')  # Перенаправление на страницу Заказов
-    else:
-        c_form = OrderUpdateForm()
-
-    context = {
-        'c_form': c_form
-    }
-
-    return render(request, 'orders/update.html', context)
-
-
 class OrderUpdateView(UpdateView):
+
     model = Order
 
-    fields = ['title', 'description', 'amount', 'city', 'image_view', 'pdf_view', 'lead_time', 'proposed_budget', 'activity',
-              'status', 'categories']
+    def get_context_data(self, **kwargs):
+        context = super(OrderUpdateView, self).get_context_data(**kwargs)
+        a = self.object.id
+        context['files'] = File.objects.filter(order=a)
+        return context
+
+    fields = ['title', 'description', 'amount', 'city', 'image_view', 'pdf_view', 'lead_time', 'proposed_budget',
+              'activity', 'status', 'categories']
 
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
+
 
 
 def test_order_create(request):

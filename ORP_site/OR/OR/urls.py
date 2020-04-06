@@ -35,7 +35,6 @@ urlpatterns = [
     path('orders/', include('orders.urls')),
     path('', include('chat.urls')),
     path('conf_reg/', user_views.conf_reg, name='conf_reg'),
-    path('update/', orders_views.order_update, name='update'),
 
     url(r'suggestion/(?P<pk>\d+)$', orders_views.suggestion_create, name='suggestion'),
 

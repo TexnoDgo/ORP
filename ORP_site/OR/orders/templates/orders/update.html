@@ -46,24 +46,16 @@
                         </div>
 
                         <div class="form-image">
-                            {{ form.image_view}}
+                            {{ form.image_view|as_crispy_field}}
                             <small>Измените обложку заказа.</small>
                         </div>
 
-                        <div class="form-files">
-                            {{ form.files}}
-                            <small>Выберите Чертеж</small>
-                        </div>
-
-                        <div class="form-files">
-                            {{ form.files}}
-                            <small>Выберите файлы.</small>
-                        </div>
-
-                        <div class="form-files">
-                            {{ form.files}}
-                            <small>Выберите файлы.</small>
-                        </div>
+                        {% for file in files %}
+                            <div class="form-files">
+                                {{ file}}
+                                <small>Выберите Чертеж</small>
+                            </div>
+                        {% endfor %}
 
                         <div class="form-lead_time">
                             {{ form.lead_time|as_crispy_field}}
