@@ -14,10 +14,10 @@
         <!--Навигация-->
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
-            <li class="breadcrumb-item"><a href="{% url 'orders' %}">All orders</a></li>
-            <li class="breadcrumb-item"><a href="{% url 'order_detail' pk=suggestion_order.pk %}">Order {{ suggestion_order.title }}</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Suggestion {{ suggestion.pk }}</li>
+            <li class="breadcrumb-item"><a href="{% url 'index' %}">Главная</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'orders' %}">Все заказы</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'order_detail' pk=suggestion_order.pk %}">Заказ: "{{ suggestion_order.title }}"</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Предложение: "{{ suggestion.pk }}"</li>
           </ol>
         </nav>
     </div>

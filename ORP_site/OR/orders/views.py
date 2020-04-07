@@ -64,6 +64,7 @@ def order_categories(request, url):
     context = {
         'all_orders': posts,
         'filters': filters,
+
     }
     return render(request, 'orders/all_orders.html', context)
 
@@ -118,7 +119,6 @@ class OrderUpdateView(UpdateView):
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
-
 
 
 def test_order_create(request):
@@ -247,6 +247,8 @@ def filter_category(request, pk):
 
     filters = OperationCategories.objects.all()
 
+    filCat = OperationCategories.objects.get(pk=pk)
+
     all_city = AllCity.objects.all()
 
     paginator = Paginator(all_orders, 3)
@@ -263,5 +265,7 @@ def filter_category(request, pk):
         'all_orders': posts,
         'filters': filters,
         'all_city': all_city,
+        'filCat': filCat,
     }
+    print(filCat)
     return render(request, 'orders/filter.html', context)

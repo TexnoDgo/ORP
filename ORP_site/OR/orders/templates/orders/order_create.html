@@ -5,16 +5,18 @@
 {% block title %}{% trans "Create Order" %}{% endblock %}
 
 {% block content %}
+
+
 <link rel="stylesheet" href="{% static 'orders/style.css' %}">
 
     <div class="container">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Create order</li>
+                <li class="breadcrumb-item"><a href="{% url 'index' %}">Главная</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Создать заказ</li>
             </ol>
         </nav>
-        <legend class="border-bottom mb-4">{% trans "CREATE ORDER" %}</legend>
+        <legend class="border-bottom mb-4">{% trans "СОЗДАТЬ ЗАКАЗ" %}</legend>
             <form class="text-left" method="POST" enctype="multipart/form-data">
                 <div class="container">
                     <div class="content-section">
@@ -51,9 +53,22 @@
                             <table>
                                 <tr>
                                     <td>
-                                        <div class="form-image">
-                                            {{ order_form.image_view|as_crispy_field }}
+                                        <div class="form-image" id="order-image">
+
                                             <small>Выберите обложку заказка</small>
+
+                                            <input type="file" name="image_view" onchange="loadFile(event)">
+
+                                            <img id="output"/>
+                                            <script>
+                                              var loadFile = function(event) {
+                                                var output = document.getElementById('output');
+                                                output.src = URL.createObjectURL(event.target.files[0]);
+                                                output.onload = function() {
+                                                  URL.revokeObjectURL(output.src) // free memory
+                                                }
+                                              };
+                                            </script>
                                         </div>
                                     </td>
                                     <td>
