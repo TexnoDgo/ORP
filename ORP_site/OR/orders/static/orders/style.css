@@ -11,6 +11,17 @@ body {
     border: 5px solid #ffffff;
 }
 
+.tr1 {
+    border: 5px solid #ffffff;
+}
+
+.th, td {
+    font-size: 16px;
+    border-color: #aa2222; /* Цвет границы */
+    padding: 5px; /* Поля вокруг текста */
+  }
+
+
 .good {
     width: 60%;
     position: absolute;
