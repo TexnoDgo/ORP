@@ -16,21 +16,26 @@
                 <li class="breadcrumb-item active" aria-current="page">Создать заказ</li>
             </ol>
         </nav>
-        <legend class="border-bottom mb-4">{% trans "СОЗДАТЬ ЗАКАЗ" %}</legend>
+        <legend class="border-bottom mb-1"></legend>
             <form class="text-left" method="POST" enctype="multipart/form-data">
                 <div class="container">
                     <div class="content-section">
                         {% csrf_token %}
                         <table class="order_create_table">
                             <tr>
-                                <td colspan="3">
+                                <td colspan="4">
+                                    <h3>{% trans "СОЗДАТЬ ЗАКАЗ" %}</h3>
+                                </td>
+                            </tr>
+                            <tr class="tr1">
+                                <td colspan="3" >
                                     {{ order_form.title|as_crispy_field}}
                                 </td>
                                 <td>
                                     <small>Введите заголовок заказа. Например: Изготовить токарную детать, выполнить токарную обработку</small>
                                 </td>
                             </tr>
-                            <tr>
+                            <tr class="tr1">
                                 <td colspan="3">
                                     {{ order_form.description|as_crispy_field}}
                                 </td>
@@ -38,7 +43,7 @@
                                     <small>Опишите подробно работу которую необходимо выполнить.</small>
                                 </td>
                             </tr>
-                            <tr>
+                            <tr class="tr1">
                                 <td colspan="3">
                                     {{ order_form.amount|as_crispy_field}}
                                 </td>
@@ -46,7 +51,7 @@
                                     <small>Укажите количество изделий.</small>
                                 </td>
                             </tr>
-                            <tr>
+                            <tr class="tr1">
                                 <td colspan="3">
                                     {{ order_form.city|as_crispy_field}}
                                 </td>
@@ -54,23 +59,10 @@
                                     <small>Выберите город в который отправится заказ</small>
                                 </td>
                             </tr>
-                            <tr>
+                            <tr class="tr1">
                                 <td>
                                     <div class="form-image" id="order-image">
-
-
-
                                         <input type="file" name="image_view" onchange="loadFile(event)">
-                                        <img id="output" width="300" height="auto"/>
-                                        <script>
-                                          var loadFile = function(event) {
-                                            var output = document.getElementById('output');
-                                            output.src = URL.createObjectURL(event.target.files[0]);
-                                            output.onload = function() {
-                                              URL.revokeObjectURL(output.src) // free memory
-                                            }
-                                          };
-                                        </script>
                                     </div>
                                     <small>Выберите обложку заказка</small>
                                 </td>
@@ -93,7 +85,24 @@
                                     </div>
                                 </td>
                             </tr>
-                            <tr>
+                            <tr class="tr2">
+                                <td colspan="3" class="tr2">
+                                    <img id="output" width="auto" height="auto"/>
+                                    <script>
+                                      var loadFile = function(event) {
+                                        var output = document.getElementById('output');
+                                        output.src = URL.createObjectURL(event.target.files[0]);
+                                        output.onload = function() {
+                                          URL.revokeObjectURL(output.src) // free memory
+                                        }
+                                      };
+                                    </script>
+                                </td>
+                                <td>
+                                    <small>Проверте обложку заказа.</small>
+                                </td>
+                            </tr>
+                            <tr class="tr1">
                                 <td colspan="3">
                                     {{ order_form.lead_time|as_crispy_field}}
                                 </td>
@@ -101,7 +110,7 @@
                                     <small>Установите сроки выполнения работ.</small>
                                 </td>
                             </tr>
-                            <tr>
+                            <tr class="tr1">
                                 <td colspan="3">
                                     {{ order_form.proposed_budget|as_crispy_field}}
                                 </td>
@@ -109,7 +118,7 @@
                                     <small>Укажите предположительный бюджет.</small>
                                 </td>
                             </tr>
-                            <tr>
+                            <tr class="tr1">
                                 <td colspan="3">
                                     {{ order_form.categories|as_crispy_field}}
                                 </td>

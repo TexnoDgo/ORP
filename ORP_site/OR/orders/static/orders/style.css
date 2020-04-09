@@ -7,12 +7,17 @@ body {
     box-sizing: border-box;
 }
 
+
 .order_create_table {
     border: 5px solid #ffffff;
 }
 
 .tr1 {
     border: 5px solid #ffffff;
+}
+
+.tr2 {
+    border: 1px solid #aaaaaa;
 }
 
 .th, td {

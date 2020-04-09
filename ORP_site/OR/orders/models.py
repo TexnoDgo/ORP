@@ -79,13 +79,23 @@ class File(models.Model):
 
 
 class Suggestion(models.Model):
+
+    SUGGESTION_STATUS = (
+        ('В обсуждении', 'В обсуждении'),
+        ('В работe', 'В работe'),
+        ('Выполнено', 'Выполнено'),
+        ('Отклонено', 'Отклонено'),
+        ('Архив', 'Архив')
+    )
+
     order = models.ForeignKey(Order, on_delete=models.PROTECT)
     author = models.ForeignKey(User, on_delete=models.PROTECT)
     date_create = models.DateTimeField(default=timezone.now)
     offer_description = models.TextField()
     deadline = models.DateTimeField()
     offer_price = models.PositiveIntegerField()
-    status = models.CharField(max_length=10, default='N0ne')
+    status = models.CharField(max_length=20, choices=SUGGESTION_STATUS, default='В обсуждении',
+                              verbose_name='Статус предложения')
     selected_offer = models.BooleanField()
 
     def __str__(self):
