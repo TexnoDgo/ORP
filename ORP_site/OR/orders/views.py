@@ -267,5 +267,32 @@ def filter_category(request, pk):
         'all_city': all_city,
         'filCat': filCat,
     }
-    print(filCat)
+    return render(request, 'orders/filter.html', context)
+
+
+def filter_city(request, pk):
+    all_orders = Order.objects.filter(city=pk).order_by("-date_create")
+
+    filters = OperationCategories.objects.all()
+
+    filcit = AllCity.objects.get(pk=pk)
+
+    all_city = AllCity.objects.all()
+
+    paginator = Paginator(all_orders, 3)
+
+    try:
+        page = int(request.GET.get('page', '1'))
+    except:
+        page = 1
+    try:
+        posts = paginator.page(page)
+    except(EmptyPage, InvalidPage):
+        posts = paginator.page(paginator.num_pages)
+    context = {
+        'all_orders': posts,
+        'filters': filters,
+        'all_city': all_city,
+        'filcit': filcit,
+    }
     return render(request, 'orders/filter.html', context)

@@ -34,19 +34,28 @@
 
             <div class="card">
                 <ul class="list-unstyled chat-1 scrollbar-light-blue">
-                    <li href="#" class="list-group-item list-group-item-action list-group-item-dark">Фильтр по категориям:</li>
+                    <li href="#" class="list-group-item list-group-item-action list-group-item-dark">
+                        Фильтр по категориям:
+                    </li>
                     {% for category in filters %}
-                        <a href="{% url 'order_category_view' pk=category.pk %}" class="list-group-item list-group-item-action list-group-item-secondary">{{ category.title }}</a>
+                        <a href="{% url 'order_category_view' pk=category.pk %}"
+                           class="list-group-item list-group-item-action list-group-item-secondary">
+                            {{ category.title }}
+                        </a>
                     {% endfor %}
                 </ul>
             </div>
 
             <div class="container-mb-2">
                 <div class="card">
-                    <ul class="list-unstyled chat-1 scrollbar-light-blue">
-                        <li href="#" class="list-group-item list-group-item-action list-group-item-dark">Фильтр по городам:</li>
+                    <ul class="list-unstyled city-1 scrollbar-light-blue">
+                        <li href="#" class="list-group-item list-group-item-action list-group-item-dark">
+                            Фильтр по городам:
+                        </li>
                         {% for city in all_city %}
-                            <a href="#" class="list-group-item list-group-item-action list-group-item-secondary">{{ city.title }}</a>
+                            <a href="{% url 'order_city_view' pk=city.pk %}" class="list-group-item list-group-item-action d-flex list-group-item-secondary">
+                                {{ city.title }}
+                            </a>
                         {% endfor %}
                     </ul>
                 </div>

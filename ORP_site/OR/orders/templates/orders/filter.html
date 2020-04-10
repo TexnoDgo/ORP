@@ -12,7 +12,13 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{% url 'index' %}">Главная</a></li>
                 <li class="breadcrumb-item"><a href="{% url 'orders' %}">Все заказы</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Заказы категории: "{{ filCat }}"</li>
+                <li class="breadcrumb-item active" aria-current="page">
+                    {% if filCat %}
+                        Заказы категории: "{{ filCat }}"
+                    {% else %}
+                        Заказы города: "{{ filcit }}"
+                    {% endif %}
+                </li>
             </ol>
         </nav>
         <!--Навигация-->
@@ -47,7 +53,7 @@
                     <ul class="list-unstyled chat-1 scrollbar-light-blue">
                         <li href="#" class="list-group-item list-group-item-action list-group-item-dark">Фильтр по городам:</li>
                         {% for city in all_city %}
-                            <a href="#" class="list-group-item list-group-item-action list-group-item-secondary">{{ city.title }}</a>
+                            <a href="{% url 'order_city_view' pk=city.pk %}" class="list-group-item list-group-item-action list-group-item-secondary">{{ city.title }}</a>
                         {% endfor %}
                     </ul>
                 </div>

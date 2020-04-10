@@ -19,3 +19,11 @@ class Profile(models.Model):
             output_size = (300, 300)
             img.thumbnail(output_size)
             img.save(self.image.path)
+
+
+class User_Rating(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    rating = models.PositiveIntegerField(verbose_name='Рейтинг')
+
+    def __str__(self):
+        return f'{self.user.username} Rating'

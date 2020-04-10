@@ -177,7 +177,7 @@
                                 <td colspan="8">
                                     {% if files %}
                                         {% for file in files %}
-                                            <a href="#" class="badge badge-primary">{{ file }}</a>
+                                            <a href="{{ file.file.url }}" class="badge badge-primary" target="blank">{{ file }}</a>
                                         {% endfor %}
                                     {% else %}
                                         <p>No Files!</p>
@@ -225,11 +225,9 @@
                                 </td>
                                 <td colspan="2">
                                     {% if user == order.author %}
-                                        <button type="button" class="btn btn-warning">
-                                            <a href="//127.0.0.1:8000/orders/{{order.id}}/update">
+                                        <a href="{% url 'order_update' object.id %}"class="btn btn-warning" role="button" aria-pressed="true">
                                                 Изменить заказ
-                                            </a>
-                                        </button>
+                                        </a>
                                         <!-- Изменить ссылку на Url-->
                                     {% endif %}
                                 </td>
@@ -240,7 +238,9 @@
                                     {% endif %}
                                 </td>
                                 <td colspan="2">
-
+                                    {% if order.status == 'Выполненый' %}
+                                        <a href="#" class="btn btn btn-success btn-lg active btn-sm" role="button" aria-pressed="true">Закрыть заказ</a>
+                                    {% endif %}
                                 </td>
                             </tr>
                         </tbody>

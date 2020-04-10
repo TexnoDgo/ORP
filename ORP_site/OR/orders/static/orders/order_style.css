@@ -45,6 +45,11 @@ body {
     width: 500px;
 }
 
+.card. city-1 {
+    position: relative;
+    overflow-y: scroll;
+}
+
 
 .card.chat-room .members-panel-1,
 .card.chat-room .chat-1 {
