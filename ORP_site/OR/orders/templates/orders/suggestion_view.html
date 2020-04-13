@@ -55,6 +55,7 @@
                         {% endif %}
                     </td>
                 </tr>
+                <!--
                 {% if suggestion_order.author == user %}
                     {% if true_sug == 0 %}
                         <tr>
@@ -67,21 +68,39 @@
                             </td>
                         </tr>
                     {% else %}
-                        {% if suggestion.selected_offer == True %}
-                            <tr>
-                                <td colspan="4">
-                                    <a href="{% url 'status_in_work' pk=suggestion.pk %}">
-                                    <button class="btn btn-danger" id="cancel_button">
-                                        ----------------------Отменить---------------------
-                                    </button>
+                        {% if form.selected_offer == True %}
+                            {% if form.status == 'В работe' %}
+                                <td colspan="2">
+                                    <a href="{% url 'status_in_work' pk=form.pk %}">
+                                        <button class="btn btn-danger" id="cancel_button">
+                                            -----------------------------Отменить------------------------------
+                                        </button>
                                     </a>
-                        {% else %}
-
-                        {% endif %}
                                 </td>
-                            </tr>
+                            {% elif form.status == 'Выполнено' %}
+                                <td colspan="2">
+                                    <a href="#">
+                                        <button class="btn btn-primary" id="5stars">
+                                            --------------------Оценить производителя-----------------------
+                                        </button>
+                                    </a>
+                                </td>
+                            {% endif %}
+                        {% else %}
+                        {% endif %}
                     {% endif %}
                 {% endif %}
+                -->
+                {% if suggestion_order.author == user %}
+                    <tr>
+
+                        <td colspan="4">
+
+
+                        </td>
+                    </tr>
+                {% endif %}
+
             </tbody>
         </table>
         </li>

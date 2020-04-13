@@ -206,7 +206,6 @@ class SuggestionView(DetailView):
                 count += 1
         context['true_sug'] = count
         context['messages'] = sug_mes
-        print(context)
         return context
 
 
