@@ -26,7 +26,6 @@ class Order(models.Model):
         ('В работe', 'В работe'),
         ('Выполненый', 'Выполненый'),
         ('Отменённый', 'Отменённый'),
-        ('Избранный', 'Избранный')
     )
 
     author = models.ForeignKey(User, on_delete=models.PROTECT)  # Автор заказа. Автоматически
@@ -85,7 +84,6 @@ class Suggestion(models.Model):
         ('В работe', 'В работe'),
         ('Выполнено', 'Выполнено'),
         ('Отклонено', 'Отклонено'),
-        ('Архив', 'Архив')
     )
 
     order = models.ForeignKey(Order, on_delete=models.PROTECT)

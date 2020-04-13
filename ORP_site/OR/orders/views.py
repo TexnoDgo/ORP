@@ -213,18 +213,17 @@ class SuggestionView(DetailView):
 # ---------------------------------------------Функции изминения статусов заказов -------------------------------------
 def status_in_work(request, pk):  # Заказ в работе
     suggestion = Suggestion.objects.get(pk=pk)
-    print(suggestion)
     order_pk = suggestion.order.pk
-    print(order_pk)
     order = Order.objects.get(pk=order_pk)
-    print(order)
     stat = suggestion.selected_offer
     if stat:
         suggestion.selected_offer = False
         order.status = 'В обсуждении'
+        suggestion.status = 'В обсуждении'
     else:
         suggestion.selected_offer = True
         order.status = 'В работe'
+        suggestion.status = 'В работe'
     suggestion.save()
     order.save()
     return redirect(request.META['HTTP_REFERER'])
@@ -232,10 +231,14 @@ def status_in_work(request, pk):  # Заказ в работе
 
 def status_ready(request, pk):
     order = Order.objects.get(pk=pk)
+    selected_suggestion = Suggestion.objects.get(order__pk=pk, selected_offer=True)
     if order.status == 'В работe':
         order.status = 'Выполненый'
+        selected_suggestion.status = 'Выполнено'
     else:
         order.status = 'В работe'
+        selected_suggestion.status = 'В работe'
+    selected_suggestion.save()
     order.save()
     return redirect(request.META['HTTP_REFERER'])
 

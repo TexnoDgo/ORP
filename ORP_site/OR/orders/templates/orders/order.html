@@ -44,40 +44,61 @@
                                             <td>{{ form.deadline }}</td>
                                         </tr>
                                         <tr>
-                                            <td colspan="2">Статус предложения: </td>
-                                            <td colspan="2">
+                                            <td>
+                                                Состояние предложения:
+                                            </td>
+                                            <td>
                                                 {% if form.selected_offer %}
                                                     <span class="badge badge-success">Принят</span>
                                                 {% else %}
                                                     <span class="badge badge-warning">Отменен</span>
                                                 {% endif %}
                                             </td>
+                                            <td>
+                                                Статус предложения:
+                                            </td>
+                                            <td>
+                                                <span class="badge badge-success">{{ form.status }}</span>
+                                            </td>
                                         </tr>
-                                        <tr>
-                                            {% if true_sug == 0 %}
-                                                <td colspan="4">
-                                                    <a href="{% url 'status_in_work' pk=form.pk %}">
-                                                        <button class="btn btn-success" id="click_button">
-                                                            ----------------------Выбрать---------------------
-                                                        </button>
-                                                    </a>
-                                                </td>
-                                            {% else %}
-                                                {% if form.selected_offer == True %}
-                                                    <td colspan="4">
-                                                        <a href="{% url 'status_in_work' pk=form.pk %}">
-                                                            <button class="btn btn-danger" id="cancel_button">
-                                                                ----------------------Отменить--------------------
-                                                            </button>
-                                                        </a>
-                                                    </td>
-                                                {% else %}
-                                                {% endif %}
-                                            {% endif %}
-                                        </tr>
+
                                     </tbody>
                                 </table>
                             </a>
+                            <li class="list-group-item list-group-item list-group-item-secondary">
+                                <tr>
+                                    {% if true_sug == 0 %}
+                                        <td colspan="4">
+                                            <a href="{% url 'status_in_work' pk=form.pk %}">
+                                                <button class="btn btn-success" id="click_button">
+                                                    --------------------------------Выбрать-----------------------------
+                                                </button>
+                                            </a>
+                                        </td>
+                                    {% else %}
+                                        {% if form.selected_offer == True %}
+                                            {% if form.status == 'В работe' %}
+                                                <td colspan="4">
+                                                    <a href="{% url 'status_in_work' pk=form.pk %}">
+                                                        <button class="btn btn-danger" id="cancel_button">
+                                                            -----------------------------Отменить------------------------------
+                                                        </button>
+                                                    </a>
+                                                </td>
+                                            {% elif form.status == 'Выполнено' %}
+                                                <td>
+                                                    <a href="#">
+                                                        <button class="btn btn-primary" id="5stars">
+                                                            --------------------Оценить производителя-----------------------
+                                                        </button>
+                                                    </a>
+                                                </td>
+                                            {% endif %}
+                                        {% else %}
+                                        {% endif %}
+                                    {% endif %}
+                                </tr>
+                            </li>
                             <hr>
                         {% endfor %}
                     {% endif %}
@@ -103,13 +124,21 @@
                                             <td>{{ form.deadline }}</td>
                                         </tr>
                                         <tr>
-                                            <td colspan="2">Статус предложения: </td>
-                                            <td colspan="2">
+                                            <td>
+                                                Состояние предложения:
+                                            </td>
+                                            <td>
                                                 {% if form.selected_offer %}
                                                     <span class="badge badge-success">Принят</span>
                                                 {% else %}
                                                     <span class="badge badge-warning">Отменен</span>
                                                 {% endif %}
+                                            </td>
+                                            <td>
+                                                Статус предложения:
+                                            </td>
+                                            <td>
+                                                <span class="badge badge-success">{{ form.status }}</span>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -136,7 +165,7 @@
             <div class="container">
                 <ul class="list-unstyled chat-1 scrollbar-light-blue">
                     <!--Статусы зказов-->
-                    <li href="#" class="list-group-item list-group-item-action list-group-item-dark">
+                    <li class="list-group-item list-group-item list-group-item-dark">
                         <h3>
                             <p>
                                 Статус заказа:
@@ -155,7 +184,7 @@
                     <!--Статусы зказов-->
 
                     <!--Таблица зказа-->
-                    <li href="#" class="list-group-item list-group-item-action list-group-item-secondary">
+                    <li class="list-group-item list-group-item list-group-item-secondary">
                         <table class="">
                         <tbody>
                             <tr>
@@ -225,23 +254,19 @@
                                 </td>
                                 <td colspan="2">
                                     {% if user == order.author %}
-                                        <a href="{% url 'order_update' object.id %}"class="btn btn-warning" role="button" aria-pressed="true">
+                                        <a href="{% url 'order_update' object.id %}"class="btn btn-warning btn-lg active btn-sm" role="button" aria-pressed="true">
                                                 Изменить заказ
                                         </a>
                                         <!-- Изменить ссылку на Url-->
                                     {% endif %}
                                 </td>
-                                <td colspan="2">
+                                <td colspan="3">
                                     {% if user == order.author %}
                                         <a href="{% url 'order_delete' object.id %}" class="btn btn-danger btn-lg active btn-sm" role="button" aria-pressed="true">Удалить заказ</a>
                                         <!--  -->
                                     {% endif %}
                                 </td>
-                                <td colspan="2">
-                                    {% if order.status == 'Выполненый' %}
-                                        <a href="#" class="btn btn btn-success btn-lg active btn-sm" role="button" aria-pressed="true">Закрыть заказ</a>
-                                    {% endif %}
-                                </td>
+
                             </tr>
                         </tbody>
                     </table>

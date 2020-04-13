@@ -55,30 +55,32 @@
                         {% endif %}
                     </td>
                 </tr>
-                {% if true_sug == 0 %}
-                    <tr>
-                        <td colspan="4">
-                            <a href="{% url 'status_in_work' pk=suggestion.pk %}">
-                                <button class="btn btn-success" id="click_button">
-                                    -----------------------Выбрать----------------------
-                                </button>
-                            </a>
-                        </td>
-                    </tr>
-                {% else %}
-                    {% if suggestion.selected_offer == True %}
+                {% if suggestion_order.author == user %}
+                    {% if true_sug == 0 %}
                         <tr>
                             <td colspan="4">
                                 <a href="{% url 'status_in_work' pk=suggestion.pk %}">
-                                <button class="btn btn-danger" id="cancel_button">
-                                    ----------------------Отменить---------------------
-                                </button>
+                                    <button class="btn btn-success" id="click_button">
+                                        -----------------------Выбрать----------------------
+                                    </button>
                                 </a>
-                    {% else %}
-
-                    {% endif %}
                             </td>
                         </tr>
+                    {% else %}
+                        {% if suggestion.selected_offer == True %}
+                            <tr>
+                                <td colspan="4">
+                                    <a href="{% url 'status_in_work' pk=suggestion.pk %}">
+                                    <button class="btn btn-danger" id="cancel_button">
+                                        ----------------------Отменить---------------------
+                                    </button>
+                                    </a>
+                        {% else %}
+
+                        {% endif %}
+                                </td>
+                            </tr>
+                    {% endif %}
                 {% endif %}
             </tbody>
         </table>
