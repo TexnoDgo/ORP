@@ -21,7 +21,7 @@
         <div class="vs">
             <div>
                 <ul class="list-unstyled chat-1 scrollbar-light-blue">
-                    <li href="#" class="list-group-item list-group-item-action list-group-item-dark">ВСЕ ПРЕДЛОЖЕНИЯ</li>
+                    <li class="list-group-item list-group-item list-group-item-dark">ВСЕ ПРЕДЛОЖЕНИЯ</li>
                     {% if user == order.author %}
                         {% for form in suggestions %}
                             <a href="/suggestion/view/{{form.id}}" class="list-group-item list-group-item-action list-group-item-secondary">
@@ -33,6 +33,18 @@
                                             <td>{{ form.author }}</td>
                                             <td>Дата создания предложения: </td>
                                             <td>{{ form.date_create }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                Рейтинг изготовителя:
+                                            </td>
+                                            <td colspan="2">
+                                                {% for profile in profiles %}
+                                                    {% if profile.user == form.author %}
+                                                        <span class="badge badge-success">{{ profile.rating }}</span>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td colspan="4">{{ form.offer_description }}</td>
@@ -86,13 +98,48 @@
                                                     </a>
                                                 </td>
                                             {% elif form.status == 'Выполнено' %}
-                                                <td>
-                                                    <a href="#">
-                                                        <button class="btn btn-primary" id="5stars">
-                                                            --------------------Оценить производителя-----------------------
-                                                        </button>
-                                                    </a>
+                                                {% if form.rating == 0 %}
+                                                    <td>
+                                                    <!-- Button trigger modal -->
+                                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                                                      --------------------Оценить производителя-----------------------
+                                                    </button>
+
+                                                    <!-- Modal -->
+                                                    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                                      <div class="modal-dialog modal-dialog-centered" role="document">
+                                                        <div class="modal-content">
+                                                          <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalCenterTitle">Оцените изготовителя</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                              <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                          </div>
+                                                          <div class="modal-body">
+                                                            Оценка изготовителя очень важна.
+                                                              <hr>
+                                                              <div>
+                                                                  <div class="btn-group btn-group-lg mr-2 ml-5" role="group" aria-label="First group">
+                                                                    <a href="{% url 'get_one_rating' pk=form.pk %}" type="button" class="btn btn-warning">1</a>
+                                                                    <a href="{% url 'get_two_rating' pk=form.pk %}" type="button" class="btn btn-warning">2</a>
+                                                                    <a href="{% url 'get_three_rating' pk=form.pk %}" type="button" class="btn btn-warning">3</a>
+                                                                    <a href="{% url 'get_four_rating' pk=form.pk %}" type="button" class="btn btn-warning">4</a>
+                                                                    <a href="{% url 'get_five_rating' pk=form.pk %}" type="button" class="btn btn-warning">5</a>
+                                                                  </div>
+                                                              </div>
+                                                          </div>
+                                                        </div>
+                                                      </div>
+                                                    </div>
                                                 </td>
+                                                {% else %}
+                                                    <td>
+                                                        Вы поставили оценку производителю:
+                                                        <h3>
+                                                            <span class="badge badge-primary">{{ form.rating }}</span>
+                                                        </h3>
+                                                    </td>
+                                                {% endif %}
                                             {% endif %}
                                         {% else %}
                                         {% endif %}
@@ -105,7 +152,7 @@
 
                     {% for form in suggestions %}
                         {% if user == form.author %}
-                            <a href="/suggestion/view/{{form.id}}" class="list-group-item list-group-item-action list-group-item-secondary">
+                            <a href="{% url 'message_and_suggestion' pk=form.id %}" class="list-group-item list-group-item-action list-group-item-secondary">
                                 <table class="table2">
                                     <tbody>
                                         <tr >
@@ -113,6 +160,12 @@
                                             <td>{{ form.author }}</td>
                                             <td>Дата создания предложения: </td>
                                             <td>{{ form.date_create }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">Рейтинг изготовителя:</td>
+                                            <td colspan="2">
+
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td colspan="4">{{ form.offer_description }}</td>
@@ -197,9 +250,10 @@
                                 <td colspan="2">Заголовок заказа:</td>
                                 <td colspan="6"><span class="badge badge-pill badge-light">{{ order.title }}</span></td>
                             </tr>
+
                             <tr>
                                 <td colspan="8">
-                                    <img class="order-image" src="{{order.image_view.url}}" width="500" height="auto" >
+                                    <img class="order-image" src="{{order.image_view.url}}" width="400" height="auto" >
                                 </td>
                             </tr>
                             <tr>
@@ -221,6 +275,7 @@
                                     </span>
                                 </td>
                             </tr>
+
                             <tr>
                                 <td colspan="2">Количество изделий:</td>
                                 <td colspan="2"><span class="badge badge-pill badge-light">{{ order.amount }}</span></td>

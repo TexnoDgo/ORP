@@ -24,91 +24,132 @@
 
     <!-- Suggestion -->
     <div class="container">
-        <li href="#" class="list-group-item list-group-item-action list-group-item-dark">
+        <li class="list-group-item list-group-item list-group-item-dark">
             Предложение
         </li>
-        <li href="#" class="list-group-item list-group-item-action list-group-item-secondary">
+        <li class="list-group-item list-group-item list-group-item-secondary">
             <table class="table2">
-            <tbody>
-                <tr >
-                    <td >Автор предложения:</td>
-                    <td>{{ suggestion.author }}</td>
-                    <td>Дата создания предложения: </td>
-                    <td>{{ suggestion.date_create }}</td>
-                </tr>
-                <tr>
-                    <td colspan="4">{{ suggestion.offer_description }}</td>
-                </tr>
-                <tr>
-                    <td>Предложенная стоимость:</td>
-                    <td>{{ suggestion.offer_price }}</td>
-                    <td>Срок выполнения до:</td>
-                    <td>{{ suggestion.deadline }}</td>
-                </tr>
-                <tr>
-                    <td colspan="2">Статус предложения: </td>
-                    <td colspan="2">
-                        {% if suggestion.selected_offer %}
-                            <span class="badge badge-success">Принят</span>
+                <tbody>
+                    <tr >
+                        <td >Автор предложения:</td>
+                        <td>
+                            <h4><span class="badge badge-secondary lg">{{ suggestion.author }}</span></h4>
+                        </td>
+                        <td>Дата создания предложения: </td>
+                        <td>
+                            <h4><span class="badge badge-secondary lg">{{ suggestion.date_create }}</span></h4>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Описание предложения:</td>
+                        <td colspan="3">
+                            <h5><span class="badge badge-secondary lg">{{ suggestion.offer_description }}</span></h5>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Предложенная стоимость:</td>
+                        <td>
+                            <h5><span class="badge badge-secondary lg">{{ suggestion.offer_price }}</span></h5>
+                        </td>
+                        <td>Срок выполнения до:</td>
+                        <td>
+                            <h5><span class="badge badge-secondary lg">{{ suggestion.deadline }}</span></h5>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Состояние предложения:</td>
+                        <td>
+                            {% if suggestion.selected_offer %}
+                                <h5><span class="badge badge-success">Принят</span></h5>
+                            {% else %}
+                                <h5><span class="badge badge-warning">Отменен</span></h5>
+                            {% endif %}
+                        </td>
+                        <td>
+                            Статус предложения:
+                        </td>
+                        <td>
+                            <span class="badge badge-success">{{ suggestion.status }}</span>
+                        </td>
+                    </tr>
+                    <!--
+                    {% if suggestion_order.author == user %}
+                        {% if true_sug == 0 %}
+                            <tr>
+                                <td colspan="4">
+                                    <a href="{% url 'status_in_work' pk=suggestion.pk %}">
+                                        <button class="btn btn-success" id="click_button">
+                                            -----------------------Выбрать----------------------
+                                        </button>
+                                    </a>
+                                </td>
+                            </tr>
                         {% else %}
-                            <span class="badge badge-warning">Отменен</span>
+                            {% if form.selected_offer == True %}
+                                {% if form.status == 'В работe' %}
+                                    <td colspan="2">
+                                        <a href="{% url 'status_in_work' pk=form.pk %}">
+                                            <button class="btn btn-danger" id="cancel_button">
+                                                -----------------------------Отменить------------------------------
+                                            </button>
+                                        </a>
+                                    </td>
+                                {% elif form.status == 'Выполнено' %}
+                                    <td colspan="2">
+                                        <a href="#">
+                                            <button class="btn btn-primary" id="5stars">
+                                                --------------------Оценить производителя-----------------------
+                                            </button>
+                                        </a>
+                                    </td>
+                                {% endif %}
+                            {% else %}
+                            {% endif %}
                         {% endif %}
-                    </td>
-                </tr>
-                <!--
-                {% if suggestion_order.author == user %}
-                    {% if true_sug == 0 %}
-                        <tr>
-                            <td colspan="4">
-                                <a href="{% url 'status_in_work' pk=suggestion.pk %}">
-                                    <button class="btn btn-success" id="click_button">
-                                        -----------------------Выбрать----------------------
-                                    </button>
-                                </a>
-                            </td>
-                        </tr>
-                    {% else %}
-                        {% if form.selected_offer == True %}
-                            {% if form.status == 'В работe' %}
-                                <td colspan="2">
-                                    <a href="{% url 'status_in_work' pk=form.pk %}">
+                    {% endif %}
+                    -->
+                    {% if suggestion_order.author == user %}
+                        {% if suggestion.status == 'В обсуждении'  %}
+                            <tr>
+                                <td colspan="4">
+                                    <a href="{% url 'status_in_work' pk=suggestion.pk %}">
+                                        <button class="btn btn-success" id="click_button">
+                                            -----------------------Выбрать----------------------
+                                        </button>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% elif suggestion.status == 'В работe' %}
+                            <tr>
+                                <td colspan="4">
+                                    <a href="{% url 'status_in_work' pk=suggestion.pk %}">
                                         <button class="btn btn-danger" id="cancel_button">
                                             -----------------------------Отменить------------------------------
                                         </button>
                                     </a>
                                 </td>
-                            {% elif form.status == 'Выполнено' %}
-                                <td colspan="2">
+                            </tr>
+                        {% elif suggestion.status == 'Выполнено' %}
+                            <tr>
+                                <td colspan="4">
                                     <a href="#">
                                         <button class="btn btn-primary" id="5stars">
                                             --------------------Оценить производителя-----------------------
                                         </button>
                                     </a>
                                 </td>
-                            {% endif %}
-                        {% else %}
+                            </tr>
                         {% endif %}
                     {% endif %}
-                {% endif %}
-                -->
-                {% if suggestion_order.author == user %}
-                    <tr>
-
-                        <td colspan="4">
-
-
-                        </td>
-                    </tr>
-                {% endif %}
-
-            </tbody>
-        </table>
+                </tbody>
+            </table>
         </li>
     </div>
     <!-- Suggestion -->
 
     <!-- Dialog -->
     <div class="container">
+
         <div class="card rare-wind-gradient chat-room">
             <div class="card-body">
                 <div class="row px-lg-2 px-2">

@@ -11,6 +11,7 @@ from django import forms
 from chat.models import Message
 from chat.forms import MessageCreateForm
 
+from users.models import Profile
 
 # Все заказы
 def orders(request):
@@ -166,10 +167,10 @@ class OrderAndSuggestionView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(OrderAndSuggestionView, self).get_context_data(**kwargs)
         a = self.object.id
-
         context['suggestions'] = Suggestion.objects.filter(order_id=a)
-
         context['files'] = File.objects.filter(order_id=a)
+        context['all_suggestions'] = Suggestion.objects.all()
+        context['profiles'] = Profile.objects.all()
         ord_sug = Suggestion.objects.filter(order_id=a)
         count = 0
         for sug in ord_sug:
@@ -241,6 +242,81 @@ def status_ready(request, pk):
     order.save()
     return redirect(request.META['HTTP_REFERER'])
 
+
+# ------------------------------------------Конец функций изминения статуса заказов-------------------------------------
+
+# ---------------------------------------------Функции изминения рейтинга заказов -------------------------------------
+# Оценка "1"
+def get_one_rating(request, pk):
+    print(pk)
+    suggestion = Suggestion.objects.get(pk=pk)
+    sug_user_profile = Profile.objects.get(user=suggestion.author)
+    print(sug_user_profile)
+    print(suggestion)
+    print(suggestion.rating)
+    if suggestion.rating == 0:
+        suggestion.rating = 1
+        sug_user_profile.rating += 1
+    suggestion.save()
+    sug_user_profile.save()
+    print(suggestion.rating)
+    return redirect(request.META['HTTP_REFERER'])
+
+
+# Оценка "2"
+def get_two_rating(request, pk):
+    suggestion = Suggestion.objects.get(pk=pk)
+    sug_user_profile = Profile.objects.get(user=suggestion.author)
+    print(sug_user_profile)
+    if suggestion.rating == 0:
+        suggestion.rating = 2
+        sug_user_profile.rating += 2
+    suggestion.save()
+    sug_user_profile.save()
+    print(suggestion.rating)
+    return redirect(request.META['HTTP_REFERER'])
+
+
+# Оценка "3"
+def get_three_rating(request, pk):
+    suggestion = Suggestion.objects.get(pk=pk)
+    sug_user_profile = Profile.objects.get(user=suggestion.author)
+    print(sug_user_profile)
+    if suggestion.rating == 0:
+        suggestion.rating = 3
+        sug_user_profile.rating += 3
+    suggestion.save()
+    sug_user_profile.save()
+    print(suggestion.rating)
+    return redirect(request.META['HTTP_REFERER'])
+
+
+# Оценка "4"
+def get_four_rating(request, pk):
+    suggestion = Suggestion.objects.get(pk=pk)
+    sug_user_profile = Profile.objects.get(user=suggestion.author)
+    print(sug_user_profile)
+    if suggestion.rating == 0:
+        suggestion.rating = 4
+        sug_user_profile.rating += 4
+    suggestion.save()
+    sug_user_profile.save()
+    print(suggestion.rating)
+    return redirect(request.META['HTTP_REFERER'])
+
+
+# Оценка "5"
+def get_five_rating(request, pk):
+    suggestion = Suggestion.objects.get(pk=pk)
+    sug_user_profile = Profile.objects.get(user=suggestion.author)
+    print(sug_user_profile)
+    if suggestion.rating == 0:
+        suggestion.rating = 5
+        sug_user_profile.rating += 5
+    suggestion.save()
+    sug_user_profile.save()
+    print(suggestion.rating)
+    return redirect(request.META['HTTP_REFERER'])
 # -----------------------------------------------Конец функций изминения заказов-------------------------------------
 
 
@@ -298,3 +374,5 @@ def filter_city(request, pk):
         'filcit': filcit,
     }
     return render(request, 'orders/filter.html', context)
+
+

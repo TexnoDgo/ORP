@@ -95,6 +95,7 @@ class Suggestion(models.Model):
     status = models.CharField(max_length=20, choices=SUGGESTION_STATUS, default='В обсуждении',
                               verbose_name='Статус предложения')
     selected_offer = models.BooleanField()
+    rating = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return self.offer_description

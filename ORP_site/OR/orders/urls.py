@@ -14,4 +14,10 @@ urlpatterns = [
     url(r'^(?P<pk>\d+)/delete/', views.DeleteOrderView.as_view(), name='order_delete'),
     url(r'^(?P<pk>\d+)/status_in_work/', views.status_in_work, name='status_in_work'),
     url(r'^(?P<pk>\d+)/status_ready/', views.status_ready, name='status_ready'),
+    url(r'^(?P<pk>\d+)/get_one_rating/', views.get_one_rating, name='get_one_rating'),
+    url(r'^(?P<pk>\d+)/get_two_rating/', views.get_two_rating, name='get_two_rating'),
+    url(r'^(?P<pk>\d+)/get_three_rating/', views.get_three_rating, name='get_three_rating'),
+    url(r'^(?P<pk>\d+)/get_four_rating/', views.get_four_rating, name='get_four_rating'),
+    url(r'^(?P<pk>\d+)/get_five_rating/', views.get_five_rating, name='get_five_rating'),
+
 ]

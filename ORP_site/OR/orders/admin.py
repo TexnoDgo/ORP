@@ -7,4 +7,6 @@ admin.site.register(Suggestion)
 admin.site.register(AllCity)
 admin.site.register(File)
 
+
+
 # Register your models here.
