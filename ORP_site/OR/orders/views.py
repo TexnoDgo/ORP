@@ -13,6 +13,7 @@ from chat.forms import MessageCreateForm
 
 from users.models import Profile
 
+
 # Все заказы
 def orders(request):
     all_orders = Order.objects.all().order_by('-date_create')

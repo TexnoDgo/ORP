@@ -34,7 +34,7 @@
 
             <div class="card">
                 <ul class="list-unstyled chat-1 scrollbar-light-blue">
-                    <li href="#" class="list-group-item list-group-item-action list-group-item-dark">
+                    <li class="list-group-item list-group-item list-group-item-dark">
                         Фильтр по категориям:
                     </li>
                     {% for category in filters %}
@@ -49,7 +49,7 @@
             <div class="container-mb-2">
                 <div class="card">
                     <ul class="list-unstyled city-1 scrollbar-light-blue">
-                        <li href="#" class="list-group-item list-group-item-action list-group-item-dark">
+                        <li class="list-group-item list-group-item list-group-item-dark">
                             Фильтр по городам:
                         </li>
                         {% for city in all_city %}
@@ -67,7 +67,7 @@
         <div class="orders-views">
             <div>
                 <ul class="list-unstyled chat-1 scrollbar-light-blue">
-                    <li href="#" class="list-group-item list-group-item-action list-group-item-dark">Все заказы</li>
+                    <li class="list-group-item list-group-item list-group-item-dark">Все заказы</li>
 
                     {% for order in all_orders.object_list %}
                         <a href="{{order.id}}" class="list-group-item list-group-item-action list-group-item-secondary">

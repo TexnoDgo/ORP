@@ -22,6 +22,7 @@
             <div>
                 <ul class="list-unstyled chat-1 scrollbar-light-blue">
                     <li class="list-group-item list-group-item list-group-item-dark">ВСЕ ПРЕДЛОЖЕНИЯ</li>
+
                     {% if user == order.author %}
                         {% for form in suggestions %}
                             <a href="/suggestion/view/{{form.id}}" class="list-group-item list-group-item-action list-group-item-secondary">
@@ -42,6 +43,7 @@
                                                 {% for profile in profiles %}
                                                     {% if profile.user == form.author %}
                                                         <span class="badge badge-success">{{ profile.rating }}</span>
+
                                                     {% endif %}
                                                 {% endfor %}
                                             </td>
@@ -152,6 +154,7 @@
 
                     {% for form in suggestions %}
                         {% if user == form.author %}
+
                             <a href="{% url 'message_and_suggestion' pk=form.id %}" class="list-group-item list-group-item-action list-group-item-secondary">
                                 <table class="table2">
                                     <tbody>
@@ -162,9 +165,15 @@
                                             <td>{{ form.date_create }}</td>
                                         </tr>
                                         <tr>
-                                            <td colspan="2">Рейтинг изготовителя:</td>
                                             <td colspan="2">
-
+                                                Рейтинг изготовителя:
+                                            </td>
+                                            <td colspan="2">
+                                                {% for profile in profiles %}
+                                                    {% if profile.user == form.author %}
+                                                        <span class="badge badge-success">{{ profile.rating }}</span>
+                                                    {% endif %}
+                                                {% endfor %}
                                             </td>
                                         </tr>
                                         <tr>

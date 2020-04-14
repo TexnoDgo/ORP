@@ -35,7 +35,7 @@ class Order(models.Model):
     #order_files = models.ManyToManyField('Files', blank=True, related_name='orders_file')  # Прикрипленные файлы
     pdf_view = models.FileField(default='default.pdf', upload_to='pdf', verbose_name='Обложка заказа pdf')  # Файл обложки заказа PDF
     image_view = models.ImageField(default='default.jpg', upload_to='image_preview', verbose_name='Обложка заказа image')
-    other_files = models.FileField(default='default.jpg', upload_to='otherFiles')  # Другие файлы заказа
+    other_files = models.FileField(default=None, upload_to='otherFiles')  # Другие файлы заказа
     amount = models.PositiveIntegerField(verbose_name='Кол-во изделий')  # Кол-во изделий
     city = models.ForeignKey(AllCity, on_delete=models.PROTECT, verbose_name='Город заказа')  # Город заказа
     lead_time = models.DateField(verbose_name='Срок выполнения')  # Срок выполнения заказа
@@ -99,3 +99,5 @@ class Suggestion(models.Model):
 
     def __str__(self):
         return self.offer_description
+
+
