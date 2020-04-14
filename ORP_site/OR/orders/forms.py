@@ -29,5 +29,5 @@ class OrderUpdateForm(forms.ModelForm):
 class SuggestionCreateForm(forms.ModelForm):
     class Meta:
         model = Suggestion
-        fields = ['date_create', 'offer_description', 'deadline', 'offer_price', 'status', 'selected_offer']
+        fields = ['offer_description', 'deadline', 'offer_price']
 

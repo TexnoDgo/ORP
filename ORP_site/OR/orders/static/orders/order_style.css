@@ -6,6 +6,7 @@ body {
     box-sizing: border-box;
 }
 
+
 .vso {
     width: 70%;
     position: absolute;
@@ -28,16 +29,19 @@ body {
     width: 60%;
     float: left;
     border: 5px solid #ffffff;
+
 }
 
 .table {
     color: gray;
+
 }
 
 .vso .vs .table {
     background-color: #4184C0;
     color: white;
     width: 500px;
+
 
 }
 

@@ -35,7 +35,7 @@
                                     <small>Введите заголовок заказа. Например: Изготовить токарную детать, выполнить токарную обработку</small>
                                 </td>
                             </tr>
-                            <tr class="tr1">
+                            <tr>
                                 <td colspan="3">
                                     {{ order_form.description|as_crispy_field}}
                                 </td>
@@ -43,48 +43,54 @@
                                     <small>Опишите подробно работу которую необходимо выполнить.</small>
                                 </td>
                             </tr>
-                            <tr class="tr1">
-                                <td colspan="3">
+                            <tr>
+                                <td colspan="1">
                                     {{ order_form.amount|as_crispy_field}}
                                 </td>
                                 <td>
                                     <small>Укажите количество изделий.</small>
                                 </td>
-                            </tr>
-                            <tr class="tr1">
-                                <td colspan="3">
+                                <td colspan="1">
                                     {{ order_form.city|as_crispy_field}}
                                 </td>
                                 <td>
                                     <small>Выберите город в который отправится заказ</small>
                                 </td>
                             </tr>
-                            <tr class="tr1">
-                                <td>
+                            <tr>
+                                <td colspan="3">
                                     <div class="form-image" id="order-image">
                                         <input type="file" name="pdf_view" onchange="loadFile(event)">
                                     </div>
+
+                                </td>
+                                <td>
                                     <small>Выберите обложку заказка</small>
                                 </td>
-                                <td>
+                            </tr>
+                            <tr>
+                                <td >
                                     <div class="form-files">
                                         {{ order_form.files|as_crispy_field}}
-                                        <small>Выберите Чертеж</small>
+
+                                    </div>
+                                </td>
+                                <td >
+                                    <div class="form-files">
+                                        {{ order_form.files|as_crispy_field}}
                                     </div>
                                 </td>
                                 <td>
                                     <div class="form-files">
                                         {{ order_form.files|as_crispy_field}}
-                                        <small>Выберите файлы.</small>
                                     </div>
                                 </td>
                                 <td>
-                                    <div class="form-files">
-                                        {{ order_form.files|as_crispy_field}}
-                                        <small>Выберите файлы.</small>
-                                    </div>
+                                    <small>Выберите Чертеж</small>
                                 </td>
                             </tr>
+
+                            <!-- Привью обложки jpg
                             <tr class="tr2">
                                 <td colspan="3" class="tr2">
                                     <img id="output" width="600" height="auto"/>
@@ -102,7 +108,9 @@
                                     <small>Проверте обложку заказа.</small>
                                 </td>
                             </tr>
-                            <tr class="tr1">
+                            -->
+
+                            <tr>
                                 <td colspan="3">
                                     {{ order_form.lead_time|as_crispy_field}}
                                 </td>

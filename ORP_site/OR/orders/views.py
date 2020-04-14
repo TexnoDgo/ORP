@@ -13,8 +13,10 @@ from chat.forms import MessageCreateForm
 
 from users.models import Profile
 
+from .handlers import convert_pdf_to_bnp
 
-# Все заказы
+
+# --------------------------------------------------Отображение всех заказов--------------------------------------
 def orders(request):
     all_orders = Order.objects.all().order_by('-date_create')
 
@@ -38,16 +40,89 @@ def orders(request):
         'all_city': all_city,
     }
     return render(request, 'orders/all_orders.html', context)
+# --------------------------------------------------Отображение всех заказов--------------------------------------
 
 
-'''class OrderListView(ListView):
+# ------------------------------------------------------Создание заказа-------------------------------------------
+@login_required
+def order_create(request):
+    if request.method == 'POST':
+        order_form = OrderCreateForm(request.POST, request.FILES)
+        files = request.FILES.getlist('files')
+
+        if order_form.is_valid():
+            order = order_form.save(commit=False)
+            order.author = request.user
+            print(order_form.save().pk)
+            print(order.pdf_view.path)
+            pdf_file_name = str(order.pdf_view)
+            print(pdf_file_name)
+            png_file_name = '{}{}'.format(pdf_file_name[4:-3], 'png')
+            png_full_path = 'C:/PP/ORP/ORP_site/OR/media/image_preview/' + png_file_name
+            print(png_file_name)
+            print(png_full_path)
+            convert_pdf_to_bnp(order.pdf_view.path, png_full_path)
+            order.image_view = png_full_path
+            print(order.image_view.path)
+            order.save()
+            if files:
+                for f in files:
+                    print(f)
+                    fl = File(order=Order.objects.get(pk=order.id), file=f)
+                    fl.save()
+            order.save()
+            # form.save()  # Сохранение  формы
+            title = order_form.cleaned_data.get('title')  # Получение названи заказка из формы
+            messages.success(request,
+                             f'You order has been created!Wait for a response! ')  # Формирование сообщения со вложенным именем
+            return redirect('orders')  # Перенаправление на страницу подтверждения регистрации
+    else:
+        order_form = OrderCreateForm()
+
+    return render(request, 'orders/order_create.html', {'order_form': order_form})
+# ------------------------------------------------------Создание заказа-------------------------------------------
+
+
+# ------------------------------------------------------Обновление заказа-------------------------------------------
+class OrderUpdateView(UpdateView):
     model = Order
-    print(model)
-    template_name = 'orders/all_orders.html'
-    context_object_name = 'all_orders'
-    ordering = ['-date_create']'''
+
+    def get_context_data(self, **kwargs):
+        context = super(OrderUpdateView, self).get_context_data(**kwargs)
+        a = self.object.id
+        context['files'] = File.objects.filter(order=a)
+        return context
+
+    fields = ['title', 'description', 'amount', 'city', 'image_view', 'pdf_view', 'lead_time', 'proposed_budget',
+              'activity', 'status', 'categories']
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+# ------------------------------------------------------Обновление заказа-------------------------------------------
 
 
+'''def test_order_create(request):
+    if request.method == 'POST':
+        form = OrderCreateForm(request.POST)
+
+        if form.is_valid():
+            order = form.save(commit=False)
+            order.author = request.user
+            order.save()
+            # form.save()  # Сохранение  формы
+            title = form.cleaned_data.get('title')  # Получение названи заказка из формы
+            messages.success(request,
+                             f'You order has been created!Wait for a response! ')  # Формирование сообщения со вложенным именем
+            return redirect('orders')  # Перенаправление на страницу подтверждения регистрации
+    else:
+        form = OrderCreateForm()
+
+    return render(request, 'orders/order_create_new.html', {'form': form})
+'''
+
+
+# -----------------------------------------------Фильтр заказов-------------------------------------------------
 def order_categories(request, url):
     all_orders = Order.objects.filter(categories__url=url)
 
@@ -71,77 +146,64 @@ def order_categories(request, url):
     return render(request, 'orders/all_orders.html', context)
 
 
-'''class OrderListView(ListView):
-    model = Order
-    template_name = 'orders/all_orders.html'  # <app>/<model>_<viewtype>.html
-    context_object_name = 'order'
-    ordering = ['-date_ordered']'''
+def filter_category(request, pk):
+    all_orders = Order.objects.filter(categories__in=pk).order_by("-date_create")
+
+    filters = OperationCategories.objects.all()
+
+    filCat = OperationCategories.objects.get(pk=pk)
+
+    all_city = AllCity.objects.all()
+
+    paginator = Paginator(all_orders, 3)
+
+    try:
+        page = int(request.GET.get('page', '1'))
+    except:
+        page = 1
+    try:
+        posts = paginator.page(page)
+    except(EmptyPage, InvalidPage):
+        posts = paginator.page(paginator.num_pages)
+    context = {
+        'all_orders': posts,
+        'filters': filters,
+        'all_city': all_city,
+        'filCat': filCat,
+    }
+    return render(request, 'orders/filter.html', context)
 
 
-@login_required
-def order_create(request):
-    if request.method == 'POST':
-        order_form = OrderCreateForm(request.POST, request.FILES)
-        files = request.FILES.getlist('files')
+def filter_city(request, pk):
+    all_orders = Order.objects.filter(city=pk).order_by("-date_create")
 
-        if order_form.is_valid():
-            order = order_form.save(commit=False)
-            order.author = request.user
-            print(order_form.save().pk)
-            if files:
-                for f in files:
-                    print(f)
-                    fl = File(order=Order.objects.get(pk=order.id), file=f)
-                    fl.save()
-            order.save()
-            # form.save()  # Сохранение  формы
-            title = order_form.cleaned_data.get('title')  # Получение названи заказка из формы
-            messages.success(request,
-                             f'You order has been created!Wait for a response! ')  # Формирование сообщения со вложенным именем
-            return redirect('orders')  # Перенаправление на страницу подтверждения регистрации
-    else:
-        order_form = OrderCreateForm()
+    filters = OperationCategories.objects.all()
 
-    return render(request, 'orders/order_create.html', {'order_form': order_form})
+    filcit = AllCity.objects.get(pk=pk)
 
+    all_city = AllCity.objects.all()
 
-class OrderUpdateView(UpdateView):
+    paginator = Paginator(all_orders, 3)
 
-    model = Order
-
-    def get_context_data(self, **kwargs):
-        context = super(OrderUpdateView, self).get_context_data(**kwargs)
-        a = self.object.id
-        context['files'] = File.objects.filter(order=a)
-        return context
-
-    fields = ['title', 'description', 'amount', 'city', 'image_view', 'pdf_view', 'lead_time', 'proposed_budget',
-              'activity', 'status', 'categories']
-
-    def form_valid(self, form):
-        form.instance.author = self.request.user
-        return super().form_valid(form)
+    try:
+        page = int(request.GET.get('page', '1'))
+    except:
+        page = 1
+    try:
+        posts = paginator.page(page)
+    except(EmptyPage, InvalidPage):
+        posts = paginator.page(paginator.num_pages)
+    context = {
+        'all_orders': posts,
+        'filters': filters,
+        'all_city': all_city,
+        'filcit': filcit,
+    }
+    return render(request, 'orders/filter.html', context)
+# -----------------------------------------------Фильтр заказов по категориям-------------------------------------
 
 
-def test_order_create(request):
-    if request.method == 'POST':
-        form = OrderCreateForm(request.POST)
-
-        if form.is_valid():
-            order = form.save(commit=False)
-            order.author = request.user
-            order.save()
-            # form.save()  # Сохранение  формы
-            title = form.cleaned_data.get('title')  # Получение названи заказка из формы
-            messages.success(request,
-                             f'You order has been created!Wait for a response! ')  # Формирование сообщения со вложенным именем
-            return redirect('orders')  # Перенаправление на страницу подтверждения регистрации
-    else:
-        form = OrderCreateForm()
-
-    return render(request, 'orders/order_create_new.html', {'form': form})
-
-
+# -----------------------------------------------Создание предложения-------------------------------------
 @login_required
 def suggestion_create(request, pk):
     if request.method == 'POST':
@@ -160,6 +222,7 @@ def suggestion_create(request, pk):
         suggestion = SuggestionCreateForm()
 
     return render(request, 'orders/suggestion_create.html', {'suggestion': suggestion})
+# -----------------------------------------------Создание предложения-------------------------------------
 
 
 class OrderAndSuggestionView(DetailView):
@@ -182,7 +245,6 @@ class OrderAndSuggestionView(DetailView):
 
 
 class DeleteOrderView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
-
     model = Order
 
     success_url = '/'
@@ -242,9 +304,8 @@ def status_ready(request, pk):
     selected_suggestion.save()
     order.save()
     return redirect(request.META['HTTP_REFERER'])
-
-
 # ------------------------------------------Конец функций изминения статуса заказов-------------------------------------
+
 
 # ---------------------------------------------Функции изминения рейтинга заказов -------------------------------------
 # Оценка "1"
@@ -318,62 +379,5 @@ def get_five_rating(request, pk):
     sug_user_profile.save()
     print(suggestion.rating)
     return redirect(request.META['HTTP_REFERER'])
+
 # -----------------------------------------------Конец функций изминения заказов-------------------------------------
-
-
-def filter_category(request, pk):
-    all_orders = Order.objects.filter(categories__in=pk).order_by("-date_create")
-
-    filters = OperationCategories.objects.all()
-
-    filCat = OperationCategories.objects.get(pk=pk)
-
-    all_city = AllCity.objects.all()
-
-    paginator = Paginator(all_orders, 3)
-
-    try:
-        page = int(request.GET.get('page', '1'))
-    except:
-        page = 1
-    try:
-        posts = paginator.page(page)
-    except(EmptyPage, InvalidPage):
-        posts = paginator.page(paginator.num_pages)
-    context = {
-        'all_orders': posts,
-        'filters': filters,
-        'all_city': all_city,
-        'filCat': filCat,
-    }
-    return render(request, 'orders/filter.html', context)
-
-
-def filter_city(request, pk):
-    all_orders = Order.objects.filter(city=pk).order_by("-date_create")
-
-    filters = OperationCategories.objects.all()
-
-    filcit = AllCity.objects.get(pk=pk)
-
-    all_city = AllCity.objects.all()
-
-    paginator = Paginator(all_orders, 3)
-
-    try:
-        page = int(request.GET.get('page', '1'))
-    except:
-        page = 1
-    try:
-        posts = paginator.page(page)
-    except(EmptyPage, InvalidPage):
-        posts = paginator.page(paginator.num_pages)
-    context = {
-        'all_orders': posts,
-        'filters': filters,
-        'all_city': all_city,
-        'filcit': filcit,
-    }
-    return render(request, 'orders/filter.html', context)
-
-

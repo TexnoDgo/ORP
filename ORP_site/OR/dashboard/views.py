@@ -6,14 +6,14 @@ from django.core.paginator import Paginator
 from django.contrib.auth.models import User
 from orders.models import Order, Suggestion
 from chat.models import Message
+from users.models import Profile
 
 from chat.forms import MessageCreateForm
 
 
-
-
 def index(request):
     user_order = Order.objects.filter(author=request.user)
+    user_profile = Profile.objects.get(user=request.user)
 
     count = 0
     count2 = 0
@@ -30,6 +30,7 @@ def index(request):
 
     context = {
         'user_order': user_order,
+        'user_profile': user_profile,
         'user_order_count': count,
         'user_order_count_in_work': count2,
         'user_order_count_ready': count3,

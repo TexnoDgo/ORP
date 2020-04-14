@@ -1,15 +1,16 @@
-import os
-import tempfile
-from pdf2image import convert_from_path
+import requests
 
-filename = 'media/pdf/3333.PDF'
+import json
 
-with tempfile.TemporaryDirectory() as path:
-    images_from_path = convert_from_path(filename, output_folder=path, last_page=1, first_page=0)
-
-base_filename = os.path.splitext(os.path.basename(filename))[0] + '.jpg'
-
-save_dir = 'your_saved_dir'
-
-for page in images_from_path:
-    page.save(os.path.join(save_dir, base_filename), 'JPEG')
+empty_field = 'edrpou'
+value = '32601315'
+prelink = '{%22' + empty_field + '%22:%22' + value + '%22}'
+print(prelink)
+link = 'http://edr.data-gov-ua.org/api/companies?where=' + prelink
+print(link)
+response = requests.get(link)
+data = json.loads(response.text)
+print(data)
+first = data[0]
+print(first)
+print(first["name"])

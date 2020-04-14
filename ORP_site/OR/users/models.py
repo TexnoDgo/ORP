@@ -21,3 +21,17 @@ class Profile(models.Model):
             output_size = (300, 300)
             img.thumbnail(output_size)
             img.save(self.image.path)
+
+
+class CompanyProfile(models.Model):
+    user = models.ForeignKey(User, on_delete=models.PROTECT)
+    name = models.TextField(verbose_name='Сокращенное название компании')
+    edrpou = models.CharField(max_length=10, verbose_name='ЕДРПОУ')
+    officialName = models.TextField(verbose_name='Официальное название компании')
+    address = models.TextField(verbose_name='Адрес регистрации компании')
+    mainPerson = models.CharField(verbose_name='Руководитель организации')
+    occupation = models.TextField(verbose_name='Основной вид деятельности организации')
+    status = models.CharField(verbose_name='Состояние организации')
+
+    def __str__(self):
+        return self.name

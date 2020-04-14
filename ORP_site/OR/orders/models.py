@@ -89,9 +89,9 @@ class Suggestion(models.Model):
     order = models.ForeignKey(Order, on_delete=models.PROTECT)
     author = models.ForeignKey(User, on_delete=models.PROTECT)
     date_create = models.DateTimeField(default=timezone.now)
-    offer_description = models.TextField()
-    deadline = models.DateTimeField()
-    offer_price = models.PositiveIntegerField()
+    offer_description = models.TextField(verbose_name='Описание предложения')
+    deadline = models.DateTimeField(verbose_name='Сроки изготовления')
+    offer_price = models.PositiveIntegerField(verbose_name='Предлагаемая цена')
     status = models.CharField(max_length=20, choices=SUGGESTION_STATUS, default='В обсуждении',
                               verbose_name='Статус предложения')
     selected_offer = models.BooleanField()
@@ -100,4 +100,12 @@ class Suggestion(models.Model):
     def __str__(self):
         return self.offer_description
 
+
+class Feedback(models.Model):
+    suggestion = models.ForeignKey(Suggestion, on_delete=models.PROTECT)
+    date_create = models.DateField(default=timezone.now)
+    feet = models.TextField()
+
+    def __str__(self):
+        return self.feet
 

@@ -32,7 +32,7 @@ urlpatterns = [
     url(r'orders/filter/category/(?P<pk>\d+)$', orders_views.filter_category, name='order_category_view'),
     url(r'orders/filter/city/(?P<pk>\d+)$', orders_views.filter_city, name='order_city_view'),
     path('order_create/', orders_views.order_create, name='order_create'),
-    path('order_create_new/', orders_views.test_order_create, name='order_create_new'),
+    #path('order_create_new/', orders_views.test_order_create, name='order_create_new'),
     path('orders/', include('orders.urls')),
     path('', include('chat.urls')),
     path('conf_reg/', user_views.conf_reg, name='conf_reg'),

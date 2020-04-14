@@ -27,6 +27,7 @@
                         {% for form in suggestions %}
                             <a href="/suggestion/view/{{form.id}}" class="list-group-item list-group-item-action list-group-item-secondary">
                                 {% csrf_token %}
+                                <!--
                                 <table class="table2">
                                     <tbody>
                                         <tr >
@@ -78,6 +79,39 @@
 
                                     </tbody>
                                 </table>
+                                -->
+                                <table class="table2">
+                                    <tbody>
+                                        <tr>
+                                            <td>Автор предложения:</td>
+                                            <td><span class="badge badge-info">{{ form.author }}</span></td>
+                                            <td>Рейтинг изготовителя:</td>
+                                            <td>
+                                                {% for profile in profiles %}
+                                                    {% if profile.user == form.author %}
+                                                        <h4><span class="badge badge-success">{{ profile.rating }}</span></h4>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4">
+                                                <span class="badge badge-info">{{ form.offer_description }}</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Предложенная стоимость:</td>
+                                            <td>
+                                                <span class="badge badge-info">{{ form.offer_price}}&#8372;</span>
+                                            </td>
+                                            <td>Срок выполнения до:</td>
+                                            <td>
+                                                <span class="badge badge-info">{{ form.deadline }}</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
                             </a>
                             <li class="list-group-item list-group-item list-group-item-secondary">
                                 <tr>
@@ -136,10 +170,10 @@
                                                 </td>
                                                 {% else %}
                                                     <td>
-                                                        Вы поставили оценку производителю:
-                                                        <h3>
-                                                            <span class="badge badge-primary">{{ form.rating }}</span>
-                                                        </h3>
+                                                        <h5>
+                                                            Вы поставили оценку производителю:
+                                                            <span class="badge badge-primary">"{{ form.rating }}*"</span>
+                                                        </h5>
                                                     </td>
                                                 {% endif %}
                                             {% endif %}
@@ -156,6 +190,7 @@
                         {% if user == form.author %}
 
                             <a href="{% url 'message_and_suggestion' pk=form.id %}" class="list-group-item list-group-item-action list-group-item-secondary">
+                                <!--
                                 <table class="table2">
                                     <tbody>
                                         <tr >
@@ -205,6 +240,38 @@
                                         </tr>
                                     </tbody>
                                 </table>
+                                -->
+                                <table class="table2">
+                                    <tbody>
+                                        <tr>
+                                            <td>Автор предложения:</td>
+                                            <td><span class="badge badge-info">{{ form.author }}</span></td>
+                                            <td>Рейтинг изготовителя:</td>
+                                            <td>
+                                                {% for profile in profiles %}
+                                                    {% if profile.user == form.author %}
+                                                        <h4><span class="badge badge-success">{{ profile.rating }}</span></h4>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4">
+                                                <span class="badge badge-info">{{ form.offer_description }}</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Предложенная стоимость:</td>
+                                            <td>
+                                                <span class="badge badge-info">{{ form.offer_price}}&#8372;</span>
+                                            </td>
+                                            <td>Срок выполнения до:</td>
+                                            <td>
+                                                <span class="badge badge-info">{{ form.deadline }}</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </a>
                             <hr>
                         {% endif %}
@@ -220,6 +287,7 @@
                 </ul>
             </div>
         </div>
+
         <!--Предложения для автора-->
 
         <!--Заказ-->
@@ -228,112 +296,144 @@
                 <ul class="list-unstyled chat-1 scrollbar-light-blue">
                     <!--Статусы зказов-->
                     <li class="list-group-item list-group-item list-group-item-dark">
-                        <h3>
-                            <p>
-                                Статус заказа:
-                                {% if order.status == 'В обсуждении' %}
-                                    <span class="badge badge-pill badge-warning">{{ order.status }}</span>
-                                {% elif order.status == 'В работe' %}
-                                    <span class="badge badge-pill badge-success">{{ order.status }}</span>
-                                {% elif order.status == 'Выполненый' %}
-                                    <span class="badge badge-pill badge-secondary">{{ order.status }}</span>
-                                {% elif order.status == 'Отменённый' %}
-                                    <span class="badge badge-pill badge-danger">{{ order.status }}</span>
-                                {% endif %}
-                            </p>
-                        </h3>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        Статус заказа:
+                                    </td>
+                                    <td>
+                                        {% if order.status == 'В обсуждении' %}
+                                            <span class="badge badge-pill badge-warning">{{ order.status }}</span>
+                                        {% elif order.status == 'В работe' %}
+                                            <span class="badge badge-pill badge-success">{{ order.status }}</span>
+                                        {% elif order.status == 'Выполненый' %}
+                                            <span class="badge badge-pill badge-secondary">{{ order.status }}</span>
+                                        {% elif order.status == 'Отменённый' %}
+                                            <span class="badge badge-pill badge-danger">{{ order.status }}</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        Автор заказа:
+                                    </td>
+                                    <td>
+                                        <span class="badge badge-info">{{ order.author }}</span>
+                                    </td>
+                                    <td>
+                                        Заказ создан:
+                                    </td>
+                                    <td>
+                                        <span class="badge badge-info">{{ order.date_create }}</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
                     </li>
                     <!--Статусы зказов-->
 
                     <!--Таблица зказа-->
                     <li class="list-group-item list-group-item list-group-item-secondary">
-                        <table class="">
-                        <tbody>
-                            <tr>
-                                <td colspan="2">Заказ создан:</td>
-                                <td colspan="2"><span class="badge badge-info">{{ order.date_create }}</span></td>
-                                <td colspan="2">Автор заказа:</td>
-                                <td colspan="2"><span class="badge badge-info">{{ order.author }}</span></td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">Заголовок заказа:</td>
-                                <td colspan="6"><span class="badge badge-pill badge-light">{{ order.title }}</span></td>
-                            </tr>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        Заголовок заказа:
+                                    </td>
+                                    <td colspan="2">
+                                        <span class="badge badge-info">{{ order.title }}</span>
+                                    </td>
+                                    <td colspan="2">
+                                        Срок выполнения заказа:
+                                    </td>
+                                    <td colspan="2">
+                                        <span class="badge badge-info">{{ order.lead_time }}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="8">
+                                        <img class="order-image" src="{{order.image_view.url}}" width="400" height="auto" >
+                                    </td>
+                                </tr>
 
-                            <tr>
-                                <td colspan="8">
-                                    <img class="order-image" src="{{order.image_view.url}}" width="400" height="auto" >
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="8">
-                                    {% if files %}
-                                        {% for file in files %}
-                                            <a href="{{ file.file.url }}" class="badge badge-primary" target="blank">{{ file }}</a>
-                                        {% endfor %}
-                                    {% else %}
-                                        <p>No Files!</p>
-                                    {% endif %}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Описание:</td>
-                                <td colspan="7">
-                                    <span class="badge badge-pill badge-light">
-                                        {{ order.description }}
-                                    </span>
-                                </td>
-                            </tr>
+                                {% if files %}
+                                    <tr>
+                                        <td colspan="8">
+                                            {% for file in files %}
+                                                <a href="{{ file.file.url }}" class="badge badge-primary" target="blank">{{ file }}</a>
+                                            {% endfor %}
+                                            <a href="{{ order.pdf_view.url }}" class="badge badge-primary" target="blank">{{ order.pdf_view }}</a>
+                                        </td>
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        <td colspan="4">
+                                            Обложка заказ:
+                                        </td>
+                                        <td colspan="4">
+                                            <a href="{{ order.pdf_view.url }}" class="badge badge-primary" target="blank">{{ order.pdf_view }}</a>
+                                        </td>
+                                    </tr>
 
-                            <tr>
-                                <td colspan="2">Количество изделий:</td>
-                                <td colspan="2"><span class="badge badge-pill badge-light">{{ order.amount }}</span></td>
-                                <td colspan="2">Срок выполнения заказа:</td>
-                                <td colspan="2"><span class="badge badge-pill badge-light">{{ order.lead_time }}</span></td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">Бюджет заказа:</td>
-                                <td colspan="2"><span class="badge badge-pill badge-light">{{ order.proposed_budget }}</span></td>
-                                <td colspan="2">Город заказа:</td>
-                                <td colspan="2"><span class="badge badge-pill badge-light">{{ order.city }}</span></td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">
-                                    {% if user == order.author %}
-                                        {% if order.status == 'В работe' %}
-                                            <a href="{% url 'status_ready' object.id %}"
-                                               class="btn btn-primary  btn-lg active btn-sm"
-                                               role="button" aria-pressed="true">
-                                                Заказ выполнен
-                                            </a>
-                                        {% elif order.status == 'Выполненый' %}
-                                            <a href="{% url 'status_ready' object.id %}"
-                                               class="btn btn-secondary btn-lg active btn-sm"
-                                               role="button" aria-pressed="true">
-                                                Доработать заказ
-                                            </a>
+                                {% endif %}
+
+                                <tr>
+                                    <td>Описание:</td>
+                                    <td colspan="7">
+                                        <span class="badge badge-info">
+                                            {{ order.description }}
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">Количество изделий:</td>
+                                    <td colspan="2"><span class="badge badge-info">{{ order.amount }}</span></td>
+                                    <td colspan="2">Срок выполнения заказа:</td>
+                                    <td colspan="2"><span class="badge badge-info">{{ order.lead_time }}</span></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">Бюджет заказа:</td>
+                                    <td colspan="2"><span class="badge badge-info">{{ order.proposed_budget }}</span></td>
+                                    <td colspan="2">Город заказа:</td>
+                                    <td colspan="2"><span class="badge badge-info">{{ order.city }}</span></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        {% if user == order.author %}
+                                            {% if order.status == 'В работe' %}
+                                                <a href="{% url 'status_ready' object.id %}"
+                                                   class="btn btn-primary  btn-lg active btn-sm"
+                                                   role="button" aria-pressed="true">
+                                                    Заказ выполнен
+                                                </a>
+                                            {% elif order.status == 'Выполненый' %}
+                                                <a href="{% url 'status_ready' object.id %}"
+                                                   class="btn btn-secondary btn-lg active btn-sm"
+                                                   role="button" aria-pressed="true">
+                                                    Доработать заказ
+                                                </a>
+                                            {% endif %}
+                                            <!-- -->
                                         {% endif %}
-                                        <!-- -->
-                                    {% endif %}
-                                </td>
-                                <td colspan="2">
-                                    {% if user == order.author %}
-                                        <a href="{% url 'order_update' object.id %}"class="btn btn-warning btn-lg active btn-sm" role="button" aria-pressed="true">
-                                                Изменить заказ
-                                        </a>
-                                        <!-- Изменить ссылку на Url-->
-                                    {% endif %}
-                                </td>
-                                <td colspan="3">
-                                    {% if user == order.author %}
-                                        <a href="{% url 'order_delete' object.id %}" class="btn btn-danger btn-lg active btn-sm" role="button" aria-pressed="true">Удалить заказ</a>
-                                        <!--  -->
-                                    {% endif %}
-                                </td>
+                                    </td>
+                                    <td colspan="2">
+                                        {% if user == order.author %}
+                                            <a href="{% url 'order_update' object.id %}"class="btn btn-warning btn-lg active btn-sm" role="button" aria-pressed="true">
+                                                    Изменить заказ
+                                            </a>
+                                            <!-- Изменить ссылку на Url-->
+                                        {% endif %}
+                                    </td>
+                                    <td colspan="3">
+                                        {% if user == order.author %}
+                                            <a href="{% url 'order_delete' object.id %}" class="btn btn-danger btn-lg active btn-sm" role="button" aria-pressed="true">Удалить заказ</a>
+                                            <!--  -->
+                                        {% endif %}
+                                    </td>
 
-                            </tr>
-                        </tbody>
-                    </table>
+                                </tr>
+                            </tbody>
+                        </table>
                     </li>
                     <!--Таблица зказа-->
                 </ul>
