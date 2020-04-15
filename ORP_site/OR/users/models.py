@@ -24,14 +24,14 @@ class Profile(models.Model):
 
 
 class CompanyProfile(models.Model):
-    user = models.ForeignKey(User, on_delete=models.PROTECT)
-    name = models.TextField(verbose_name='Сокращенное название компании')
+    user_name = models.ForeignKey(User, on_delete=models.PROTECT)
+    name = models.TextField(verbose_name='Сокращенное название компании', default='CompanyName')
     edrpou = models.CharField(max_length=10, verbose_name='ЕДРПОУ')
-    officialName = models.TextField(verbose_name='Официальное название компании')
-    address = models.TextField(verbose_name='Адрес регистрации компании')
-    mainPerson = models.CharField(verbose_name='Руководитель организации')
-    occupation = models.TextField(verbose_name='Основной вид деятельности организации')
-    status = models.CharField(verbose_name='Состояние организации')
+    officialName = models.TextField(verbose_name='Официальное название компании', default='OfficialCompanyName')
+    address = models.TextField(verbose_name='Адрес регистрации компании', default='CompanyAddress')
+    mainPerson = models.CharField(max_length=255, verbose_name='Руководитель организации', default='CompanyMainPerson')
+    occupation = models.TextField(verbose_name='Основной вид деятельности организации', default='CompanyOccupation')
+    status = models.CharField(max_length=255, verbose_name='Состояние организации', default='CompanyStatus')
 
     def __str__(self):
         return self.name

@@ -22,6 +22,7 @@ urlpatterns = [
     path('register/', user_views.register, name='register'),
     path('all_users/', user_views.UserListViews.as_view(), name='all_users'),
     path('profile/update/', user_views.profile, name='profile'),
+    path('profile/CompanyProfile/create', user_views.createCompanyProfile, name='createCompanyProfile'),
     path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
     path('account/', include('allauth.urls')),

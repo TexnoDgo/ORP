@@ -102,7 +102,7 @@ class Suggestion(models.Model):
 
 
 class Feedback(models.Model):
-    suggestion = models.ForeignKey(Suggestion, on_delete=models.PROTECT)
+    suggestion = models.ForeignKey(Suggestion, on_delete=models.CASCADE)
     date_create = models.DateField(default=timezone.now)
     feet = models.TextField()
 
