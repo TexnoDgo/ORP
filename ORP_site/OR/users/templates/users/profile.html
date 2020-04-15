@@ -1,29 +1,125 @@
 {% extends "HomePage/base.html" %}
 {% load i18n %}
 {% load crispy_forms_tags %}
-{% block title %}{% trans "Profile" %}{% endblock %}
+{% load static %}
+{% block title %}{% trans "Profile Update" %}{% endblock %}
 
 {% block content %}
-    <div class="container">
-        <h1>{{ user.username }}</h1>
-    </div>
-    <div class="container">
-        <h1 class="h3 mb-3 font-weight-normal">{% trans "Welcome!" %}</h1>
-        <legend class="border-bottom mb-4">{% trans "Profile Info" %}</legend>
-        <form class="text-left" method="POST" enctype="multipart/form-data">
-           <div class="container">
-               <img class="mb-4" src="/docs/4.4/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
-               <div class="content-section">
-                    {% csrf_token %}
-                    <fieldset class="form-group">
-                        {{ u_form|crispy }}
-                        <img src="{{ user.profile.image.url }}">
-                        {{ p_form|crispy }}
-                    </fieldset>
-                </div>
-                <button class="btn btn-lg btn-primary btn-block" type="submit">{% trans "Update" %}</button>
-            </div>
-        </form>
-    </div>
+<div class="container">
+    {% csrf_token %}
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'index' %}">Главная</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Профиль</li>
+        </ol>
+    </nav>
+
+    <ul class="list-group list-group-horizontal">
+
+        <li class="list-group-item list-group-item-dark">
+        <table>
+            <tbody>
+                <tr>
+                    <td>
+                        Изображение пользователя:
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <img src="{{ profile_view.image.url }}" width="200">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        </li>
+
+        <li class="list-group-item list-group-item list-group-item-dark">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            Логин пользователя:
+                        </td>
+                        <td>
+                            {{ user.username }}
+                        </td>
+                        <td>
+                            Почта пользователя:
+                        </td>
+                        <td>
+                            {{ user.email }}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            Рейтинг пользователя:
+                        </td>
+                        <td>
+                            {{ profile_view.rating }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </li>
+
+
+
+        <li class="list-group-item list-group-item-dark">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <a href="{% url 'createCompanyProfile' %}" type="button" class="btn btn-primary">Добавить компанию + </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            -
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            -
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            -
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            -
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            -
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            -
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="{% url 'profile_update' %}" type="button" class="btn btn-success">Изменить профиль</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="#" type="button" class="btn btn-danger">Удалить профиль</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </li>
+
+    </ul>
+</div>
+
 {% endblock %}
 

@@ -1,0 +1,26 @@
+{% extends "HomePage/base.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% block title %}{% trans "Profile Update" %}{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <legend class="border-bottom mb-4">{% trans "Profile Update" %}</legend>
+        <form class="text-left" method="POST" enctype="multipart/form-data">
+           <div class="container">
+               <img class="mb-4" src="/docs/4.4/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+               <div class="content-section">
+                    {% csrf_token %}
+                    <fieldset class="form-group">
+                        {{ u_form|crispy }}
+                        <img src="{{ user.profile.image.url }}">
+                        {{ p_form|crispy }}
+                    </fieldset>
+                </div>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">{% trans "Update" %}</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+

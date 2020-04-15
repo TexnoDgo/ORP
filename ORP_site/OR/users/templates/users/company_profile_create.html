@@ -10,7 +10,7 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{% url 'index' %}">Главная</a></li>
-                    <li class="breadcrumb-item"><a href="#">Профиль</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'profile_view' %}">Профиль</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Добавить компанию</li>
                 </ol>
             </nav>
@@ -31,19 +31,8 @@
                                     <td colspan="1">
                                         <small>Введите ЕДРПОУ для получения информации о вашей компании.</small>
                                     </td>
-                                </tr><!--
-                                <tr>
-                                    <td colspan="5">
-                                        {{  form.user_name|as_crispy_field }}
-                                    </td>
-                                </tr>-->
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
                                 </tr>
+
                             </table>
                             <hr>
                             <button class="btn btn-lg btn-primary btn-block" type="submit">{% trans "CREATE" %}</button>

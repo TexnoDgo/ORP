@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm, CompanyProfileCreateForm
 from django.contrib.auth.models import User
+from .models import Profile
 import requests
 import json
 
@@ -27,8 +28,17 @@ def register(request):
 def conf_reg(request):
     return render(request, 'users/conf_reg.html')
 
+
+def profile_view(request):
+    profile = Profile.objects.get(user=request.user)
+    context = {
+        'profile_view': profile,
+    }
+    return render(request, 'users/profile.html', context)
+
+
 @login_required
-def profile(request):
+def profile_update(request):
     if request.method == 'POST':
         u_form = UserUpdateForm(request.POST, instance=request.user)
         p_form = ProfileUpdateForm(request.POST,
@@ -39,7 +49,7 @@ def profile(request):
             p_form.save()
             messages.success(request,
                              f'Your account has been update!')  # Формирование сообщения Alert
-            return redirect('profile')  # Перенаправление на страницу Профиля
+            return redirect('profile_update')  # Перенаправление на страницу Профиля
 
     else:
         u_form = UserUpdateForm(instance=request.user)
@@ -50,7 +60,7 @@ def profile(request):
         'p_form': p_form
     }
 
-    return render(request, 'users/profile.html', context)
+    return render(request, 'users/profile_update.html', context)
 
 
 class UserListViews(ListView):
