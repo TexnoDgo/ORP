@@ -16,7 +16,6 @@
     </nav>
 
     <ul class="list-group list-group-horizontal">
-
         <li class="list-group-item list-group-item-dark">
         <table>
             <tbody>
@@ -33,9 +32,9 @@
             </tbody>
         </table>
         </li>
-
-        <li class="list-group-item list-group-item list-group-item-dark">
-            <table>
+        <ul class="list-group">
+        <li class="list-group-item list-group-item-secondary">
+             <table>
                 <tbody>
                     <tr>
                         <td>
@@ -63,9 +62,70 @@
                 </tbody>
             </table>
         </li>
-
-
-
+        <li class="list-group-item list-group-item-secondary">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            Название компании:
+                        </td>
+                        <td>
+                            <span class="badge badge-info">{{ company.name }}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            ЕДРПОУ:
+                        </td>
+                        <td>
+                            <span class="badge badge-info">{{ company.edrpou }}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Официальное название:
+                        </td>
+                        <td>
+                            <span class="badge badge-info">{{ company.officialName }}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Ажрес регистрации:
+                        </td>
+                        <td>
+                            <span class="badge badge-info"></span>
+                            {{ company.address }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Учередитель:
+                        </td>
+                        <td>
+                            <span class="badge badge-info">{{ company.mainPerson }}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Вид деятельности:
+                        </td>
+                        <td>
+                            <span class="badge badge-info">{{ company.occupation }}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Статус:
+                        </td>
+                        <td>
+                            <span class="badge badge-info">{{ company.status }}</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </li>
+    </ul>
         <li class="list-group-item list-group-item-dark">
             <table>
                 <tbody>
@@ -117,7 +177,6 @@
                 </tbody>
             </table>
         </li>
-
     </ul>
 </div>
 

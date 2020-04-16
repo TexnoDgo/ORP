@@ -46,7 +46,7 @@
                         </div>
 
                         <div class="form-image">
-                            {{ form.image_view|as_crispy_field}}
+                            {{ form.pdf_view|as_crispy_field}}
                             <small>Измените обложку заказа.</small>
                         </div>
 
@@ -63,18 +63,13 @@
                         </div>
 
                         <div class="form-proposed_budget">
-                            {{ form.status|as_crispy_field}}
-                            <small>Измените статус заказа.</small>
-                        </div>
-
-                        <div class="form-proposed_budget">
                             {{ form.proposed_budget|as_crispy_field}}
                             <small>Измените предположительный бюджет.</small>
                         </div>
 
                         <div class="form-categories">
                             {{ form.categories|as_crispy_field}}
-                            <small>Измените категории под которые подпадает ваш заказ.</small>
+                            <small>Измените категории заказа.</small>
                         </div>
                     </fieldset>
                 </div>

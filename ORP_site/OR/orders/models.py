@@ -94,7 +94,7 @@ class Suggestion(models.Model):
     offer_price = models.PositiveIntegerField(verbose_name='Предлагаемая цена')
     status = models.CharField(max_length=20, choices=SUGGESTION_STATUS, default='В обсуждении',
                               verbose_name='Статус предложения')
-    selected_offer = models.BooleanField()
+    selected_offer = models.BooleanField(default=False)
     rating = models.PositiveIntegerField(default=0)
 
     def __str__(self):

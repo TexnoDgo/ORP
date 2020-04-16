@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm, CompanyProfileCreateForm
 from django.contrib.auth.models import User
-from .models import Profile
+from .models import Profile, CompanyProfile
 import requests
 import json
 
@@ -31,8 +31,13 @@ def conf_reg(request):
 
 def profile_view(request):
     profile = Profile.objects.get(user=request.user)
+    try:
+        company = CompanyProfile.objects.get(user_name=request.user)
+    except:
+        company = None
     context = {
         'profile_view': profile,
+        'company': company,
     }
     return render(request, 'users/profile.html', context)
 

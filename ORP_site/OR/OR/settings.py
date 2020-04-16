@@ -87,6 +87,8 @@ TEMPLATES = [
     },
 ]
 
+
+
 WSGI_APPLICATION = 'OR.wsgi.application'
 
 
@@ -160,3 +162,4 @@ SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
    'fields': 'id, name, email'
 }
 SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL = True
+

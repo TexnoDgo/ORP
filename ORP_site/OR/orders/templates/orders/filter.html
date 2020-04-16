@@ -41,7 +41,16 @@
 
             <div class="card">
                 <ul class="list-unstyled chat-1 scrollbar-light-blue">
+                    <a href="{% url 'orders'%}"
+                       class="list-group-item list-group-item-action list-group-item-dark">
+                        Все заказы
+                    </a>
                     <li href="#" class="list-group-item list-group-item-action list-group-item-dark">Фильтр по категориям:</li>
+
+                    <a href="{% url 'orders'%}"
+                       class="list-group-item list-group-item-action list-group-item-dark">
+                        Все заказы
+                    </a>
                     {% for category in filters %}
                         <a href="{% url 'order_category_view' pk=category.pk %}" class="list-group-item list-group-item-action list-group-item-secondary">{{ category.title }}</a>
                     {% endfor %}

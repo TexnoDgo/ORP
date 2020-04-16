@@ -98,6 +98,17 @@ class OrderUpdateView(UpdateView):
 
     def form_valid(self, form):
         form.instance.author = self.request.user
+        order = form.save(commit=False)
+        pdf_file_name = str(order.pdf_view)
+        print(pdf_file_name)
+        png_file_name = '{}{}'.format(pdf_file_name[4:-3], 'png')
+        png_full_path = 'C:/PP/ORP/ORP_site/OR/media/image_preview/' + png_file_name
+        print(png_file_name)
+        print(png_full_path)
+        convert_pdf_to_bnp(order.pdf_view.path, png_full_path)
+        order.image_view = png_full_path
+        print(order.image_view.path)
+        order.save()
         return super().form_valid(form)
 # ------------------------------------------------------Обновление заказа-------------------------------------------
 

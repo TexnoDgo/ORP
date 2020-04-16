@@ -1,6 +1,6 @@
 {% extends "HomePage/base.html" %}
 {% load i18n %}
-{% block title %}{% trans "All Orders" %}{% endblock %}
+{% block title %}{% trans "Все заказы" %}{% endblock %}
 {% load static %}
 {% load bootstrap_pagination %}
 
@@ -18,7 +18,7 @@
 
         <!--Уведомления-->
         <div class="container">
-            <h2>{% trans "ALL ORDERS" %}</h2>
+            <h2 align="center">{% trans "Все заказы" %}</h2>
             {% if messages %}
                 {% for message in messages %}
                     <div class="alert alert-{{ message.tags }}">
