@@ -56,6 +56,15 @@ class Order(models.Model):
         return reverse('order_detail', kwargs={'pk': self.pk})
 
 
+class MassOrder(models.Model):
+    author = models.ForeignKey(User, on_delete=models.PROTECT)  # Автор заказа. Автоматически
+    date_create = models.DateTimeField(default=timezone.now)  # Время создания заказа. Автоматически
+    other_files = models.FileField(upload_to='MassOrderArchive', verbose_name='Архив')  # Другие файлы заказа
+
+    def __str__(self):
+        return 'Archive ' + self.author.username
+
+
 class OperationCategories(models.Model):
     title = models.CharField(max_length=30)
 

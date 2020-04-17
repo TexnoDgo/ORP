@@ -35,6 +35,11 @@ urlpatterns = [
     url(r'orders/filter/category/(?P<pk>\d+)$', orders_views.filter_category, name='order_category_view'),
     url(r'orders/filter/city/(?P<pk>\d+)$', orders_views.filter_city, name='order_city_view'),
     path('order_create/', orders_views.order_create, name='order_create'),
+
+    path('order/add_order_archive/', orders_views.add_order_archive, name='add_order_archive'),
+    path('order/view_archives', orders_views.view_archives, name='view_archives'),
+    path('order/create_many_order', orders_views.create_many_order, name='create_many_order'),
+
     #path('order_create_new/', orders_views.test_order_create, name='order_create_new'),
     path('orders/', include('orders.urls')),
     path('', include('chat.urls')),

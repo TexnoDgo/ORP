@@ -1,12 +1,13 @@
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
-from .models import Order, OperationCategories, Suggestion, AllCity, File
-from .forms import OrderCreateForm, SuggestionCreateForm
+from .models import Order, OperationCategories, Suggestion, AllCity, File, MassOrder
+from .forms import OrderCreateForm, SuggestionCreateForm, GroupCreateOrderForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.paginator import Paginator
-from django import forms
+
+import zipfile
 
 from chat.models import Message
 from chat.forms import MessageCreateForm
@@ -81,6 +82,39 @@ def order_create(request):
 
     return render(request, 'orders/order_create.html', {'order_form': order_form})
 # ------------------------------------------------------Создание заказа-------------------------------------------
+
+@login_required
+def add_order_archive(request):
+    if request.method == 'POST':
+        form = GroupCreateOrderForm(request.POST, request.FILES)
+        if form.is_valid():
+            archive = form.save(commit=False)
+            archive.author = request.user
+            form.save()
+            return redirect('/order/view_archives')
+        #open_archive = zipfile.ZipFile(archive, 'r')
+        #print(open_archive.namelist())
+    else:
+        form = GroupCreateOrderForm()
+
+    context = {
+        'form': form
+    }
+
+    #print(context)
+    return render(request, 'orders/add_order_archive.html', context)
+
+@login_required
+def view_archives(request):
+    all_user_archive = MassOrder.objects.filter(author=request.user)
+    context = {
+        'form': all_user_archive,
+    }
+    return render(request, 'orders/view_archives.html', context)
+
+@login_required
+def create_many_order(request):
+    return render(request, 'orders/create_many_order.html')
 
 
 # ------------------------------------------------------Обновление заказа-------------------------------------------

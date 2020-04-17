@@ -1,5 +1,5 @@
 from django import forms
-from .models import Order, Suggestion, File
+from .models import Order, Suggestion, File, MassOrder
 from django.views.generic import CreateView
 
 
@@ -31,3 +31,12 @@ class SuggestionCreateForm(forms.ModelForm):
         model = Suggestion
         fields = ['offer_description', 'deadline', 'offer_price']
 
+
+class GroupCreateOrderForm(forms.ModelForm):
+    class Meta:
+        model = MassOrder
+        fields = ['other_files']
+
+        def form_valid(self, form):
+            form.instance.author = self.request.user
+            return super().form_valid(form)
