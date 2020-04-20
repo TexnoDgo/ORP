@@ -28,6 +28,7 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
     path('account/', include('allauth.urls')),
+    path('profile/set-up-notifications/', user_views.set_up_notifications, name='set-up-notifications'),
 
     path('admin/', admin.site.urls),
 
@@ -38,7 +39,7 @@ urlpatterns = [
 
     path('order/add_order_archive/', orders_views.add_order_archive, name='add_order_archive'),
     path('order/view_archives', orders_views.view_archives, name='view_archives'),
-    path('order/create_many_order', orders_views.create_many_order, name='create_many_order'),
+    url('order/create_many_order/(?P<pk>\d+)$', orders_views.create_many_order, name='create_many_order'),
 
     #path('order_create_new/', orders_views.test_order_create, name='order_create_new'),
     path('orders/', include('orders.urls')),

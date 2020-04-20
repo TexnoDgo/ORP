@@ -18,16 +18,17 @@
         </nav>
 
         <legend class="border-bottom mb-1" align="center">"МЯСОРУБКА"</legend>
-            <form class="group-file" method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                <p>Загрузите ваш архив</p>
+        <a href="{% url 'view_archives' %}">Список архивов</a>
+        <form class="group-file" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <p>Загрузите ваш архив</p>
 
-                {{ form.other_files|as_crispy_field }}
-                <button type="submit" class="btn btn-outline-primary">Загрузить</button>
-            </form>
-            <form class="text-left" method="POST" enctype="multipart/form-data">
+            {{ form.other_files|as_crispy_field }}
+            <button type="submit" class="btn btn-outline-primary">Загрузить</button>
+        </form>
+        <form class="text-left" method="POST" enctype="multipart/form-data">
 
-            </form>
+        </form>
     </div>
 {% endblock %}
 

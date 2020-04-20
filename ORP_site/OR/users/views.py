@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.views.generic import ListView
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm, CompanyProfileCreateForm
+from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm, CompanyProfileCreateForm,ProfileNotificationForm
 from django.contrib.auth.models import User
 from .models import Profile, CompanyProfile
 import requests
@@ -106,3 +106,19 @@ def createCompanyProfile(request):
     else:
         form = CompanyProfileCreateForm()
     return render(request, 'users/company_profile_create.html', {'form': form})
+
+
+@login_required
+def set_up_notifications(request):
+    if request.method == 'POST':
+        form = ProfileNotificationForm(request.POST, instance=request.user.profile)
+        if form.is_valid():
+            form.save()
+            return redirect('profile_view')
+    else:
+        form = ProfileNotificationForm(instance=request.user.profile)
+    context = {
+        'form': form,
+    }
+    return render(request, 'users/set-up-notifications.html', context)
+

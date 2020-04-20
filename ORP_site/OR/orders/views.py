@@ -8,6 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.paginator import Paginator
 
 import zipfile
+import os
 
 from chat.models import Message
 from chat.forms import MessageCreateForm
@@ -92,8 +93,7 @@ def add_order_archive(request):
             archive.author = request.user
             form.save()
             return redirect('/order/view_archives')
-        #open_archive = zipfile.ZipFile(archive, 'r')
-        #print(open_archive.namelist())
+
     else:
         form = GroupCreateOrderForm()
 
@@ -104,6 +104,7 @@ def add_order_archive(request):
     #print(context)
     return render(request, 'orders/add_order_archive.html', context)
 
+
 @login_required
 def view_archives(request):
     all_user_archive = MassOrder.objects.filter(author=request.user)
@@ -112,8 +113,22 @@ def view_archives(request):
     }
     return render(request, 'orders/view_archives.html', context)
 
+
 @login_required
-def create_many_order(request):
+def create_many_order(request, pk):
+    archive_files = MassOrder.objects.get(pk=pk)
+    open_archive = zipfile.ZipFile(archive_files.other_files, 'r')
+    archive_path = 'C:/PP/ORP/ORP_site/OR/media/temp/' + str(archive_files)
+    list_files = list()
+    for name in open_archive.namelist():
+        print(name)
+        list_files.append(name)
+        print(list_files)
+        open_archive.extract(name)
+        os.rename(name, name.decode('cp866'))
+
+    os.removedirs(list_files[0])
+    #open_archive.extractall(archive_path)
     return render(request, 'orders/create_many_order.html')
 
 

@@ -1,13 +1,44 @@
 from django.db import models
 from django.contrib.auth.models import User
 from PIL import Image
-from orders.models import Suggestion
+from orders.models import Suggestion, OperationCategories
 
 
 class Profile(models.Model):
+    TIMING_CHOICE = (
+        ('Никогда', '0 часов'),
+        ('Каждый час', '1 час'),
+        ('Каждые 3 часа', '3 часа'),
+        ('Каждые 6 часов', '6 часов'),
+        ('Каждые 12 часов', '12 часов'),
+        ('Каждые 24 часа', '24 часа'),
+    )
+
     user = models.OneToOneField(User, on_delete=models.PROTECT)
     image = models.ImageField(default='default.jpg', upload_to='profile_pics')
     rating = models.PositiveIntegerField(default=0)
+
+    # ----------------------------------------Уведомления------------------------------------------------
+    # Получать уведомления о новых заказа в категории?
+    notifications = models.BooleanField(default=False, verbose_name='Получать уведомления?')
+    # Получать уведомления в личный аккаунт
+    notifi_account = models.BooleanField(default=False, verbose_name='Уведомления в кабинет?')
+    # Получать уведомления на эл. почту
+    notifi_email = models.BooleanField(default=False, verbose_name='Уведомления на почту?')
+    # Поулчать уведомления по смс
+    notifi_sms = models.BooleanField(default=False, verbose_name='Уведомления по СМС')
+    # Получать уведомлекния новостях сайта
+    notifi_news = models.BooleanField(default=False, verbose_name='Новости?')
+    # Получать уведомления о Статьях на сайте
+    notifi_articles = models.BooleanField(default=False, verbose_name='Статьи?')
+    # Получать уведомления об обновлениях сайта.
+    notifi_updates = models.BooleanField(default=False, verbose_name='Обновления?')
+    # Частота обновления
+    timing = models.CharField(max_length=30, choices=TIMING_CHOICE, default='Никогда', verbose_name='')
+    # Категории уведомления
+    categories = models.ManyToManyField(OperationCategories, blank=True, related_name='profile',
+                                        verbose_name='Категории для уведомлений')
+    # -------------------------------------------Уведомления----------------------------------------------
 
     def __str__(self):
         return f'{self.user.username} Profile'

@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
+from datetime import date
 
 
 class AllCity(models.Model):
@@ -62,7 +63,7 @@ class MassOrder(models.Model):
     other_files = models.FileField(upload_to='MassOrderArchive', verbose_name='Архив')  # Другие файлы заказа
 
     def __str__(self):
-        return 'Archive ' + self.author.username
+        return 'Archive-' + self.author.username + '-' + str(date.today())
 
 
 class OperationCategories(models.Model):

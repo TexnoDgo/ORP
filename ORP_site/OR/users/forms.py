@@ -36,3 +36,10 @@ class CompanyProfileCreateForm(forms.ModelForm):
         def form_valid(self, form):
             form.instance.user_name = self.request.user
             return super().form_valid(form)
+
+
+class ProfileNotificationForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['notifications', 'notifi_account', 'notifi_email', 'notifi_sms', 'notifi_news',
+                  'notifi_articles', 'notifi_updates', 'timing', 'categories']

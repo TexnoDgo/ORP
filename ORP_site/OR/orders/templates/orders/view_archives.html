@@ -16,10 +16,11 @@
                 <li class="breadcrumb-item active" aria-current="page">Мясорубка</li>
             </ol>
         </nav>
+
         <ul class="list-group">
           <li class="list-group-item active">Архивы пользователя:</li>
            {% for archive in form %}
-            <li class="list-group-item">{{ archive }} от {{ archive.date_create }}</li>
+            <a href="{% url 'create_many_order' pk=archive.pk %}" class="list-group-item list-group-item-action list-group-item-secondary">{{ archive }} от {{ archive.date_create }}</a>
 
            {% endfor %}
         </ul>
