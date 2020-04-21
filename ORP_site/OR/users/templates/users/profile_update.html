@@ -22,5 +22,67 @@
             </div>
         </form>
     </div>
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+        <h1 class="display-4">Редактирование профиля, {{ user.username }}</h1>
+        <p class="lead">Данная страница позволит вам изменить информацию о Вас.</p>
+        <hr>
+        <form>
+            <table align="center">
+                <tbody>
+                    <tr>
+                        <td>
+                            Логин:
+                        </td>
+                        <td colspan="2">
+                            {{ u_form.username }}
+                        </td>
+                        <td rowspan="5">
+                            <img src="{{ user.profile.image.url }}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Почта:
+                        </td>
+                        <td colspan="2">
+                            {{ u_form.email }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Имя
+                        </td>
+                        <td colspan="2">
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Фамилия
+                        </td>
+                        <td colspan="2">
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Мобильный телефон
+                        </td>
+                        <td colspan="2">
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td colspan="2"></td>
+                        <td>{{ p_form.image }}</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
 {% endblock %}
 
