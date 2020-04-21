@@ -122,3 +122,4 @@ def set_up_notifications(request):
     }
     return render(request, 'users/set-up-notifications.html', context)
 
+
