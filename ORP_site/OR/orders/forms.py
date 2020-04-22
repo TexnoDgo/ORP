@@ -40,3 +40,9 @@ class GroupCreateOrderForm(forms.ModelForm):
         def form_valid(self, form):
             form.instance.author = self.request.user
             return super().form_valid(form)
+
+
+class SendOrderForm(forms.Form):
+    class Meta:
+        email = forms.EmailField()
+        fields = ['email']

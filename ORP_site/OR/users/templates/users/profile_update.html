@@ -4,30 +4,13 @@
 {% block title %}{% trans "Profile Update" %}{% endblock %}
 
 {% block content %}
-
-    <div class="container">
-        <legend class="border-bottom mb-4">{% trans "Profile Update" %}</legend>
-        <form class="text-left" method="POST" enctype="multipart/form-data">
-           <div class="container">
-               <img class="mb-4" src="/docs/4.4/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
-               <div class="content-section">
-                    {% csrf_token %}
-                    <fieldset class="form-group">
-                        {{ u_form|crispy }}
-                        <img src="{{ user.profile.image.url }}">
-                        {{ p_form|crispy }}
-                    </fieldset>
-                </div>
-                <button class="btn btn-lg btn-primary btn-block" type="submit">{% trans "Update" %}</button>
-            </div>
-        </form>
-    </div>
 <div class="jumbotron jumbotron-fluid">
     <div class="container">
         <h1 class="display-4">Редактирование профиля, {{ user.username }}</h1>
-        <p class="lead">Данная страница позволит вам изменить информацию о Вас.</p>
+        <p class="lead">Данная страница позволит вам изменить персоналоьные данные на сайте.</p>
         <hr>
-        <form>
+        <form class="text-left" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
             <table align="center">
                 <tbody>
                     <tr>
@@ -51,7 +34,7 @@
                     </tr>
                     <tr>
                         <td>
-                            Имя
+                            Имя:
                         </td>
                         <td colspan="2">
 
@@ -59,7 +42,7 @@
                     </tr>
                     <tr>
                         <td>
-                            Фамилия
+                            Фамилия:
                         </td>
                         <td colspan="2">
 
@@ -67,7 +50,7 @@
                     </tr>
                     <tr>
                         <td>
-                            Мобильный телефон
+                            Мобильный телефон:
                         </td>
                         <td colspan="2">
 
@@ -76,11 +59,18 @@
                     <tr>
                         <td></td>
                         <td colspan="2"></td>
-                        <td>{{ p_form.image }}</td>
+                        <td rowspan="2">{{ p_form.image }}</td>
                     </tr>
-
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
                 </tbody>
             </table>
+            <hr>
+            <p>*-Поля должны быть обязательно заполнены.</p>
+            <button class="btn btn-outline-success btn-lg ml-3" type="submit">{% trans "Обновить" %}</button>
+            <button class="btn btn-outline-secondary btn-lg ml-3" type="reset">Отменить</button>
         </form>
     </div>
 </div>

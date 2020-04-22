@@ -173,3 +173,11 @@ CELERY_RESULT_SERIALIZER = 'json'
 
 CELERY_RESULT_BACKEND = 'djcelery.backends.database:DatabaseBackend'
 CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'nikita.crispy.machine@gmail.com'
+EMAIL_HOST_PASSWORD = 'nikola1901tesla'

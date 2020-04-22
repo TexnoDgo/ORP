@@ -1,0 +1,95 @@
+{% extends "HomePage/base.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block title %}{% trans "Create Order" %}{% endblock %}
+
+{% block content %}
+<div class="jumbotron jumbotron-fluid">
+
+    <div class="container">
+        <h1 class="display-5 ml-4">Отправте заказ другу</h1>
+        <p class="lead"></p>
+        <hr>
+        <table width="60%" align="center">
+            <tbody>
+                <tr>
+                    <td>
+                        Заголовок заказа:
+                    </td>
+                    <td colspan="2">
+                        <span class="badge badge-info">{{ order.title }}</span>
+                    </td>
+                    <td colspan="2">
+                        Срок выполнения заказа:
+                    </td>
+                    <td colspan="2">
+                        <span class="badge badge-info">{{ order.lead_time }}</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="8">
+                        <img class="order-image" src="{{order.image_view.url}}" width="400" height="auto" >
+                    </td>
+                </tr>
+
+                {% if files %}
+                    <tr>
+                        <td colspan="8">
+                            {% for file in files %}
+                                <a href="{{ file.file.url }}" class="badge badge-primary" target="blank">{{ file }}</a>
+                            {% endfor %}
+                            <a href="{{ order.pdf_view.url }}" class="badge badge-primary" target="blank">{{ order.pdf_view }}</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="4">
+                            Обложка заказ:
+                        </td>
+                        <td colspan="4">
+                            <a href="{{ order.pdf_view.url }}" class="badge badge-primary" target="blank">{{ order.pdf_view }}</a>
+                        </td>
+                    </tr>
+
+                {% endif %}
+
+                <tr>
+                    <td>Описание:</td>
+                    <td colspan="7">
+                        <span class="badge badge-info">
+                            {{ order.description }}
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">Количество изделий:</td>
+                    <td colspan="2"><span class="badge badge-info">{{ order.amount }}</span></td>
+                    <td colspan="2">Срок выполнения заказа:</td>
+                    <td colspan="2"><span class="badge badge-info">{{ order.lead_time }}</span></td>
+                </tr>
+                <tr>
+                    <td colspan="2">Бюджет заказа:</td>
+                    <td colspan="2"><span class="badge badge-info">{{ order.proposed_budget }}</span></td>
+                    <td colspan="2">Город заказа:</td>
+                    <td colspan="2"><span class="badge badge-info">{{ order.city }}</span></td>
+                </tr>
+            </tbody>
+        </table>
+        <hr>
+        <form method="post">
+            <table width="60%" align="center">
+                <tr>
+                    <td>
+                        {{ form.email }}
+                    </td>
+                    <td>
+
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+{% endblock %}
+

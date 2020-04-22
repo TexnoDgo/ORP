@@ -9,15 +9,15 @@ body {
 
 
 .order_create_table {
-    border: 5px solid #ffffff;
+    border: 1px solid #aa2222;
 }
 
 .tr1 {
-    border: 5px solid #ffffff;
+    border: 1px solid #aa2222;
 }
 
 .tr2 {
-    border: 1px solid #aaaaaa;
+    border: 1px solid #aa2222;
 }
 
 .th, td {
@@ -99,7 +99,7 @@ body {
 .orders-views {
     width: 80%;
     float: left;
-    border: 5px solid #ffffff;
+    border: 1px solid #ffffff;
 }
 
 

@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 from .models import Order, OperationCategories, Suggestion, AllCity, File, MassOrder
-from .forms import OrderCreateForm, SuggestionCreateForm, GroupCreateOrderForm
+from .forms import OrderCreateForm, SuggestionCreateForm, GroupCreateOrderForm, SendOrderForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -84,6 +84,7 @@ def order_create(request):
     return render(request, 'orders/order_create.html', {'order_form': order_form})
 # ------------------------------------------------------Создание заказа-------------------------------------------
 
+
 @login_required
 def add_order_archive(request):
     if request.method == 'POST':
@@ -100,8 +101,6 @@ def add_order_archive(request):
     context = {
         'form': form
     }
-
-    #print(context)
     return render(request, 'orders/add_order_archive.html', context)
 
 
@@ -128,7 +127,6 @@ def create_many_order(request, pk):
         os.rename(name, name.decode('cp866'))
 
     os.removedirs(list_files[0])
-    #open_archive.extractall(archive_path)
     return render(request, 'orders/create_many_order.html')
 
 
@@ -160,26 +158,6 @@ class OrderUpdateView(UpdateView):
         order.save()
         return super().form_valid(form)
 # ------------------------------------------------------Обновление заказа-------------------------------------------
-
-
-'''def test_order_create(request):
-    if request.method == 'POST':
-        form = OrderCreateForm(request.POST)
-
-        if form.is_valid():
-            order = form.save(commit=False)
-            order.author = request.user
-            order.save()
-            # form.save()  # Сохранение  формы
-            title = form.cleaned_data.get('title')  # Получение названи заказка из формы
-            messages.success(request,
-                             f'You order has been created!Wait for a response! ')  # Формирование сообщения со вложенным именем
-            return redirect('orders')  # Перенаправление на страницу подтверждения регистрации
-    else:
-        form = OrderCreateForm()
-
-    return render(request, 'orders/order_create_new.html', {'form': form})
-'''
 
 
 # -----------------------------------------------Фильтр заказов-------------------------------------------------
@@ -441,3 +419,21 @@ def get_five_rating(request, pk):
     return redirect(request.META['HTTP_REFERER'])
 
 # -----------------------------------------------Конец функций изминения заказов-------------------------------------
+
+
+# Отправка заказа другу
+@login_required
+def send_order_to_friend(request, pk):
+    order = Order.objects.get(pk=pk)
+    if request.method == 'POST':
+        form = SendOrderForm(request.POST)
+        return redirect('orders')
+    else:
+        form = SendOrderForm()
+    print(form)
+    context = {
+        'order': order,
+        'form': form,
+    }
+    return render(request, 'orders/send_order_to_friend.html', context)
+

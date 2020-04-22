@@ -55,6 +55,8 @@ urlpatterns = [
     url(r'suggestion/view/(?P<pk>\d+)$', chat_views.message_of_suggestion, name='message_and_suggestion'),
 
     path('dashboard', include('dashboard.urls')),
+
+    url(r'send_order_to_friend/(?P<pk>\d+)$', orders_views.send_order_to_friend, name='send_order_to_friend'),
 ]
 
 

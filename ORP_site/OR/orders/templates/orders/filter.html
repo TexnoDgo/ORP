@@ -41,11 +41,7 @@
 
             <div class="card">
                 <ul class="list-unstyled chat-1 scrollbar-light-blue">
-                    <a href="{% url 'orders'%}"
-                       class="list-group-item list-group-item-action list-group-item-dark">
-                        Все заказы
-                    </a>
-                    <li href="#" class="list-group-item list-group-item-action list-group-item-dark">Фильтр по категориям:</li>
+                    <li class="list-group-item list-group-item list-group-item-dark">Фильтр по категориям:</li>
 
                     <a href="{% url 'orders'%}"
                        class="list-group-item list-group-item-action list-group-item-dark">
@@ -60,7 +56,7 @@
             <div class="container-mb-2">
                 <div class="card">
                     <ul class="list-unstyled chat-1 scrollbar-light-blue">
-                        <li href="#" class="list-group-item list-group-item-action list-group-item-dark">Фильтр по городам:</li>
+                        <li class="list-group-item list-group-item list-group-item-dark">Фильтр по городам:</li>
                         {% for city in all_city %}
                             <a href="{% url 'order_city_view' pk=city.pk %}" class="list-group-item list-group-item-action list-group-item-secondary">{{ city.title }}</a>
                         {% endfor %}
@@ -74,7 +70,7 @@
         <div class="orders-views">
             <div>
                 <ul class="list-unstyled chat-1 scrollbar-light-blue">
-                    <li href="#" class="list-group-item list-group-item-action list-group-item-dark">Все заказы</li>
+                    <li class="list-group-item list-group-item list-group-item-dark">Все заказы</li>
 
                     {% for order in all_orders.object_list %}
                         <a href="{% url 'order_detail' pk=order.id %}" class="list-group-item list-group-item-action list-group-item-secondary">
