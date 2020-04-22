@@ -17,6 +17,9 @@ from users.models import Profile
 
 from .handlers import convert_pdf_to_bnp
 
+from django.core.mail import send_mail
+from django.conf import settings
+
 
 # --------------------------------------------------Отображение всех заказов--------------------------------------
 def orders(request):
@@ -424,13 +427,23 @@ def get_five_rating(request, pk):
 # Отправка заказа другу
 @login_required
 def send_order_to_friend(request, pk):
+
     order = Order.objects.get(pk=pk)
+
     if request.method == 'POST':
         form = SendOrderForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data.get('email', None)
+            print(email)
+            subject = 'Эй! Парень=)))'
+            message = 'Знаешь кто научился отправлять письма через джангу?)))'
+            email_from = settings.EMAIL_HOST_USER
+            recipient_list = [email, ]
+            send_mail(subject, message, email_from, recipient_list)
         return redirect('orders')
+
     else:
         form = SendOrderForm()
-    print(form)
     context = {
         'order': order,
         'form': form,

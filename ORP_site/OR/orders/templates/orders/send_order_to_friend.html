@@ -7,6 +7,7 @@
 {% block content %}
 <div class="jumbotron jumbotron-fluid">
 
+
     <div class="container">
         <h1 class="display-5 ml-4">Отправте заказ другу</h1>
         <p class="lead"></p>
@@ -77,14 +78,15 @@
             </tbody>
         </table>
         <hr>
-        <form method="post">
+        <form class="email-send" method="post">
+            {% csrf_token %}
             <table width="60%" align="center">
                 <tr>
                     <td>
-                        {{ form.email }}
+                        {{form.email|as_crispy_field}}
                     </td>
                     <td>
-
+                        <button type="submit" class="btn btn-primary">Отправить</button>
                     </td>
                 </tr>
             </table>

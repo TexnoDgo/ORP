@@ -27,59 +27,6 @@
                         {% for form in suggestions %}
                             <a href="/suggestion/view/{{form.id}}" class="list-group-item list-group-item-action list-group-item-secondary">
                                 {% csrf_token %}
-                                <!--
-                                <table class="table2">
-                                    <tbody>
-                                        <tr >
-                                            <td >Автор предложения:</td>
-                                            <td>{{ form.author }}</td>
-                                            <td>Дата создания предложения: </td>
-                                            <td>{{ form.date_create }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="2">
-                                                Рейтинг изготовителя:
-                                            </td>
-                                            <td colspan="2">
-                                                {% for profile in profiles %}
-                                                    {% if profile.user == form.author %}
-                                                        <span class="badge badge-success">{{ profile.rating }}</span>
-
-                                                    {% endif %}
-                                                {% endfor %}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="4">{{ form.offer_description }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Предложенная стоимость:</td>
-                                            <td>{{ form.offer_price}}&#8372;</td>
-                                            <td>Срок выполнения до:</td>
-                                            <td>{{ form.deadline }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                Состояние предложения:
-                                            </td>
-                                            <td>
-                                                {% if form.selected_offer %}
-                                                    <span class="badge badge-success">Принят</span>
-                                                {% else %}
-                                                    <span class="badge badge-warning">Отменен</span>
-                                                {% endif %}
-                                            </td>
-                                            <td>
-                                                Статус предложения:
-                                            </td>
-                                            <td>
-                                                <span class="badge badge-success">{{ form.status }}</span>
-                                            </td>
-                                        </tr>
-
-                                    </tbody>
-                                </table>
-                                -->
                                 <table class="table2">
                                     <tbody>
                                         <tr>

@@ -43,6 +43,5 @@ class GroupCreateOrderForm(forms.ModelForm):
 
 
 class SendOrderForm(forms.Form):
-    class Meta:
-        email = forms.EmailField()
-        fields = ['email']
+    email = forms.EmailField(label='Введите email')
+    fields = ['email']
