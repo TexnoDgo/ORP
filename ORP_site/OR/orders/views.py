@@ -9,15 +9,17 @@ from django.core.paginator import Paginator
 
 import zipfile
 import os
+from fpdf import FPDF, HTMLMixin
+from fpdf import fpdf
 
 from chat.models import Message
 from chat.forms import MessageCreateForm
 
 from users.models import Profile
 
-from .handlers import convert_pdf_to_bnp
+from .handlers import convert_pdf_to_bnp, create_order_pdf
 
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMessage
 from django.conf import settings
 
 
@@ -434,12 +436,29 @@ def send_order_to_friend(request, pk):
         form = SendOrderForm(request.POST)
         if form.is_valid():
             email = form.cleaned_data.get('email', None)
-            print(email)
-            subject = 'Эй! Парень=)))'
-            message = 'Знаешь кто научился отправлять письма через джангу?)))'
+            subject = 'CrispyMachine'
+            message = 'Вам прислали заказ!'
+
+            data = [['Автор заказ', str(order.author)],
+                    ['Описание', str(order.description)],
+                    ['Заказ создан', str(order.date_create)],
+                    ['Срок выполнения заказа', str(order.lead_time)],
+                    ['Количество изделий', str(order.amount)],
+                    ['Бюджет заказа', str(order.proposed_budget)],
+                    ['Город заказа', str(order.city)],
+                    ['Ссылка на заказ', 'http://127.0.0.1:8000/orders/{}'.format(str(order.pk))]
+                    ]
+            fpdf.set_global("SYSTEM_TTFONTS", os.path.join(os.path.dirname(__file__), 'fonts'))
+            ordef_image_view = str(order.image_view)
+            pdf_order_url = create_order_pdf(order.image_view.path, data, ordef_image_view)
+            print(pdf_order_url)
             email_from = settings.EMAIL_HOST_USER
             recipient_list = [email, ]
-            send_mail(subject, message, email_from, recipient_list)
+            msg = EmailMessage(subject, message, email_from, recipient_list)
+            msg.attach_file(pdf_order_url)
+            msg.send()
+            #message.attach_file = pdf_order_url
+            #send_mail(subject, message, email_from, recipient_list)
         return redirect('orders')
 
     else:
