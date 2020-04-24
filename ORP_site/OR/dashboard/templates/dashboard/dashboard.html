@@ -45,29 +45,38 @@
                 <!--Заказы и предложения инфопанели-->
                 <li class="list-group-item list-group-item list-group-item-dark">
                     <ul class="list-group">
-                        {% for order in user_order %}
-                            <a href="orders/{{order.id}}" class="list-group-item list-group-item-action list-group-item-secondary">
-                                <table>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <small>{{ order.title }}</small>
-                                            </td>
-                                            <td>
-                                                <small>Заказчик/Исполнитель</small>
-                                            </td>
-                                            <td>
-                                                <small>Срок исполнения</small>
-                                            </td>
-                                            <td>
-                                                <small>{{ order.proposed_budget }}</small>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </a>
-                            <hr>
-                        {% endfor %}
+                        {% if used_order %}
+                            {% for order in user_order %}
+                                <a href="orders/{{order.id}}" class="list-group-item list-group-item-action list-group-item-secondary">
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <small>{{ order.title }}</small>
+                                                </td>
+                                                <td>
+                                                    <small>Заказчик/Исполнитель</small>
+                                                </td>
+                                                <td>
+                                                    <small>Срок исполнения</small>
+                                                </td>
+                                                <td>
+                                                    <small>{{ order.proposed_budget }}</small>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </a>
+                                <hr>
+                            {% endfor %}
+                        {% else %}
+                            <li class="list-group-item list-group-item list-group-item-secondary">
+                                На данный момент у вас нет активных заказов и предложений. Для создания нового заказа перейдите по ссылке
+                                <a href="{% url 'order_create' %}">Создать заказ</a>
+                                Или оставте предложение для существующих заказов
+                                <a href="{% url 'orders' %}">Все заказы</a>
+                            </li>
+                        {% endif %}
                     </ul>
                 </li>
                 <!--Заказы и предложения инфопанели-->

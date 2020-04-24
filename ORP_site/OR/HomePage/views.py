@@ -1,5 +1,11 @@
+# Python
+# ----
+# Django
 from django.shortcuts import render
 from django.utils.translation import ugettext as _
+# Apps
+# ----
+# Local
 from .models import HomePageFile
 
 

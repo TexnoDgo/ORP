@@ -1,14 +1,17 @@
+# Python
+# ----
+# Django
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
-
 from django.core.paginator import Paginator
-
 from django.contrib.auth.models import User
+# Apps
 from orders.models import Order, Suggestion
 from chat.models import Message
 from users.models import Profile
-
 from chat.forms import MessageCreateForm
+# Local
+# ----
 
 
 def index(request):

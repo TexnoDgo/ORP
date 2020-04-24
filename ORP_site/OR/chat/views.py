@@ -1,10 +1,14 @@
+# Python
+# ----
+# Django
 from django.shortcuts import render, redirect, reverse
 from django.views.generic import DetailView, View
 from django.db.models import Count
 from django.contrib import messages
 from django.http import HttpResponseRedirect
-
+# Apps
 from orders.models import Suggestion, Order
+# Local
 from .models import Message
 from .forms import MessageCreateForm
 

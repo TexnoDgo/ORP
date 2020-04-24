@@ -1,26 +1,25 @@
-from django.shortcuts import render, redirect
-from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
-from .models import Order, OperationCategories, Suggestion, AllCity, File, MassOrder
-from .forms import OrderCreateForm, SuggestionCreateForm, GroupCreateOrderForm, SendOrderForm
-from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.core.paginator import Paginator
-
+# Python
 import zipfile
 import os
 from fpdf import FPDF, HTMLMixin
 from fpdf import fpdf
-
-from chat.models import Message
-from chat.forms import MessageCreateForm
-
-from users.models import Profile
-
-from .handlers import convert_pdf_to_bnp, create_order_pdf
-
+# Django
+from django.shortcuts import render, redirect
+from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.core.paginator import Paginator
 from django.core.mail import send_mail, EmailMessage
 from django.conf import settings
+# Apps
+from chat.models import Message
+from chat.forms import MessageCreateForm
+from users.models import Profile
+# Local
+from .handlers import convert_pdf_to_bnp, create_order_pdf
+from .models import Order, OperationCategories, Suggestion, AllCity, File, MassOrder
+from .forms import OrderCreateForm, SuggestionCreateForm, GroupCreateOrderForm, SendOrderForm
 
 
 # --------------------------------------------------Отображение всех заказов--------------------------------------
@@ -123,15 +122,19 @@ def create_many_order(request, pk):
     archive_files = MassOrder.objects.get(pk=pk)
     open_archive = zipfile.ZipFile(archive_files.other_files, 'r')
     archive_path = 'C:/PP/ORP/ORP_site/OR/media/temp/' + str(archive_files)
+    print(archive_path)
     list_files = list()
     for name in open_archive.namelist():
         print(name)
+        open_archive.extract(name, path=archive_path)
+
+    '''
         list_files.append(name)
         print(list_files)
         open_archive.extract(name)
-        os.rename(name, name.decode('cp866'))
+        os.rename(name, name.decode('latina-1'))
+    os.removedirs(list_files[0])'''
 
-    os.removedirs(list_files[0])
     return render(request, 'orders/create_many_order.html')
 
 
