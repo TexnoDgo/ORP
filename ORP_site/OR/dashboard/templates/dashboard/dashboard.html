@@ -45,7 +45,7 @@
                 <!--Заказы и предложения инфопанели-->
                 <li class="list-group-item list-group-item list-group-item-dark">
                     <ul class="list-group">
-                        {% if used_order %}
+                        {% if order_len > 0 %}
                             {% for order in user_order %}
                                 <a href="orders/{{order.id}}" class="list-group-item list-group-item-action list-group-item-secondary">
                                     <table>

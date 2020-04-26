@@ -17,6 +17,7 @@ from chat.forms import MessageCreateForm
 def index(request):
     user_order = Order.objects.filter(author=request.user)
     user_profile = Profile.objects.get(user=request.user)
+    order_len = len(user_order)
 
     count = 0
     count2 = 0
@@ -33,6 +34,7 @@ def index(request):
 
     context = {
         'user_order': user_order,
+        'order_len': order_len,
         'user_profile': user_profile,
         'user_order_count': count,
         'user_order_count_in_work': count2,

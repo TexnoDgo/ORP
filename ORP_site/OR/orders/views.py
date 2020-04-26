@@ -122,11 +122,20 @@ def create_many_order(request, pk):
     archive_files = MassOrder.objects.get(pk=pk)
     open_archive = zipfile.ZipFile(archive_files.other_files, 'r')
     archive_path = 'C:/PP/ORP/ORP_site/OR/media/temp/' + str(archive_files)
-    print(archive_path)
     list_files = list()
     for name in open_archive.namelist():
-        print(name)
         open_archive.extract(name, path=archive_path)
+    file_path = os.walk(archive_path)
+    folder = []
+    for file in file_path:
+        folder.append(file)
+    print(folder)
+    file_in_archive = []
+    for address, dirs, files in folder:
+        for file in files:
+            print(address + '/' + file)
+            file_in_archive.append(file)
+    print(file_in_archive)
 
     '''
         list_files.append(name)
