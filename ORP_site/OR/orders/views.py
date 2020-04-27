@@ -3,6 +3,7 @@ import zipfile
 import os
 from fpdf import FPDF, HTMLMixin
 from fpdf import fpdf
+import json
 # Django
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
@@ -123,28 +124,32 @@ def create_many_order(request, pk):
     open_archive = zipfile.ZipFile(archive_files.other_files, 'r')
     archive_path = 'C:/PP/ORP/ORP_site/OR/media/temp/' + str(archive_files)
     list_files = list()
-    for name in open_archive.namelist():
-        open_archive.extract(name, path=archive_path)
+    open_archive.extractall(archive_path)
     file_path = os.walk(archive_path)
     folder = []
+    data = {}
     for file in file_path:
         folder.append(file)
-    print(folder)
     file_in_archive = []
     for address, dirs, files in folder:
         for file in files:
+            file_name = str(file)
+            file_name = file_name.rsplit(".", 1)[0]
+            if file_name not in data:
+                data[file_name] = [file]
+                adress_file = str(address + '/' + file)
+            elif file_name in data:
+                data[file_name].append(file)
+            else:
+                print('Error')
             print(address + '/' + file)
             file_in_archive.append(file)
-    print(file_in_archive)
-
-    '''
-        list_files.append(name)
-        print(list_files)
-        open_archive.extract(name)
-        os.rename(name, name.decode('latina-1'))
-    os.removedirs(list_files[0])'''
-
-    return render(request, 'orders/create_many_order.html')
+    json_data = json.dumps(data)
+    context = {
+        'data': data,
+        'file_path': archive_path,
+    }
+    return render(request, 'orders/create_many_order.html', context)
 
 
 # ------------------------------------------------------Обновление заказа-------------------------------------------

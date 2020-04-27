@@ -17,5 +17,12 @@
             </ol>
         </nav>
         <h1>Создание многих заказов</h1>
+        {% for key, value in data.items %}
+            {% for element in value %}
+                <a href="{{file_path}}/{{ element }}" class="badge badge-primary" target="blank">{{file_path}}/{{ element }}</a>
+            {% endfor %}
+        {% endfor %}
+        {{file_path}}
+
     </div>
 {% endblock %}

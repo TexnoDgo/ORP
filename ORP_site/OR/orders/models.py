@@ -63,7 +63,7 @@ class MassOrder(models.Model):
     other_files = models.FileField(upload_to='MassOrderArchive', verbose_name='Архив')  # Другие файлы заказа
 
     def __str__(self):
-        return 'Archive-' + self.author.username + '-' + str(date.today())
+        return 'Archive-' + str(self.other_files.name) + '-' + self.author.username + '-' + str(date.today())
 
 
 class OperationCategories(models.Model):
