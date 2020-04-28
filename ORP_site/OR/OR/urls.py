@@ -57,6 +57,10 @@ urlpatterns = [
     path('dashboard', include('dashboard.urls')),
 
     url(r'send_order_to_friend/(?P<pk>\d+)$', orders_views.send_order_to_friend, name='send_order_to_friend'),
+
+    url(r'^signup/$', user_views.signup, name='signup'),
+    url(r'^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
+        user_views.activate, name='activate'),
 ]
 
 

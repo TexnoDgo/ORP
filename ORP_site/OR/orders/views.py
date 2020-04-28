@@ -131,23 +131,29 @@ def create_many_order(request, pk):
     for file in file_path:
         folder.append(file)
     file_in_archive = []
+    form = OrderCreateForm(request.POST)
     for address, dirs, files in folder:
         for file in files:
             file_name = str(file)
+            file_path_name = str(address + '/' + file)
             file_name = file_name.rsplit(".", 1)[0]
             if file_name not in data:
                 data[file_name] = [file]
-                adress_file = str(address + '/' + file)
             elif file_name in data:
                 data[file_name].append(file)
             else:
                 print('Error')
-            print(address + '/' + file)
             file_in_archive.append(file)
-    json_data = json.dumps(data)
+    #for order in data:
+        #print(order)
+        #for element in data[order]:
+            #print(element)
+    #json_data = json.dumps(data)
+    #print(data)
     context = {
         'data': data,
         'file_path': archive_path,
+        'form': form,
     }
     return render(request, 'orders/create_many_order.html', context)
 
