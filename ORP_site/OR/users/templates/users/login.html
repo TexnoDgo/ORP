@@ -3,29 +3,42 @@
 {% providers_media_js %}
 {% load i18n %}
 {% load crispy_forms_tags %}
-{% block title %}{% trans "Log In" %}{% endblock %}
+{% block title %}{% trans "CrispyMachine - LOGIN" %}{% endblock %}
 
 {% block content %}
     <div class="container">
-        <h1 class="h3 mb-3 font-weight-normal">{% trans "Please sign in" %}</h1>
-        <button type="button" class="btn btn-outline-secondary btn-lg col-5"><a href="{% provider_login_url 'facebook' method='oauth2' %}">Continue with Facebook</a></button>
-        <button type="button" class="btn btn-outline-secondary btn-lg col-5"><a href="{% provider_login_url 'google' method='oauth2' %}">Continue with Google</a></button>
-        <legend class="border-bottom mb-4">{% trans "Log In" %}</legend>
-        <form class="text-left" method="POST">
-          <div class="container">
-          <img class="mb-4" src="/docs/4.4/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
-          <div class="content-section">
-                {% csrf_token %}
-                <fieldset class="form-group">
-                    {{ form|crispy }}
-                </fieldset>
-          </div>
-          <button class="btn btn-lg btn-outline-secondary btn-block" type="submit">{% trans "Login" %}</button>
+        <legend class="border-bottom mb-4" align="center">{% trans "WELCOME TO CRISPY MACHINE, PLEASE LOGIN" %}</legend>
+        <div class="col-mb-6" align="center">
+            <a class="btn btn-outline-primary btn-lg col-2 mr-4 mb-4"
+               href="{% provider_login_url 'facebook' method='oauth2' %}">
+                {% trans "Continue with Facebook" %}
+            </a>
+            <a class="btn btn-outline-danger btn-lg col-2 ml-4 mb-4"
+               href="{% provider_login_url 'google' method='oauth2' %}">
+                {% trans "Continue with Google" %}
+            </a>
         </div>
+        <form class="text-left" method="POST">
+            <div class="container">
+                <div class="row justify-content-md-center">
+                    <div class="col-md-7" align="center">
+                      {% csrf_token %}
+                        <fieldset class="form-group">
+                            {{ form|crispy }}
+                        </fieldset>
+                    </div>
+                  </div>
+            </div>
+            <div class="row justify-content-md-center " align="center">
+                <button class="btn btn-lg btn-outline-dark col-5 mb-6" type="submit">{% trans "LOGIN" %}</button>
+            </div>
         </form>
-        <div class="border-top pt-3">
+        <div class="border-top pt-3 mt-4" align="center">
             <small class="text-muted">
-                Need An Account? <a class="ml-2" href="{% url 'register' %}">Sing Up</a>
+                {% trans "Need An Account?" %}
+                <a class="ml-2" href="{% url 'signup' %}">
+                    {% trans "Sing Up" %}
+                </a>
             </small>
         </div>
     </div>
