@@ -1,12 +1,14 @@
+from datetime import date
+
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
-from datetime import date
+from django.utils.translation import ugettext_lazy as _
 
 
 class AllCity(models.Model):
-    title = models.CharField(max_length=50, default='not_selected')
+    title = models.CharField(max_length=50, default=_('not_selected'))
 
     objects = models.Manager()
 
@@ -16,37 +18,42 @@ class AllCity(models.Model):
 
 class Order(models.Model):
     BUDGET_EXAMPLE = (
-        ('Неизвестный', 'Неизвестный'),
-        ('Малый 20-50$', 'Малый 20-50$'),
-        ('Средний 50-250$', 'Средний 50-250$'),
-        ('Высокий 250$+', 'Высокий 250$+')
+        (_('Unknown'), _('Unknown')),
+        (_('Small, less than $ 100'), _('Small, less than $ 100')),
+        (_('Medium, less than $ 1000'), _('Medium, less than $ 1000')),
+        (_('High, over $ 1000'), _('High, over $ 1000'))
     )
 
     ORDER_STATUS = (
-        ('В обсуждении', 'В обсуждении'),
-        ('В работe', 'В работe'),
-        ('Выполненый', 'Выполненый'),
-        ('Отменённый', 'Отменённый'),
+        (_('In discussion'), _('In discussion')),
+        (_('In work'), _('In work')),
+        (_('Done'), _('Done')),
+        (_('Canceled'), _('Canceled')),
     )
 
     author = models.ForeignKey(User, on_delete=models.PROTECT)  # Автор заказа. Автоматически
     date_create = models.DateTimeField(default=timezone.now)  # Время создания заказа. Автоматически
-    title = models.CharField(max_length=100, verbose_name='Заголовок')  # Заголовок заказа
-    description = models.TextField(verbose_name='Описание заказ')  # Описание заказа
-    #order_files = models.ManyToManyField('Files', blank=True, related_name='orders_file')  # Прикрипленные файлы
-    pdf_view = models.FileField(default='default.pdf', upload_to='pdf', verbose_name='Обложка заказа pdf')  # Файл обложки заказа PDF
-    image_view = models.ImageField(default='default.jpg', upload_to='image_preview', verbose_name='Обложка заказа image')
+    title = models.CharField(max_length=100, verbose_name=_('Headline'))  # Заголовок заказа
+    description = models.TextField(verbose_name=_('Description Order'))  # Описание заказа
+    # Файл обложки заказа PDF
+    pdf_view = models.FileField(default='default.pdf',
+                                upload_to='pdf',
+                                verbose_name=_('Pdf order cover'))
+    # Файл обложки заказа Jpeg
+    image_view = models.ImageField(default='default.jpg',
+                                   upload_to='image_preview',
+                                   verbose_name=_('Cover image'))
     other_files = models.FileField(default=None, upload_to='otherFiles')  # Другие файлы заказа
-    amount = models.PositiveIntegerField(verbose_name='Кол-во изделий')  # Кол-во изделий
-    city = models.ForeignKey(AllCity, on_delete=models.PROTECT, verbose_name='Город заказа')  # Город заказа
-    lead_time = models.DateField(verbose_name='Срок выполнения')  # Срок выполнения заказа
-    proposed_budget = models.CharField(max_length=40, choices=BUDGET_EXAMPLE, default='Неизвестный',
-                                       verbose_name='Бюджет')  # Предложеный бюджет
+    amount = models.PositiveIntegerField(verbose_name=_('Number of products'))  # Кол-во изделий
+    city = models.ForeignKey(AllCity, on_delete=models.PROTECT, verbose_name=_('Order City'))  # Город заказа
+    lead_time = models.DateField(verbose_name=_('Deadline'))  # Срок выполнения заказа
+    proposed_budget = models.CharField(max_length=40, choices=BUDGET_EXAMPLE, default=_('Unknown'),
+                                       verbose_name=_('Budget'))  # Предложеный бюджет
     activity = models.BooleanField()  # Активность заказа
-    status = models.CharField(max_length=20, choices=ORDER_STATUS, default='В обсуждении',
-                              verbose_name='Статус заказа')  # Статус заказ
+    status = models.CharField(max_length=20, choices=ORDER_STATUS, default=_('In discussion'),
+                              verbose_name=_('Order status'))  # Статус заказ
     categories = models.ManyToManyField('OperationCategories', blank=True, related_name='orders',
-                                        verbose_name='Категории')
+                                        verbose_name=_('Categories'))
 
     objects = models.Manager()
 
@@ -60,7 +67,7 @@ class Order(models.Model):
 class MassOrder(models.Model):
     author = models.ForeignKey(User, on_delete=models.PROTECT)  # Автор заказа. Автоматически
     date_create = models.DateTimeField(default=timezone.now)  # Время создания заказа. Автоматически
-    other_files = models.FileField(upload_to='MassOrderArchive', verbose_name='Архив')  # Другие файлы заказа
+    other_files = models.FileField(upload_to='MassOrderArchive', verbose_name=_('Archive'))  # Другие файлы заказа
 
     def __str__(self):
         return 'Archive-' + str(self.other_files.name) + '-' + self.author.username + '-' + str(date.today())
@@ -76,12 +83,12 @@ class OperationCategories(models.Model):
 
 
 class File(models.Model):
-    file = models.FileField(upload_to='files', blank=True, null=True, verbose_name='Файл')
+    file = models.FileField(upload_to='files', blank=True, null=True, verbose_name=_('File'))
     order = models.ForeignKey(Order, blank=True, null=True, on_delete=models.PROTECT)
 
     class Meta:
-        verbose_name = 'Файлы'
-        verbose_name_plural = 'Файлы'
+        verbose_name = _('Files')
+        verbose_name_plural = _('Files')
 
     def __str__(self):
         return self.file.name
@@ -90,20 +97,20 @@ class File(models.Model):
 class Suggestion(models.Model):
 
     SUGGESTION_STATUS = (
-        ('В обсуждении', 'В обсуждении'),
-        ('В работe', 'В работe'),
-        ('Выполнено', 'Выполнено'),
-        ('Отклонено', 'Отклонено'),
+        (_('In discussion'), _('In discussion')),
+        (_('In work'), _('In work')),
+        (_('Done'), _('Done')),
+        (_('Canceled'), _('Canceled')),
     )
 
     order = models.ForeignKey(Order, on_delete=models.PROTECT)
     author = models.ForeignKey(User, on_delete=models.PROTECT)
     date_create = models.DateTimeField(default=timezone.now)
-    offer_description = models.TextField(verbose_name='Описание предложения')
-    deadline = models.DateTimeField(verbose_name='Сроки изготовления')
-    offer_price = models.PositiveIntegerField(verbose_name='Предлагаемая цена')
-    status = models.CharField(max_length=20, choices=SUGGESTION_STATUS, default='В обсуждении',
-                              verbose_name='Статус предложения')
+    offer_description = models.TextField(verbose_name=_('Offer Description'))
+    deadline = models.DateTimeField(verbose_name=_('Production time'))
+    offer_price = models.PositiveIntegerField(verbose_name=_('Suggested price'))
+    status = models.CharField(max_length=20, choices=SUGGESTION_STATUS, default=_('In discussion'),
+                              verbose_name=_('Offer Status'))
     selected_offer = models.BooleanField(default=False)
     rating = models.PositiveIntegerField(default=0)
 

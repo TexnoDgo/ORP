@@ -141,6 +141,10 @@ def set_up_notifications(request):
 
 
 def signup(request):
+    all_users = User.objects.all()
+    users_email = []
+    for one_user in all_users:
+        users_email.append(one_user.email)
     if request.method == 'POST':
         form = SignupForm(request.POST)
         if form.is_valid():
@@ -154,6 +158,7 @@ def signup(request):
                 'domain': current_site.domain,
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                 'token': account_activation_token.make_token(user),
+                'users_email': users_email,
             })
             to_email = form.cleaned_data.get('email')
             email = EmailMessage(

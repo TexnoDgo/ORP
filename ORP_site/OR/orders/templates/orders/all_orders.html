@@ -1,6 +1,6 @@
 {% extends "HomePage/base.html" %}
 {% load i18n %}
-{% block title %}{% trans "Все заказы" %}{% endblock %}
+{% block title %}{% trans "CrispyMachine - All orders" %}{% endblock %}
 {% load static %}
 {% load bootstrap_pagination %}
 
@@ -31,36 +31,6 @@
 
         <!--Фильтры-->
         <div class="orders-filter">
-            <!--
-            <div class="card">
-                <ul class="list-unstyled chat-1 scrollbar-light-blue">
-                    <li class="list-group-item list-group-item list-group-item">
-                        Фильтр по категориям:
-                    </li>
-                    {% for category in filters %}
-                        <a href="{% url 'order_category_view' pk=category.pk %}"
-                           class="list-group-item list-group-item-action list-group-item">
-                            {{ category.title }}
-                        </a>
-                    {% endfor %}
-                </ul>
-            </div>
-
-            <div class="container-mb-2">
-                <div class="card">
-                    <ul class="list-unstyled city-1 scrollbar-light-blue">
-                        <li class="list-group-item list-group-item list-group-item-dark">
-                            Фильтр по городам:
-                        </li>
-                        {% for city in all_city %}
-                            <a href="{% url 'order_city_view' pk=city.pk %}" class="list-group-item list-group-item-action d-flex list-group-item-secondary">
-                                {{ city.title }}
-                            </a>
-                        {% endfor %}
-                    </ul>
-                </div>
-            </div>
-            -->
             <div class="list-group">
                   <li class="list-group-item list-group-item list-group-item-secondary">
                     {% trans "Category Filtering" %}
@@ -89,93 +59,7 @@
         <!--Заказы-->
 
         <div class="orders-views">
-            <!--
-            <div>
-                <ul class="list-unstyled chat-1 scrollbar-light-blue">
-                    <li class="list-group-item list-group-item list-group-item-dark">Все заказы</li>
-
-                    {% for order in all_orders.object_list %}
-                        <a href="{{order.id}}" class="list-group-item list-group-item-action list-group-item-secondary">
-                            <table class="" width="1000" height="300">
-                                <tbody>
-                                    <tr >
-                                        <td class="order-drawings" rowspan="6">
-                                            <small>Обложка заказа:</small>
-                                            <img src="{{order.image_view.url }}" width="300" height="auto">
-                                        </td>
-                                        <td class="order-title">
-                                            <h5>Заголовок заказа:<span class="badge badge-dark">{{ order.title }}</span></h5>
-                                        </td>
-                                        <td class="oreder-author">
-                                            <h5>Автор заказа:<span class="badge badge-dark">{{ order.author }}</span></h5>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="order-description" rowspan="5">{{ order.description }}</td>
-                                        <td class="order-date-create">
-                                            <h6>Дата создания:
-                                                <span class="badge badge-dark">
-                                                    {{ order.date_create }}
-                                                </span>
-                                            </h6>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="order-lead-time">
-                                            <h6>Дата готовности:
-                                                <span class="badge badge-dark">
-                                                    {{ order.lead_time }}
-                                                </span>
-                                            </h6>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="order-amount">
-                                            <h6>Кол-во изделий:
-                                                <span class="badge badge-dark">
-                                                    {{ order.amount }}
-                                                </span>
-                                            </h6>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="order-proposed-budget">
-                                            <h6>Предлогаемый бюджет:
-                                                <span class="badge badge-dark">
-                                                    {{ order.proposed_budget }}
-                                                </span>
-                                            </h6>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="order-bottom-view">
-                                            <h6>Город заказа:
-                                                <span class="badge badge-dark">
-                                                    {{ order.city }}
-                                                </span>
-                                            </h6>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="order-categories" colspan="3">
-                                            <h6>Категории заказа:
-                                                {% for cat in order.categories.all %}
-                                                    <span class="badge badge-info">
-                                                        {{ cat }}
-                                                    </span>
-                                                {% endfor %}
-                                            </h6>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </a>
-                        <hr>
-                    {% endfor %}
-                </ul>
-            </div>
-            -->
-            <div class="row row-cols-1 row-cols-md-3">
+            <div class="row row-cols-1 row-cols-md-3 ml-3">
                 {% for order in all_orders.object_list %}
                   <div class="col mb-4">
                     <div class="card border-dark">

@@ -13,6 +13,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.paginator import Paginator
 from django.core.mail import send_mail, EmailMessage
 from django.conf import settings
+from django.utils.translation import ugettext_lazy as _
 # Apps
 from chat.models import Message
 from chat.forms import MessageCreateForm

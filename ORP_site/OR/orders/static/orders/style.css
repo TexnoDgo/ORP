@@ -9,20 +9,20 @@ body {
 
 
 .order_create_table {
-    border: 1px solid #aa2222;
+    border: 1px solid #aaaaaa;
 }
 
 .tr1 {
-    border: 1px solid #aa2222;
+    border: 1px solid #aaaaaa;
 }
 
 .tr2 {
-    border: 1px solid #aa2222;
+    border: 1px solid #aaaaaa;
 }
 
 .th, td {
     font-size: 16px;
-    border-color: #aa2222; /* Цвет границы */
+    border-color: #aaaaaa; /* Цвет границы */
     padding: 5px; /* Поля вокруг текста */
   }
 
