@@ -21,12 +21,12 @@
             <a class="btn btn-outline-dark px-md-4 mr-4" href="{% url 'add_order_archive' %}">{% trans "МЯСОРУБКА" %}</a>
         {% endif %}
         {% if user.is_authenticated %}
-            <a class="btn btn-outline-dark px-md-4" href="{% url 'order_create' %}">{% trans "Создать заказ" %}</a>
+            <a class="btn btn-outline-dark px-md-4" href="{% url 'order_create' %}">{% trans "Create order" %}</a>
         {% endif %}
-        <nav class="navbar-fixed-bottom my-2 my-md-0 mr-md-3" >
-            <a class="p-2 text-dark px-md-4" href="/orders">{% trans "Все заказы" %}</a>
-            <a class="p-2 text-dark px-md-4" href="#">{% trans "Как это работает" %}</a>
-            <a class="p-2 text-dark px-md-4" href="#">{% trans "Другое!" %}</a>
+        <nav class="navbar-fixed-bottom my-2 my-md-0 mr-md-3 ml-4" >
+            <a class="btn btn-outline-dark px-md-4" href="/orders">{% trans "All orders" %}</a>
+            <a class="p-2 text-dark px-md-4" href="#">{% trans "How it work" %}</a>
+            <a class="p-2 text-dark px-md-4" href="#">{% trans "Other!" %}</a>
         </nav>
         <div>
             {% if user.is_authenticated %}
@@ -35,8 +35,8 @@
                     {{ user.username}}
                   </button>
                   <div class="dropdown-menu">
-                    <a class="dropdown-item" href="{% url 'profile_view' %}">{% trans 'Профиль' %}</a>
-                    <a class="dropdown-item" href="{% url 'dashboard' %}">Кабинет</a>
+                    <a class="dropdown-item" href="{% url 'profile_view' %}">{% trans 'Profile' %}</a>
+                    <a class="dropdown-item" href="{% url 'dashboard' %}">{% trans 'Dashboard' %}</a>
                     <a class="dropdown-item" href="#">Something else here</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="{% url 'logout' %}">{% trans "Logout" %}</a>

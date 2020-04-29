@@ -4,23 +4,33 @@
 {% block title %}{% trans "SignUp" %}{% endblock %}
 
 {% block content %}
-  <h2 class="ml-2" align="center">{% trans "SING UP" %}</h2>
+  <legend class="border-bottom mb-4" align="center">{% trans "WELCOME TO CRISPY MACHINE, SING UP PLEASE" %}</legend>
   <form method="post">
-    {% csrf_token %}
-      {% for field in form %}
-      <p>
-        {{ field|as_crispy_field }}
-        {% if field.help_text %}
-          <small style="display: none">{{ field.help_text }}</small>
-        {% endif %}
-        {% for error in field.errors %}
-          <p style="color: red">{{ error }}</p>
-        {% endfor %}
-      </p>
-      {% endfor %}
-    <button class="btn btn-lg btn-primary btn-block" type="submit">{% trans "SignUp" %}</button>
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class="col-md-7" align="center">
+              {% csrf_token %}
+                {% for field in form %}
+                <p>
+                  {{ field|as_crispy_field }}
+                  {% if field.help_text %}
+                    <small style="display: none">{{ field.help_text }}</small>
+                  {% endif %}
+                  {% for error in field.errors %}
+                    <p style="color: red">{{ error }}</p>
+                  {% endfor %}
+                </p>
+                {% endfor %}
+            </div>
+          </div>
+    </div>
+
+
+    <div class="row justify-content-md-center " align="center">
+        <button class="btn btn-lg btn-outline-dark col-6 mb-6" type="submit">{% trans "SignUp" %}</button>
+    </div>
   </form>
-  <div class="border-top pt-3">
+  <div class="border-top pt-3" align="center">
       <small class="text-muted">
           {% trans "Already Have An Account?" %} <a class="ml-2" href="{% url 'login' %}">{% trans "Log In" %}</a>
       </small>

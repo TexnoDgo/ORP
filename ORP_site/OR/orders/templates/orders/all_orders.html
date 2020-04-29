@@ -10,15 +10,15 @@
         <!--Навигация-->
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{% url 'index' %}">Главная</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Все заказы</li>
+            <li class="breadcrumb-item "><a href="{% url 'index' %}">{% trans "Home" %}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{% trans "All orders" %}</li>
           </ol>
         </nav>
         <!--Навигация-->
 
         <!--Уведомления-->
         <div class="container">
-            <h1 class="display-5">Все заказы</h1>
+            <legend class="border-bottom mb-4" align="center">{% trans "ALL ORDERS" %}</legend>
             {% if messages %}
                 {% for message in messages %}
                     <div class="alert alert-{{ message.tags }}">
@@ -27,20 +27,19 @@
                 {% endfor %}
             {% endif %}
         </div>
-        <hr>
         <!--Уведомления-->
 
         <!--Фильтры-->
         <div class="orders-filter">
-
+            <!--
             <div class="card">
                 <ul class="list-unstyled chat-1 scrollbar-light-blue">
-                    <li class="list-group-item list-group-item list-group-item-dark">
+                    <li class="list-group-item list-group-item list-group-item">
                         Фильтр по категориям:
                     </li>
                     {% for category in filters %}
                         <a href="{% url 'order_category_view' pk=category.pk %}"
-                           class="list-group-item list-group-item-action list-group-item-secondary">
+                           class="list-group-item list-group-item-action list-group-item">
                             {{ category.title }}
                         </a>
                     {% endfor %}
@@ -61,11 +60,36 @@
                     </ul>
                 </div>
             </div>
+            -->
+            <div class="list-group">
+                  <li class="list-group-item list-group-item list-group-item-secondary">
+                    {% trans "Category Filtering" %}
+                  </li>
+                  {% for category in filters %}
+                        <a href="{% url 'order_category_view' pk=category.pk %}"
+                           class="list-group-item list-group-item-action list-group-item">
+                            {{ category.title }}
+                        </a>
+                  {% endfor %}
+            </div>
+
+        <div class="list-group">
+            <li class="list-group-item list-group-item list-group-item-secondary">
+                {% trans "City Filtering" %}
+            </li>
+            {% for city in all_city %}
+                <a href="{% url 'order_city_view' pk=city.pk %}" class="list-group-item list-group-item-action list-group-item">
+                    {{ city.title }}
+                </a>
+            {% endfor %}
+        </div>
         </div>
         <!--Фильтры-->
 
         <!--Заказы-->
+
         <div class="orders-views">
+            <!--
             <div>
                 <ul class="list-unstyled chat-1 scrollbar-light-blue">
                     <li class="list-group-item list-group-item list-group-item-dark">Все заказы</li>
@@ -150,6 +174,23 @@
                     {% endfor %}
                 </ul>
             </div>
+            -->
+            <div class="row row-cols-1 row-cols-md-3">
+                {% for order in all_orders.object_list %}
+                  <div class="col mb-4">
+                    <div class="card border-dark">
+                      <img class="card-img-top" src="{{order.image_view.url }}" width="300" height="auto">
+                      <div class="card-body">
+                        <h5 class="card-title">{{ order.title }}</h5>
+                        <p class="card-text">{{ order.description }}</p>
+                      </div>
+                      <div class="card-footer bg-transparent border-dark">
+                          <a class="btn btn-outline-success col-12" href="{{order.id}}">{% trans "Details" %}</a>
+                      </div>
+                    </div>
+                  </div>
+                {% endfor %}
+            </div>
         </div>
         <!--Заказы-->
 
@@ -161,5 +202,7 @@
 
 
     </div>
+
+
 {% endblock %}
 
