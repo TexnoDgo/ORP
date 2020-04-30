@@ -82,7 +82,8 @@ def order_create(request):
             # form.save()  # Сохранение  формы
             title = order_form.cleaned_data.get('title')  # Получение названи заказка из формы
             messages.success(request,
-                             f'You order has been created!Wait for a response! ')  # Формирование сообщения со вложенным именем
+                             # Формирование сообщения со вложенным именем
+                             f'You order has been created!Wait for a response! ')
             return redirect('orders')  # Перенаправление на страницу подтверждения регистрации
     else:
         order_form = OrderCreateForm()
@@ -348,12 +349,12 @@ def status_in_work(request, pk):  # Заказ в работе
     stat = suggestion.selected_offer
     if stat:
         suggestion.selected_offer = False
-        order.status = 'В обсуждении'
-        suggestion.status = 'В обсуждении'
+        order.status = _('In discussion')
+        suggestion.status = _('In discussion')
     else:
         suggestion.selected_offer = True
-        order.status = 'В работe'
-        suggestion.status = 'В работe'
+        order.status = _('In work')
+        suggestion.status = _('In work')
     suggestion.save()
     order.save()
     return redirect(request.META['HTTP_REFERER'])
@@ -362,12 +363,12 @@ def status_in_work(request, pk):  # Заказ в работе
 def status_ready(request, pk):
     order = Order.objects.get(pk=pk)
     selected_suggestion = Suggestion.objects.get(order__pk=pk, selected_offer=True)
-    if order.status == 'В работe':
-        order.status = 'Выполненый'
-        selected_suggestion.status = 'Выполнено'
+    if order.status == _('In work'):
+        order.status = _('Done')
+        selected_suggestion.status = _('Done')
     else:
-        order.status = 'В работe'
-        selected_suggestion.status = 'В работe'
+        order.status = _('In work')
+        selected_suggestion.status = _('In work')
     selected_suggestion.save()
     order.save()
     return redirect(request.META['HTTP_REFERER'])
@@ -460,17 +461,17 @@ def send_order_to_friend(request, pk):
         form = SendOrderForm(request.POST)
         if form.is_valid():
             email = form.cleaned_data.get('email', None)
-            subject = 'CrispyMachine'
-            message = 'Вам прислали заказ!'
+            subject = _('CrispyMachine')
+            message = _('An order has been sent to you!')
 
-            data = [['Автор заказ', str(order.author)],
-                    ['Описание', str(order.description)],
-                    ['Заказ создан', str(order.date_create)],
-                    ['Срок выполнения заказа', str(order.lead_time)],
-                    ['Количество изделий', str(order.amount)],
-                    ['Бюджет заказа', str(order.proposed_budget)],
-                    ['Город заказа', str(order.city)],
-                    ['Ссылка на заказ', 'http://127.0.0.1:8000/orders/{}'.format(str(order.pk))]
+            data = [[_('Author order:'), str(order.author)],
+                    [_('Description:'), str(order.description)],
+                    [_('Order created:'), str(order.date_create)],
+                    [_('Lead time:'), str(order.lead_time)],
+                    [_('Number of items:'), str(order.amount)],
+                    [_('Order Budget:'), str(order.proposed_budget)],
+                    [_('Order City:'), str(order.city)],
+                    [_('Order reference:'), 'http://127.0.0.1:8000/orders/{}'.format(str(order.pk))]
                     ]
             fpdf.set_global("SYSTEM_TTFONTS", os.path.join(os.path.dirname(__file__), 'fonts'))
             ordef_image_view = str(order.image_view)

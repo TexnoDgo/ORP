@@ -58,7 +58,7 @@ def dashboard_order(request):
     except(EmptyPage, InvalidPage):
         posts = paginator.page(paginator.num_pages)
     context = {
-        'order': posts,
+        'orders': posts,
     }
     return render(request, 'dashboard/dashboard-order.html', context)
 

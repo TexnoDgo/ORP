@@ -10,7 +10,6 @@
     <div class="container" id="wefwe">
 
         <ul class="list-unstyled chat-1 scrollbar-light-blue">
-
             <!-- Верхний блок -->
             <li href="#" class="list-group-item list-group-item-dark">
                 <ul class="list-group list-group-horizontal">
@@ -38,123 +37,127 @@
                 </ul>
             </li>
             <!-- Верхний блок -->
-
-            <!-- Средний блок -->
-            <li href="#" class="list-group-item list-group-item-dark">
-                <ul class="list-group list-group-horizontal">
-
-                    <a href="{% url 'dashboard-order-dis' %}" class="list-group-item list-group-item-action list-group-item-secondary">
-                        <h6>Заказы в обсуждении</h6>
-                    </a>
-
-                    <li class="list-group-item list-group-item-action active">
-                        <h6>Заказы в работе</h6>
-                    </li>
-
-                    <a href="{% url 'dashboard_order_ready' %}" class="list-group-item list-group-item-action list-group-item-secondary">
-                        <h6>Выполненные заказы</h6>
-                    </a>
-
-                    <a href="" class="list-group-item list-group-item-action list-group-item-secondary">
-                        <h6>Отмененные заказы</h6>
-                    </a>
-
-                    <a href="" class="list-group-item list-group-item-action list-group-item-secondary">
-                        <h6>Избранные заказы</h6>
-                    </a>
-
-                </ul>
-            </li>
-            <!-- Средний блок -->
-
-            <!-- Нижний блок -->
-            <li class="list-group-item list-group-item-dark">
-                {% for one_order in order %}
-                    {% if one_order.status == 'В работe' %}
-                        <a href="{% url 'order_detail' pk=one_order.id %}" class="list-group-item list-group-item-action list-group-item-secondary">
-                            <table class="" width="1000" height="300">
-                                <tbody>
-                                    <tr >
-                                        <td class="order-drawings" rowspan="6">
-                                            <small>Обложка заказа:</small>
-                                            <img src="{{one_order.image_view.url }}" width="300" height="auto">
-                                        </td>
-                                        <td class="order-title">
-                                            <h5>Заголовок заказа:<span class="badge badge-dark">{{ one_order.title }}</span></h5>
-                                        </td>
-                                        <td class="oreder-author">
-                                            <h5>Автор заказа:<span class="badge badge-dark">{{ one_order.author }}</span></h5>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="order-description" rowspan="5">{{ one_order.description }}</td>
-                                        <td class="order-date-create">
-                                            <h6>Дата создания:
-                                                <span class="badge badge-dark">
-                                                    {{ one_order.date_create }}
-                                                </span>
-                                            </h6>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="order-lead-time">
-                                            <h6>Дата готовности:
-                                                <span class="badge badge-dark">
-                                                    {{ one_order.lead_time }}
-                                                </span>
-                                            </h6>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="order-amount">
-                                            <h6>Кол-во изделий:
-                                                <span class="badge badge-dark">
-                                                    {{ one_order.amount }}
-                                                </span>
-                                            </h6>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="order-proposed-budget">
-                                            <h6>Предлогаемый бюджет:
-                                                <span class="badge badge-dark">
-                                                    {{ one_order.proposed_budget }}
-                                                </span>
-                                            </h6>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="order-bottom-view">
-                                            <h6>Город заказа:
-                                                <span class="badge badge-dark">
-                                                    {{ one_order.city }}
-                                                </span>
-                                            </h6>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="order-categories" colspan="3">
-                                            <h6>Категории заказа:
-                                                {% for cat in one_order.categories.all %}
-                                                    <span class="badge badge-info">
-                                                        {{ cat }}
-                                                    </span>
-                                                {% endfor %}
-                                            </h6>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </a>
-                        <hr>
-                    {% endif %}
-                {% endfor %}
-
-            </li>
-            <!-- Нижний блок -->
         </ul>
+
+    </div>
+<nav>
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <a class="nav-item nav-link active" id="nav-discussion-tab" data-toggle="tab"
+           href="#nav-discussion" role="tab" aria-controls="nav-discussion" aria-selected="true">
+            {% trans "Discussion Orders" %}
+        </a>
+        <a class="nav-item nav-link" id="nav-work-tab" data-toggle="tab"
+           href="#nav-work" role="tab" aria-controls="nav-work" aria-selected="false">
+            {% trans "Work orders" %}
+        </a>
+        <a class="nav-item nav-link" id="nav-fulfilled-tab" data-toggle="tab"
+           href="#nav-fulfilled" role="tab" aria-controls="nav-fulfilled" aria-selected="false">
+            {% trans "Orders Fulfilled" %}
+        </a>
+        <a class="nav-item nav-link" id="nav-canceled-tab" data-toggle="tab"
+           href="#nav-canceled" role="tab" aria-controls="nav-canceled" aria-selected="false">
+            {% trans "Canceled Orders" %}
+        </a>
+        <a class="nav-item nav-link" id="nav-selected-tab" data-toggle="tab"
+           href="#nav-selected" role="tab" aria-controls="nav-selected" aria-selected="false">
+            {% trans "Selected Orders" %}
+        </a>
+    </div>
+</nav>
+<div class="tab-content mt-4 mb-4" id="nav-tabContent">
+    <div class="tab-pane fade show active" id="nav-discussion" role="tabpanel" aria-labelledby="nav-discussion-tab">
+        <div class="row row-cols-1 row-cols-md-3">
+            {% for order in orders.object_list %}
+                {% if order.status == 'In discussion' %}
+                  <div class="col mb-4">
+                    <div class="card border-dark">
+                      <img class="card-img-top" src="{{order.image_view.url }}" width="300" height="auto">
+                      <div class="card-body">
+                        <h5 class="card-title">{{ order.title }}</h5>
+                        <p class="card-text">{{ order.description }}</p>
+                      </div>
+                      <div class="card-footer bg-transparent border-dark">
+                          <a class="btn btn-outline-success col-12" href="{{order.id}}">{% trans "Details" %}</a>
+                      </div>
+                    </div>
+                  </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+
         <div class="pagination">
-            {% bootstrap_paginate order range=3 %}
+            {% bootstrap_paginate orders range=3 %}
         </div>
     </div>
+    <div class="tab-pane fade" id="nav-work" role="tabpanel" aria-labelledby="nav-work-tab">
+        <div class="row row-cols-1 row-cols-md-3">
+            {% for order in orders.object_list %}
+                {% if order.status == 'In work' %}
+                  <div class="col mb-4">
+                    <div class="card border-dark">
+                      <img class="card-img-top" src="{{order.image_view.url }}" width="300" height="auto">
+                      <div class="card-body">
+                        <h5 class="card-title">{{ order.title }}</h5>
+                        <p class="card-text">{{ order.description }}</p>
+                      </div>
+                      <div class="card-footer bg-transparent border-dark">
+                          <a class="btn btn-outline-success col-12" href="{{order.id}}">{% trans "Details" %}</a>
+                      </div>
+                    </div>
+                  </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="pagination">
+            {% bootstrap_paginate orders range=3 %}
+        </div>
+    </div>
+    <div class="tab-pane fade" id="nav-fulfilled" role="tabpanel" aria-labelledby="nav-fulfilled-tab">
+        <div class="row row-cols-1 row-cols-md-3">
+            {% for order in orders.object_list %}
+                {% if order.status == 'Done' %}
+                  <div class="col mb-4">
+                    <div class="card border-dark">
+                      <img class="card-img-top" src="{{order.image_view.url }}" width="300" height="auto">
+                      <div class="card-body">
+                        <h5 class="card-title">{{ order.title }}</h5>
+                        <p class="card-text">{{ order.description }}</p>
+                      </div>
+                      <div class="card-footer bg-transparent border-dark">
+                          <a class="btn btn-outline-success col-12" href="{{order.id}}">{% trans "Details" %}</a>
+                      </div>
+                    </div>
+                  </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="pagination">
+            {% bootstrap_paginate orders range=3 %}
+        </div>
+    </div>
+    <div class="tab-pane fade" id="nav-canceled" role="tabpanel" aria-labelledby="nav-canceled-tab">
+        <div class="row row-cols-1 row-cols-md-3">
+            {% for order in orders.object_list %}
+                {% if order.status == 'Canceled' %}
+                  <div class="col mb-4">
+                    <div class="card border-dark">
+                      <img class="card-img-top" src="{{order.image_view.url }}" width="300" height="auto">
+                      <div class="card-body">
+                        <h5 class="card-title">{{ order.title }}</h5>
+                        <p class="card-text">{{ order.description }}</p>
+                      </div>
+                      <div class="card-footer bg-transparent border-dark">
+                          <a class="btn btn-outline-success col-12" href="{{order.id}}">{% trans "Details" %}</a>
+                      </div>
+                    </div>
+                  </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="pagination">
+            {% bootstrap_paginate orders range=3 %}
+        </div>
+    </div>
+    <div class="tab-pane fade" id="nav-selected" role="tabpanel" aria-labelledby="nav-selected-tab">...</div>
+</div>
 {% endblock %}
