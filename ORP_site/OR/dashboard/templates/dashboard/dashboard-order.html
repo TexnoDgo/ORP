@@ -5,60 +5,36 @@
 {% load bootstrap_pagination %}
 
 {% block content %}
-    <link rel="stylesheet" href="{% static 'dashboard/style.css' %}">
+<link rel="stylesheet" href="{% static 'dashboard/style.css' %}">
 
-    <div class="container" id="wefwe">
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'index' %}">{% trans "Home" %}</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">{% trans "Dashboard" %}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{% trans "You Orders" %}</li>
+  </ol>
+</nav>
 
-        <ul class="list-unstyled chat-1 scrollbar-light-blue">
-            <!-- Верхний блок -->
-            <li href="#" class="list-group-item list-group-item-dark">
-                <ul class="list-group list-group-horizontal">
-
-                    <li class="list-group-item list-group-item-action active">
-                        <h6> Мои заказы</h6>
-                    </li>
-
-                    <a href="{% url 'dashboard_sug_active' %}" class="list-group-item list-group-item-action list-group-item-dark">
-                        <h6>Мои предложения</h6>
-                    </a>
-
-                    <a href="{% url 'dashboard' %}" class="list-group-item list-group-item-action list-group-item-dark">
-                        <h6>Info панель</h6>
-                    </a>
-
-                    <a href="{% url 'dashboard-messages' %}" class="list-group-item list-group-item-action list-group-item-dark">
-                        <h6>Сообщения</h6>
-                    </a>
-
-                    <a href="" class="list-group-item list-group-item-action list-group-item-dark">
-                        <h6>Отзывы</h6>
-                    </a>
-
-                </ul>
-            </li>
-            <!-- Верхний блок -->
-        </ul>
-
-    </div>
+<legend class="border-bottom mb-4" align="center">{% trans "YOUR ORDERS" %}</legend>
 <nav>
-    <div class="nav nav-tabs" id="nav-tab" role="tablist">
-        <a class="nav-item nav-link active" id="nav-discussion-tab" data-toggle="tab"
+    <div class="nav nav-tabs" id="nav-tab" role="tablist" align="center">
+        <a class="nav-item nav-link active col" id="nav-discussion-tab" data-toggle="tab"
            href="#nav-discussion" role="tab" aria-controls="nav-discussion" aria-selected="true">
             {% trans "Discussion Orders" %}
         </a>
-        <a class="nav-item nav-link" id="nav-work-tab" data-toggle="tab"
+        <a class="nav-item nav-link col" id="nav-work-tab" data-toggle="tab"
            href="#nav-work" role="tab" aria-controls="nav-work" aria-selected="false">
             {% trans "Work orders" %}
         </a>
-        <a class="nav-item nav-link" id="nav-fulfilled-tab" data-toggle="tab"
+        <a class="nav-item nav-link col" id="nav-fulfilled-tab" data-toggle="tab"
            href="#nav-fulfilled" role="tab" aria-controls="nav-fulfilled" aria-selected="false">
             {% trans "Orders Fulfilled" %}
         </a>
-        <a class="nav-item nav-link" id="nav-canceled-tab" data-toggle="tab"
+        <a class="nav-item nav-link col" id="nav-canceled-tab" data-toggle="tab"
            href="#nav-canceled" role="tab" aria-controls="nav-canceled" aria-selected="false">
             {% trans "Canceled Orders" %}
         </a>
-        <a class="nav-item nav-link" id="nav-selected-tab" data-toggle="tab"
+        <a class="nav-item nav-link col" id="nav-selected-tab" data-toggle="tab"
            href="#nav-selected" role="tab" aria-controls="nav-selected" aria-selected="false">
             {% trans "Selected Orders" %}
         </a>
@@ -67,7 +43,7 @@
 <div class="tab-content mt-4 mb-4" id="nav-tabContent">
     <div class="tab-pane fade show active" id="nav-discussion" role="tabpanel" aria-labelledby="nav-discussion-tab">
         <div class="row row-cols-1 row-cols-md-3">
-            {% for order in orders.object_list %}
+            {% for order in orders %}
                 {% if order.status == 'In discussion' %}
                   <div class="col mb-4">
                     <div class="card border-dark">
@@ -77,7 +53,7 @@
                         <p class="card-text">{{ order.description }}</p>
                       </div>
                       <div class="card-footer bg-transparent border-dark">
-                          <a class="btn btn-outline-success col-12" href="{{order.id}}">{% trans "Details" %}</a>
+                          <a class="btn btn-outline-success col-12" href="{% url 'order_detail' pk=order.id %}">{% trans "Details" %}</a>
                       </div>
                     </div>
                   </div>
@@ -85,13 +61,11 @@
             {% endfor %}
         </div>
 
-        <div class="pagination">
-            {% bootstrap_paginate orders range=3 %}
-        </div>
+
     </div>
     <div class="tab-pane fade" id="nav-work" role="tabpanel" aria-labelledby="nav-work-tab">
         <div class="row row-cols-1 row-cols-md-3">
-            {% for order in orders.object_list %}
+            {% for order in orders %}
                 {% if order.status == 'In work' %}
                   <div class="col mb-4">
                     <div class="card border-dark">
@@ -101,20 +75,18 @@
                         <p class="card-text">{{ order.description }}</p>
                       </div>
                       <div class="card-footer bg-transparent border-dark">
-                          <a class="btn btn-outline-success col-12" href="{{order.id}}">{% trans "Details" %}</a>
+                           <a class="btn btn-outline-success col-12" href="{% url 'order_detail' pk=order.id %}">{% trans "Details" %}</a>
                       </div>
                     </div>
                   </div>
                 {% endif %}
             {% endfor %}
         </div>
-        <div class="pagination">
-            {% bootstrap_paginate orders range=3 %}
-        </div>
+
     </div>
     <div class="tab-pane fade" id="nav-fulfilled" role="tabpanel" aria-labelledby="nav-fulfilled-tab">
         <div class="row row-cols-1 row-cols-md-3">
-            {% for order in orders.object_list %}
+            {% for order in orders %}
                 {% if order.status == 'Done' %}
                   <div class="col mb-4">
                     <div class="card border-dark">
@@ -124,20 +96,18 @@
                         <p class="card-text">{{ order.description }}</p>
                       </div>
                       <div class="card-footer bg-transparent border-dark">
-                          <a class="btn btn-outline-success col-12" href="{{order.id}}">{% trans "Details" %}</a>
+                          <a class="btn btn-outline-success col-12" href="{% url 'order_detail' pk=order.id %}">{% trans "Details" %}</a>
                       </div>
                     </div>
                   </div>
                 {% endif %}
             {% endfor %}
         </div>
-        <div class="pagination">
-            {% bootstrap_paginate orders range=3 %}
-        </div>
+
     </div>
     <div class="tab-pane fade" id="nav-canceled" role="tabpanel" aria-labelledby="nav-canceled-tab">
         <div class="row row-cols-1 row-cols-md-3">
-            {% for order in orders.object_list %}
+            {% for order in orders %}
                 {% if order.status == 'Canceled' %}
                   <div class="col mb-4">
                     <div class="card border-dark">
@@ -147,16 +117,14 @@
                         <p class="card-text">{{ order.description }}</p>
                       </div>
                       <div class="card-footer bg-transparent border-dark">
-                          <a class="btn btn-outline-success col-12" href="{{order.id}}">{% trans "Details" %}</a>
+                          <a class="btn btn-outline-success col-12" href="{% url 'order_detail' pk=order.id %}">{% trans "Details" %}</a>
                       </div>
                     </div>
                   </div>
                 {% endif %}
             {% endfor %}
         </div>
-        <div class="pagination">
-            {% bootstrap_paginate orders range=3 %}
-        </div>
+
     </div>
     <div class="tab-pane fade" id="nav-selected" role="tabpanel" aria-labelledby="nav-selected-tab">...</div>
 </div>

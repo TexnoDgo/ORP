@@ -37,6 +37,9 @@
                   <div class="dropdown-menu">
                     <a class="dropdown-item" href="{% url 'profile_view' %}">{% trans 'Profile' %}</a>
                     <a class="dropdown-item" href="{% url 'dashboard' %}">{% trans 'Dashboard' %}</a>
+                    <a class="dropdown-item" href="{% url 'dashboard-order' %}">{% trans 'Orders' %}</a>
+                    <a class="dropdown-item" href="{% url 'dashboard_sug_active' %}">{% trans 'Suggestions' %}</a>
+                    <a class="dropdown-item" href="{% url 'dashboard-messages' %}">{% trans 'Messages' %}</a>
                     <a class="dropdown-item" href="#">Something else here</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="{% url 'logout' %}">{% trans "Logout" %}</a>

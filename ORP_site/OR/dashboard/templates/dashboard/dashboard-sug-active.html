@@ -1,256 +1,328 @@
 {% extends "HomePage/base.html" %}
 {% load i18n %}
-{% block title %}{% trans "Dashboard Order" %}{% endblock %}
+{% block title %}{% trans "CrispyMachine - You Suggestions" %}{% endblock %}
 {% load static %}
 {% load bootstrap_pagination %}
 
 {% block content %}
+<link rel="stylesheet" href="{% static 'dashboard/style.css' %}">
 
-    <link rel="stylesheet" href="{% static 'dashboard/style.css' %}">
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'index' %}">{% trans "Home" %}</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">{% trans "Dashboard" %}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{% trans "You Suggestions" %}</li>
+  </ol>
+</nav>
 
+<legend class="border-bottom mb-4" align="center">{% trans "YOUR SUGGESTIONS" %}</legend>
 
-    <div class="container" id="wefwe">
-
-        <ul class="list-unstyled chat-1 scrollbar-light-blue">
-
-            <!-- Верхний блок -->
-            <li href="#" class="list-group-item list-group-item-dark">
-                <ul class="list-group list-group-horizontal">
-
-                    <a href="{% url 'dashboard-order' %}" class="list-group-item list-group-item-action list-group-item-dark">
-                        <h6> Мои заказы</h6>
-                    </a>
-
-                    <li href="{% url 'dashboard_sug_active' %}" class="list-group-item list-group-item-action active">
-                        <h6>Мои предложения</h6>
-                    </li>
-
-                    <a href="{% url 'dashboard' %}" class="list-group-item list-group-item-action list-group-item-dark">
-                        <h6>Info панель</h6>
-                    </a>
-
-                    <a href="{% url 'dashboard-messages' %}" class="list-group-item list-group-item-action list-group-item-dark">
-                        <h6>Сообщения</h6>
-                    </a>
-
-                    <a href="" class="list-group-item list-group-item-action list-group-item-dark">
-                        <h6>Отзывы</h6>
-                    </a>
-
-                </ul>
-            </li>
-            <!-- Верхний блок -->
-
-            <!-- Средний блок -->
-            <li href="#" class="list-group-item list-group-item-dark">
-                <ul class="list-group list-group-horizontal">
-
-                    <li class="list-group-item list-group-item-action active">
-                        <h6>Предложения в обсуждении</h6>
-                    </li>
-
-                    <a href="#" class="list-group-item list-group-item-action list-group-item-secondary">
-                        <h6>Предложения в работе</h6>
-                    </a>
-
-                    <a href="#" class="list-group-item list-group-item-action list-group-item-secondary">
-                        <h6>Выполненные предложения</h6>
-                    </a>
-
-                    <a href="#" class="list-group-item list-group-item-action list-group-item-secondary">
-                        <h6>Отмененные предложения</h6>
-                    </a>
-
-                    <a href="#" class="list-group-item list-group-item-action list-group-item-secondary">
-                        <h6>Архив предложений</h6>
-                    </a>
-
-                </ul>
-            </li>
-            <!-- Средний блок -->
-
-            <!-- Нижний блок -->
-            <li class="list-group-item list-group-item-dark">
-
-                    {% for form in suggestions %}
-                        <ul class="list-group list-group-horizontal">
-                        {% csrf_token %}
-                            <!--Заказ-->
-                            {% for one_order in orders %}
-                                {% if form.order.id == one_order.id %}
-                                    <a href="{% url 'order_detail' pk=one_order.id %}" class="list-group-item list-group-item-action list-group-item-secondary">
-                                        <div class="vo">
-                                        <div class="container">
-                                             <!--Статусы зказов-->
-                                            <p>
-                                                Статус заказа:
-                                                {% if one_order.status == 'В обсуждении' %}
-                                                    <span class="badge badge-pill badge-warning">{{ one_order.status }}</span>
-                                                {% elif one_order.status == 'В работe' %}
-                                                    <span class="badge badge-pill badge-success">{{ one_order.status }}</span>
-                                                {% elif one_order.status == 'Выполненый' %}
-                                                    <span class="badge badge-pill badge-secondary">{{ one_order.status }}</span>
-                                                {% elif one_order.status == 'Отменённый' %}
-                                                    <span class="badge badge-pill badge-danger">{{ one_order.status }}</span>
-                                                {% endif %}
-
-                                            </p>
-                                            <!--Таблица зказа-->
-                                            <table class="">
-                                                <tbody>
-                                                    <tr class="">
-                                                        <td colspan="2">Заказ создан:</td>
-                                                        <td colspan="2"><span class="badge badge-info">{{ one_order.date_create }}</span></td>
-                                                        <td colspan="2">Автор заказа:</td>
-                                                        <td colspan="2"><span class="badge badge-info">{{ one_order.author }}</span></td>
-                                                    </tr>
-                                                    <tr class="">
-                                                        <td colspan="2">Заголовок заказа:</td>
-                                                        <td colspan="6"><span class="badge badge-pill badge-light">{{ one_order.title }}</span></td>
-                                                    </tr>
-                                                    <tr class="">
-                                                        <td colspan="8">
-                                                            <img src="{{one_order.image_view.url }}" width="150" height="auto">
-                                                        </td>
-                                                    </tr>
-                                                    <tr class="">
-                                                        <td colspan="8">
-                                                            {% if files %}
-                                                                {% for file in files %}
-                                                                    <a href="#" class="badge badge-primary">{{ file }}</a>
-                                                                {% endfor %}
-                                                            {% else %}
-                                                                <p>No Files!</p>
-                                                            {% endif %}
-                                                        </td>
-                                                    </tr>
-                                                    <tr class="">
-                                                        <td>Описание:</td>
-                                                        <td colspan="7">
-                                                                {{ one_order.description }}
-
-                                                        </td>
-                                                    </tr>
-                                                    <tr class="">
-                                                        <td colspan="2">Количество изделий:</td>
-                                                        <td colspan="2"><span class="badge badge-pill badge-light">{{ one_order.amount }}</span></td>
-                                                        <td colspan="2">Срок выполнения заказа:</td>
-                                                        <td colspan="2"><span class="badge badge-pill badge-light">{{ one_order.lead_time }}</span></td>
-                                                    </tr>
-                                                    <tr class="">
-                                                        <td colspan="2">Бюджет заказа:</td>
-                                                        <td colspan="2"><span class="badge badge-pill badge-light">{{ one_order.proposed_budget }}</span></td>
-                                                        <td colspan="2">Город заказа:</td>
-                                                        <td colspan="2"><span class="badge badge-pill badge-light">{{ one_order.city }}</span></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="2">
-                                                            {% if user == one_order.author %}
-                                                                {% if order.status == 'В работe' %}
-                                                                    <a href="{% url 'status_ready' object.id %}"
-                                                                       class="btn btn-primary  btn-lg active btn-sm"
-                                                                       role="button" aria-pressed="true">
-                                                                        Заказ выполнен
-                                                                    </a>
-                                                                {% elif order.status == 'Выполненый' %}
-                                                                    <a href="{% url 'status_ready' object.id %}"
-                                                                       class="btn btn-secondary btn-lg active btn-sm"
-                                                                       role="button" aria-pressed="true">
-                                                                        Доработать заказ
-                                                                    </a>
-                                                                {% endif %}
-                                                                <!-- -->
-                                                            {% endif %}
-                                                        </td>
-                                                        <td colspan="2">
-                                                            {% if user == order.author %}
-                                                                <button type="button" class="btn btn-warning">
-                                                                    <a href="//127.0.0.1:8000/orders/{{order.id}}/update">
-                                                                        Изменить заказ
-                                                                    </a>
-                                                                </button>
-                                                                <!-- Изменить ссылку на Url-->
-                                                            {% endif %}
-                                                        </td>
-                                                        <td colspan="2">
-                                                            {% if user == order.author %}
-                                                                <a href="{% url 'order_delete' object.id %}" class="btn btn-danger btn-lg active btn-sm" role="button" aria-pressed="true">Удалить заказ</a>
-                                                                <!--  -->
-                                                            {% endif %}
-                                                        </td>
-                                                        <td colspan="2">
-
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
+<nav>
+    <div class="nav nav-tabs" id="nav-tab" role="tablist" align="center">
+        <a class="nav-item nav-link active col" id="nav-discussion-tab" data-toggle="tab" href="#nav-discussion"
+           role="tab" aria-controls="nav-discussion" aria-selected="true">
+            {% trans "DISCUSSION Suggestions" %}
+        </a>
+        <a class="nav-item nav-link col" id="nav-work-tab" data-toggle="tab" href="#nav-work"
+           role="tab" aria-controls="nav-work" aria-selected="false">
+            {% trans "WORK Suggestions" %}
+        </a>
+        <a class="nav-item nav-link col" id="nav-done-tab" data-toggle="tab" href="#nav-done"
+           role="tab" aria-controls="nav-done" aria-selected="false">
+            {% trans "DONE Suggestions" %}
+        </a>
+        <a class="nav-item nav-link col" id="nav-canceled-tab" data-toggle="tab" href="#nav-canceled"
+           role="tab" aria-controls="nav-canceled" aria-selected="false">
+            {% trans "CANCELED Suggestions" %}
+        </a>
+        <a class="nav-item nav-link col" id="nav-featured-tab" data-toggle="tab" href="#nav-featured"
+           role="tab" aria-controls="nav-featured" aria-selected="false">
+            {% trans "FEATURED Suggestions" %}
+        </a>
+    </div>
+</nav>
+<div class="tab-content" id="nav-tabContent">
+    <div class="tab-pane fade show active mt-3" id="nav-discussion" role="tabpanel" aria-labelledby="nav-discussion-tab">
+        <div class="row row-cols-1 row-cols-md-3 ml-3">
+            {% for form in suggestions %}
+            {% csrf_token %}
+                {% if form.status == 'In discussion' %}
+                    {% for one_order in orders %}
+                        {% if form.order.id == one_order.id %}
+                            <div class="col mb-4">
+                                <div class="card border-dark mb-3" style="max-width: 32rem;">
+                                    <div class="card-header bg-transparent border-dark">
+                                        <p class="card-text">
+                                            <small class="text-muted">
+                                                {% trans "Offer created: " %} {{ form.date_create }}
+                                            </small>
+                                            <small class="text-muted col">
+                                                {% trans "Proposal author: " %} {{ form.author }}
+                                            </small>
+                                            <small class="text-muted ml-3">
+                                                {% for profile in profiles %}
+                                                    {% if profile.user == form.author %}
+                                                        {% trans "Rating: " %}
+                                                        <span class="badge badge-success">{{ profile.rating }}</span>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </small>
+                                        </p>
+                                    </div>
+                                    <div class="card-body text-dark">
+                                        <p class="card-text">{{ form.offer_description }}</p>
+                                    </div>
+                                    <div class="card-footer bg-transparent border-dark">
+                                        <p class="card-text">
+                                            <small class="text-muted">
+                                                {% trans "Deadline: " %}{{ form.deadline }}
+                                            </small>
+                                            <small class="text-muted ml-2">
+                                                {% trans "Offer price: " %}{{ form.offer_price}}&#8372;
+                                            </small>
+                                            <small class="text-muted ml-2">
+                                                <a href="{% url 'message_and_suggestion' pk=form.id %}" type="button"
+                                                   class="btn btn-outline-info btn-sm">
+                                                    {% trans "Suggestion Details" %}
+                                                </a>
+                                            </small>
+                                        </p>
+                                    </div>
+                                    <div class="card-footer bg-transparent border-dark">
+                                        <div class="row no-gutters">
+                                            <div class="col">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">{{ one_order.title }}</h5>
+                                                    <p class="card-text">{{ one_order.description }}</p>
+                                                    <p class="card-text">
+                                                        <a class="btn btn-outline-success col-12 btn-sm"
+                                                           href="{% url 'order_detail' pk=one_order.id %}">
+                                                            {% trans "Order Details" %}
+                                                        </a>
+                                                    </p>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    </a>
-                                {% endif %}
-                            {% endfor %}
-                            <!--Заказ-->
-
-                            <!--Предложение-->
-                            <a href="/suggestion/view/{{form.id}}" class="list-group-item list-group-item-action list-group-item-secondary">
-                                <table class="">
-                                <tbody>
-                                    <tr >
-                                        <td >Автор предложения:</td>
-                                        <td>{{ form.author }}</td>
-                                        <td>Дата создания предложения: </td>
-                                        <td>{{ form.date_create }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="4">{{ form.offer_description }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Предложенная стоимость:</td>
-                                        <td>{{ form.offer_price}}&#8372;</td>
-                                        <td>Срок выполнения до:</td>
-                                        <td>{{ form.deadline }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2">Статус предложения: </td>
-                                        <td colspan="2">
-                                            {% if form.selected_offer %}
-                                                <span class="badge badge-success">Принят</span>
-                                            {% else %}
-                                                <span class="badge badge-warning">Отменен</span>
-                                            {% endif %}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="4">
-                                            {% if true_sug == 0 %}
-                                                <a href="{% url 'status_in_work' pk=form.pk %}">
-                                                    <button class="btn btn-success" id="click_button">
-                                                        ----------------------Выбрать---------------------
-                                                    </button>
-                                                </a>
-                                            {% else %}
-                                                {% if form.selected_offer == True %}
-                                                    <a href="{% url 'status_in_work' pk=form.pk %}">
-                                                    <button class="btn btn-danger" id="cancel_button">
-                                                        ----------------------Отменить--------------------
-                                                    </button>
-                                                    </a>
-                                                {% endif %}
-                                            {% endif %}
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            </a>
-                            <!--Предложение-->
-                        </ul>
-                        <hr>
+                                </div>
+                            </div>
+                        {% endif %}
                     {% endfor %}
-
-            </li>
-            <!-- Нижний блок -->
-        </ul>
-
+                {% endif %}
+            {% endfor %}
+        </div>
     </div>
+    <div class="tab-pane fade mt-3" id="nav-work" role="tabpanel" aria-labelledby="nav-work-tab">
+        <div class="row row-cols-1 row-cols-md-2 ml-2">
+            {% for form in suggestions %}
+                {% if form.status == 'In work' %}
+                    {% for one_order in orders %}
+                        {% if form.order.id == one_order.id %}
+                            <div class="col mb-4">
+                                <div class="card border-dark mb-3" style="max-width: 32rem;">
+                                <div class="card-header bg-transparent border-dark">
+                                    <p class="card-text">
+                                        <small class="text-muted">
+                                            {% trans "Offer created: " %} {{ form.date_create }}
+                                        </small>
+                                        <small class="text-muted col">
+                                            {% trans "Proposal author: " %} {{ form.author }}
+                                        </small>
+                                        <small class="text-muted ml-3">
+                                            {% for profile in profiles %}
+                                                {% if profile.user == form.author %}
+                                                    {% trans "Rating: " %}
+                                                    <span class="badge badge-success">{{ profile.rating }}</span>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </small>
+                                    </p>
+                                </div>
+                                <div class="card-body text-dark">
+                                    <p class="card-text">{{ form.offer_description }}</p>
+                                </div>
+                                <div class="card-footer bg-transparent border-dark">
+                                    <p class="card-text">
+                                        <small class="text-muted">
+                                            {% trans "Deadline: " %}{{ form.deadline }}
+                                        </small>
+                                        <small class="text-muted ml-2">
+                                            {% trans "Offer price: " %}{{ form.offer_price}}&#8372;
+                                        </small>
+                                        <small class="text-muted ml-2">
+                                            <a href="{% url 'message_and_suggestion' pk=form.id %}" type="button"
+                                               class="btn btn-outline-info btn-sm">
+                                                {% trans "Suggestion Details" %}
+                                            </a>
+                                        </small>
+                                    </p>
+                                </div>
+                                <div class="card-footer bg-transparent border-dark">
+                                    <div class="row no-gutters">
+                                        <div class="col">
+                                            <div class="card-body">
+                                                <h5 class="card-title">{{ one_order.title }}</h5>
+                                                <p class="card-text">{{ one_order.description }}</p>
+                                                <p class="card-text">
+                                                    <a class="btn btn-outline-success col-12 btn-sm"
+                                                       href="{% url 'order_detail' pk=one_order.id %}">
+                                                        {% trans "Order Details" %}
+                                                    </a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    <div class="tab-pane fade mt-3" id="nav-done" role="tabpanel" aria-labelledby="nav-done-tab">
+        <div class="row row-cols-1 row-cols-md-3 ml-3">
+            {% for form in suggestions %}
+                {% if form.status == 'Done' %}
+                    {% for one_order in orders %}
+                        {% if form.order.id == one_order.id %}
+                          <div class="col mb-4">
+                                <div class="card border-dark mb-3" style="max-width: 32rem;">
+                                <div class="card-header bg-transparent border-dark">
+                                    <p class="card-text">
+                                        <small class="text-muted">
+                                            {% trans "Offer created: " %} {{ form.date_create }}
+                                        </small>
+                                        <small class="text-muted col">
+                                            {% trans "Proposal author: " %} {{ form.author }}
+                                        </small>
+                                        <small class="text-muted ml-3">
+                                            {% for profile in profiles %}
+                                                {% if profile.user == form.author %}
+                                                    {% trans "Rating: " %}
+                                                    <span class="badge badge-success">{{ profile.rating }}</span>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </small>
+                                    </p>
+                                </div>
+                                <div class="card-body text-dark">
+                                    <p class="card-text">{{ form.offer_description }}</p>
+                                </div>
+                                <div class="card-footer bg-transparent border-dark">
+                                    <p class="card-text">
+                                        <small class="text-muted">
+                                            {% trans "Deadline: " %}{{ form.deadline }}
+                                        </small>
+                                        <small class="text-muted ml-2">
+                                            {% trans "Offer price: " %}{{ form.offer_price}}&#8372;
+                                        </small>
+                                        <small class="text-muted ml-2">
+                                            <a href="{% url 'message_and_suggestion' pk=form.id %}" type="button"
+                                               class="btn btn-outline-info btn-sm">
+                                                {% trans "Suggestion Details" %}
+                                            </a>
+                                        </small>
+                                    </p>
+                                </div>
+                                <div class="card-footer bg-transparent border-dark">
+                                    <div class="row no-gutters">
+                                        <div class="col">
+                                            <div class="card-body">
+                                                <h5 class="card-title">{{ one_order.title }}</h5>
+                                                <p class="card-text">{{ one_order.description }}</p>
+                                                <p class="card-text">
+                                                    <a class="btn btn-outline-success col-12 btn-sm"
+                                                       href="{% url 'order_detail' pk=one_order.id %}">
+                                                        {% trans "Order Details" %}
+                                                    </a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    <div class="tab-pane fade mt-3" id="nav-canceled" role="tabpanel" aria-labelledby="nav-canceled-tab">
+        <div class="row row-cols-1 row-cols-md-3 ml-3">
+            {% for form in suggestions %}
+                {% if form.status == 'Canceled' %}
+                    {% for one_order in orders %}
+                        {% if form.order.id == one_order.id %}
+                          <div class="col mb-4">
+                                <div class="card border-dark mb-3" style="max-width: 32rem;">
+                                <div class="card-header bg-transparent border-dark">
+                                    <p class="card-text">
+                                        <small class="text-muted">
+                                            {% trans "Offer created: " %} {{ form.date_create }}
+                                        </small>
+                                        <small class="text-muted col">
+                                            {% trans "Proposal author: " %} {{ form.author }}
+                                        </small>
+                                        <small class="text-muted ml-3">
+                                            {% for profile in profiles %}
+                                                {% if profile.user == form.author %}
+                                                    {% trans "Rating: " %}
+                                                    <span class="badge badge-success">{{ profile.rating }}</span>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </small>
+                                    </p>
+                                </div>
+                                <div class="card-body text-dark">
+                                    <p class="card-text">{{ form.offer_description }}</p>
+                                </div>
+                                <div class="card-footer bg-transparent border-dark">
+                                    <p class="card-text">
+                                        <small class="text-muted">
+                                            {% trans "Deadline: " %}{{ form.deadline }}
+                                        </small>
+                                        <small class="text-muted ml-2">
+                                            {% trans "Offer price: " %}{{ form.offer_price}}&#8372;
+                                        </small>
+                                        <small class="text-muted ml-2">
+                                            <a href="{% url 'message_and_suggestion' pk=form.id %}" type="button"
+                                               class="btn btn-outline-info btn-sm">
+                                                {% trans "Suggestion Details" %}
+                                            </a>
+                                        </small>
+                                    </p>
+                                </div>
+                                <div class="card-footer bg-transparent border-dark">
+                                    <div class="row no-gutters">
+                                        <div class="col-md-4">
+                                            <img src="{{one_order.image_view.url }}" class="card-img" alt="...">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="card-body">
+                                                <h5 class="card-title">{{ one_order.title }}</h5>
+                                                <p class="card-text">{{ one_order.description }}</p>
+                                                <p class="card-text">
+                                                    <a class="btn btn-outline-success col-12 btn-sm"
+                                                       href="{% url 'order_detail' pk=one_order.id %}">
+                                                        {% trans "Order Details" %}
+                                                    </a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    <div class="tab-pane fade mt-3" id="nav-featured" role="tabpanel" aria-labelledby="nav-featured-tab">...</div>
+</div>
 {% endblock %}
 

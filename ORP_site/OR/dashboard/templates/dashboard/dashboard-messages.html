@@ -5,80 +5,43 @@
 {% load bootstrap_pagination %}
 
 {% block content %}
-    <link rel="stylesheet" href="{% static 'dashboard/style.css' %}">
+<link rel="stylesheet" href="{% static 'dashboard/style.css' %}">
 
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'index' %}">{% trans "Home" %}</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">{% trans "Dashboard" %}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{% trans "You Messages" %}</li>
+  </ol>
+</nav>
 
-    <div class="container" id="wefwe">
+<legend class="border-bottom mb-4" align="center">{% trans "YOUR MESSAGES" %}</legend>
 
-        <ul class="list-unstyled chat-1 scrollbar-light-blue">
-
-            <!-- Верхний блок -->
-            <li href="#" class="list-group-item list-group-item-dark">
-                <ul class="list-group list-group-horizontal">
-
-                    <a href="{% url 'dashboard-order' %}" class="list-group-item list-group-item-action list-group-item-dark">
-                        <h6> Мои заказы</h6>
-                    </a>
-
-                    <a href="{% url 'dashboard_sug_active' %}" class="list-group-item list-group-item-action list-group-item-dark">
-                        <h6>Мои предложения</h6>
-                    </a>
-
-                    <a href="{% url 'dashboard' %}" class="list-group-item list-group-item-action list-group-item-dark">
-                        <h6>Info панель</h6>
-                    </a>
-
-                    <li  class="list-group-item list-group-item-action active ">
-                        <h6>Сообщения</h6>
-                    </li>
-
-                    <a href="" class="list-group-item list-group-item-action list-group-item-dark">
-                        <h6>Отзывы</h6>
-                    </a>
-
-                </ul>
+<ul class="list-group list-group-horizontal">
+    <!--Заказы и предложения инфопанели-->
+    <li class="list-group-item list-group-item" style="width: 30rem; ">
+        <ul class="list-group">
+            <li class="list-group-item list-group-item-info">
+                {% trans "Dialogs" %}
             </li>
-            <!-- Верхний блок -->
-
-            <!-- Средний блок -->
-            <ul class="list-group list-group-horizontal">
-                <!--Заказы и предложения инфопанели-->
-                <li class="list-group-item list-group-item list-group-item-dark">
-                    <ul class="list-group">
-                        <li class="list-group-item active">
-                            Диалоги
-                        </li>
-                        {% for sug in suggestions %}
-                            <a href="{% url 'dashboard-message-view' pk=sug.id %}" class="list-group-item list-group-item-action list-group-item-secondary">
-                                {{sug.order}}
-                            </a>
-                        {% endfor %}
-                    </ul>
-                </li>
-                <!--Заказы и предложения инфопанели-->
-
-                <!--Информация о пользователе-->
-                <li class="list-group-item list-group-item-dark">
-                    <ul class="list-group">
-                        <li href="" class="list-group-item active">
-                            {{ user.username }}
-                        </li>
-                        <table width="885" height="500">
-
-                        </table>
-                    </ul>
-                </li>
-                <!--Информация о пользователе-->
-            </ul>
-            <!-- Средний блок -->
-
-            <!-- Нижний блок -->
-            <a href="#" class="list-group-item list-group-item-action list-group-item-secondary">
-                Лента новостей
-            </a>
-            <!-- Нижний блок -->
-
+            <div class="overflow-auto" style="height: 35rem;">
+                {% for sug in suggestions %}
+                    <a href="{% url 'dashboard-message-view' pk=sug.id %}"
+                       class="list-group-item list-group-item-action">
+                        {{sug.order}}
+                    </a>
+                {% endfor %}
+            </div>
         </ul>
+    </li>
+        <li class="list-group-item list-group-item"style="width: 60rem;">
+            <small>
+                {% trans "Welcome, choose a dialogue for communication. If you have not created orders or placed offers, do this," %}
+                <a href="{% url 'order_create' %}">{% trans "create order" %}</a>
+                {% trans "or place an offer for one of the orders here" %}
+                <a href="{% url 'orders' %}">{% trans "all orders" %}</a>
+            </small>
+        </li>
+</ul>
 
-    </div>
 {% endblock %}

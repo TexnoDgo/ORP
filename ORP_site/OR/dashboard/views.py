@@ -16,38 +16,87 @@ from chat.forms import MessageCreateForm
 
 def index(request):
     user_order = Order.objects.filter(author=request.user)
+    user_suggestion = Suggestion.objects.filter(author=request.user)
     user_profile = Profile.objects.get(user=request.user)
     order_len = len(user_order)
+    suggestion_len = len(user_suggestion)
 
+    order_and_suggestion_dict = {}
+
+    for order in user_order:
+        order_date_create = str(order.date_create)
+        order_date_create = order_date_create[:19].replace("-", "")
+        order_and_suggestion_dict[order_date_create] = order
+
+    for suggestion in user_suggestion:
+        suggestion_date_create = str(suggestion.date_create)
+        suggestion_date_create = suggestion_date_create[:19].replace("-", "")
+        order_and_suggestion_dict[suggestion_date_create] = suggestion
+
+    # Сортировка словаря
+    sort_order_and_suggestion_dict = {}
+    order_and_suggestion_list = list(order_and_suggestion_dict.keys())
+    order_and_suggestion_list.sort(reverse=True)
+
+    for element in order_and_suggestion_list:
+        sort_order_and_suggestion_dict[element] = order_and_suggestion_dict[element]
+    # Заказы
     count = 0
     count2 = 0
     count3 = 0
     count4 = 0
+    # Предложения
+    count5 = 0
+    count6 = 0
+    count7 = 0
+    count8 = 0
+
     for order in user_order:
         count += 1
-        if order.status == 'В работe':
+        if order.status == 'In work':
             count2 += 1
-        elif order.status == 'Выполненый':
+        elif order.status == 'Done':
             count3 += 1
-        elif order.status == 'В обсуждении':
+        elif order.status == 'In discussion':
             count4 += 1
 
+    for sug in user_suggestion:
+        count5 += 1
+        if sug.status == 'In work':
+            count6 += 1
+        elif sug.status == 'Done':
+            count7 += 1
+        elif sug.status == 'In discussion':
+            count8 += 1
+
     context = {
+        'sort_order_and_suggestion_dict': sort_order_and_suggestion_dict,
         'user_order': user_order,
+        'user_suggestion': user_suggestion,
         'order_len': order_len,
+        'suggestion_len': suggestion_len,
         'user_profile': user_profile,
+        # Счетчики заказов
         'user_order_count': count,
         'user_order_count_in_work': count2,
         'user_order_count_ready': count3,
         'user_order_count_dis': count4,
+        # Счетчики предложений
+        'user_suggestion_count': count5,
+        'user_suggestion_count_in_work': count6,
+        'user_suggestion_count_ready': count7,
+        'user_suggestion_count_dis': count8,
     }
     return render(request, 'dashboard/dashboard.html', context)
 
 
 def dashboard_order(request):
     order = Order.objects.filter(author=request.user)
+    for ord in order:
+        print(ord)
+        print(ord.status)
 
-    paginator = Paginator(order, 3)
+    paginator = Paginator(order, 10)
 
     try:
         page = int(request.GET.get('page', '1'))
@@ -58,7 +107,7 @@ def dashboard_order(request):
     except(EmptyPage, InvalidPage):
         posts = paginator.page(paginator.num_pages)
     context = {
-        'orders': posts,
+        'orders': order,
     }
     return render(request, 'dashboard/dashboard-order.html', context)
 
@@ -121,7 +170,7 @@ def dashboard_sug_active(request):
         posts = paginator.page(paginator.num_pages)
 
     context = {
-        'suggestions': posts,
+        'suggestions': suggestions,
         'orders': orders,
     }
     return render(request, 'dashboard/dashboard-sug-active.html', context)
