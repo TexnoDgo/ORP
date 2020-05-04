@@ -25,11 +25,17 @@
                 {% trans "Dialogs" %}
             </li>
             <div class="overflow-auto" style="height: 35rem;">
-                {% for sug in suggestions %}
-                    <a href="{% url 'dashboard-message-view' pk=sug.id %}"
+                {% for key, value in sort_suggestions.items %}
+                    {% if value in suggestions %}
+                    <small class="col">
+                    <a href="{% url 'dashboard-message-view' pk=value.id %}"
                        class="list-group-item list-group-item-action">
-                        {{sug.order}}
+                        {{value.order}}
+                        <hr>
+                        {{value}}
                     </a>
+                    {% endif %}
+                    </small>
                 {% endfor %}
             </div>
         </ul>

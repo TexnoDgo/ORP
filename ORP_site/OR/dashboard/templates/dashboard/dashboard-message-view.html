@@ -25,11 +25,28 @@
                 {% trans "Dialogs" %}
             </li>
             <div class="overflow-auto" style="height: 35rem;">
-                {% for sug in suggestions %}
-                    <a href="{% url 'dashboard-message-view' pk=sug.id %}"
-                       class="list-group-item list-group-item-action">
-                        {{sug.order}}
-                    </a>
+                {% for key, value in sort_suggestions.items %}
+                    {% if value in suggestions %}
+                        {% if value == suggestion %}
+                            <small class="col">
+                                <a href="{% url 'dashboard-message-view' pk=value.id %}"
+                                   class="list-group-item list-group-item-info list-group-item-action">
+                                    {{value.order}}
+                                    <hr>
+                                    {{value}}
+                                </a>
+                            </small>
+                        {% else %}
+                            <small class="col">
+                                <a href="{% url 'dashboard-message-view' pk=value.id %}"
+                                   class="list-group-item list-group-item-action">
+                                    {{value.order}}
+                                    <hr>
+                                    {{value}}
+                                </a>
+                            </small>
+                        {% endif %}
+                    {% endif %}
                 {% endfor %}
             </div>
         </ul>
@@ -58,7 +75,7 @@
                 <ul class="list-group">
                     <div class="overflow-auto" style="height: 28rem;">
                         {% for mes in message1 %}
-                            {% if mes.member == suggestion.author %}
+                            {% if mes.member == user %}
                                 <li class="d-flex justify-content-between mb-2 mr-2">
                                     <div class="mr-2 ml-lg-3 ml-0 z-depth-1">
                                         <small class="pull-right text-muted"><i class="far fa-clock"></i>
@@ -89,15 +106,15 @@
                     </div>
                     <form class="form-group" method="post">
                         {% csrf_token %}
-                        <div class="white">
+                        <div class="white col">
                             <div class="basic-textarea">
                                 <textarea class="form-control pl-2 my-0" id="exampleFormControlTextarea3" rows="3"
                                           placeholder="Type your message here..." name="message"></textarea>
                             </div>
                         </div>
                         <button type="submit"
-                                class="btn btn-outline-pink btn-rounded btn-sm waves-effect waves-dark float-right">
-                            Отправить
+                                class="btn btn-outline-primary btn-sm float-right mr-2 mt-2 col-2">
+                            {% trans "Send" %}
                         </button>
                     </form>
                 </ul>

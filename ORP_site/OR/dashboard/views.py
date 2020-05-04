@@ -177,16 +177,64 @@ def dashboard_sug_active(request):
 
 
 def dialogsView(request):
-    suggestions = Suggestion.objects.filter(author=request.user)
+    suggestions = Suggestion.objects.all()
+    user_suggestions = Suggestion.objects.filter(author=request.user)
+    order_suggestion = Suggestion.objects.filter(order__author=request.user)
+    all_suggestions = {}
+
+    # Сбор предложений пользователя
+    for sug in user_suggestions:
+        suggestion_date_create = str(sug.date_create)
+        suggestion_date_create = suggestion_date_create[:19].replace("-", "")
+        all_suggestions[suggestion_date_create] = sug
+    # Сбор предложений заказа пользователя
+
+    for sug in order_suggestion:
+        suggestion_date_create = str(sug.date_create)
+        suggestion_date_create = suggestion_date_create[:19].replace("-", "")
+        all_suggestions[suggestion_date_create] = sug
+
+    sort_suggestions = {}
+    suggestion_list = list(all_suggestions.keys())
+    suggestion_list.sort(reverse=True)
+
+    for element in suggestion_list:
+        sort_suggestions[element] = all_suggestions[element]
+
+    print(sort_suggestions)
 
     context = {
         'suggestions': suggestions,
+        'sort_suggestions': sort_suggestions,
     }
     return render(request, 'dashboard/dashboard-messages.html', context)
 
 
 def messages(request, pk):
-    suggestions = Suggestion.objects.filter(author=request.user)
+    suggestions = Suggestion.objects.all()
+    user_suggestions = Suggestion.objects.filter(author=request.user)
+    order_suggestion = Suggestion.objects.filter(order__author=request.user)
+    all_suggestions = {}
+
+    # Сбор предложений пользователя
+    for sug in user_suggestions:
+        suggestion_date_create = str(sug.date_create)
+        suggestion_date_create = suggestion_date_create[:19].replace("-", "")
+        all_suggestions[suggestion_date_create] = sug
+    # Сбор предложений заказа пользователя
+
+    for sug in order_suggestion:
+        suggestion_date_create = str(sug.date_create)
+        suggestion_date_create = suggestion_date_create[:19].replace("-", "")
+        all_suggestions[suggestion_date_create] = sug
+
+    sort_suggestions = {}
+    suggestion_list = list(all_suggestions.keys())
+    suggestion_list.sort(reverse=True)
+
+    for element in suggestion_list:
+        sort_suggestions[element] = all_suggestions[element]
+
     suggestion = Suggestion.objects.get(pk=pk)
     suggestion_order = Order.objects.get(pk=suggestion.order.pk)
     if request.method == 'POST':
@@ -209,5 +257,6 @@ def messages(request, pk):
         'suggestion': suggestion,
         'form': form,
         'suggestion_order': suggestion_order,
+        'sort_suggestions': sort_suggestions,
     }
     return render(request, 'dashboard/dashboard-message-view.html', context)
