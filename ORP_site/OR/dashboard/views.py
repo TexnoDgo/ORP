@@ -68,7 +68,6 @@ def index(request):
             count7 += 1
         elif sug.status == 'In discussion':
             count8 += 1
-
     context = {
         'sort_order_and_suggestion_dict': sort_order_and_suggestion_dict,
         'user_order': user_order,

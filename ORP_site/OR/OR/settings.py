@@ -88,7 +88,6 @@ TEMPLATES = [
 ]
 
 
-
 WSGI_APPLICATION = 'OR.wsgi.application'
 
 
@@ -157,10 +156,20 @@ LOGIN_URL = 'login'
 
 SITE_ID = 1
 
+
 SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
 SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
    'fields': 'id, name, email'
 }
+
+SOCIAL_AUTH_FACEBOOK_EXTRA_DATA = [                 # add this
+    ('name', 'name'),
+    ('email', 'email'),
+    ('picture', 'picture'),
+    ('link', 'profile_url'),
+]
+
+
 SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL = True
 
 # Python Code

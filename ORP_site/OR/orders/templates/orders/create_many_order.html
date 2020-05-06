@@ -24,6 +24,11 @@
         {% endfor %}
         {{file_path}}
         {{ form|crispy }}
+        <hr>
+        {{many_detail_form|crispy}}
+        {% for one_forms in many_detail_form %}
+            1
+        {% endfor %}
 
     </div>
 {% endblock %}

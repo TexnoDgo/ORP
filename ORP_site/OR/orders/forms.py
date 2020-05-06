@@ -1,6 +1,7 @@
 from django import forms
-from .models import Order, Suggestion, File, MassOrder
+from .models import Order, Suggestion, File, MassOrder, Detail, Material, GroupOrder
 from django.views.generic import CreateView
+from django.forms import formset_factory
 
 
 class OrderCreateForm(forms.ModelForm):
@@ -32,6 +33,7 @@ class SuggestionCreateForm(forms.ModelForm):
         fields = ['offer_description', 'deadline', 'offer_price']
 
 
+# -------------------------------------------------------------------------------
 class GroupCreateOrderForm(forms.ModelForm):
     class Meta:
         model = MassOrder
@@ -40,6 +42,18 @@ class GroupCreateOrderForm(forms.ModelForm):
         def form_valid(self, form):
             form.instance.author = self.request.user
             return super().form_valid(form)
+# --------------------------------------------------------------------------------
+
+
+# --------------------------------------------------------------------------------
+class DetailCreateForm(forms.ModelForm):
+    class Meta:
+        model = Detail
+        fields = ['title', 'file', 'amount', 'categories', 'material', 'note']
+
+        def form_valid(self, form):
+            return super().form_valid(form)
+# --------------------------------------------------------------------------------
 
 
 class SendOrderForm(forms.Form):

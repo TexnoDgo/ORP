@@ -1,6 +1,6 @@
 {% extends "HomePage/base.html" %}
 {% load i18n %}
-{% block title %}{% trans "Dashboard" %}{% endblock %}
+{% block title %}{% trans "CrispyMachine - Dashboard" %}{% endblock %}
 {% load static %}
 {% load bootstrap_pagination %}
 
@@ -21,7 +21,8 @@
         <!-- Средний блок -->
         <ul class="list-group list-group-horizontal">
             <!--Заказы и предложения инфопанели-->
-            <li class="list-group-item list-group-item">
+            {% if sort_order_and_suggestion_dict %}
+            <li class="list-group-item list-group-item" style="width: 54rem;">
                 <div class="col-12 mb-2">
                     <small class="ml-3"><a href="{% url 'dashboard-order' %}">{% trans "You orders" %}</a></small>
                     <small class="ml-3"><a href="{% url 'dashboard_sug_active' %}">{% trans "You suggestions" %}</a></small>
@@ -68,8 +69,16 @@
                             </div>
                         {% endif %}
                     {% endfor %}
+
                 </div>
             </li>
+            {% else %}
+                <li class="list-group-item list-group-item" style="width: 54rem;">
+                    <div class="col mb-4">
+                        hi
+                    </div>
+                </li>
+            {% endif %}
             <!--Заказы и предложения инфопанели-->
 
             <!--Информация о пользователе + статистика-->

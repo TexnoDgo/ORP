@@ -20,8 +20,9 @@ from chat.forms import MessageCreateForm
 from users.models import Profile
 # Local
 from .handlers import convert_pdf_to_bnp, create_order_pdf
-from .models import Order, OperationCategories, Suggestion, AllCity, File, MassOrder
-from .forms import OrderCreateForm, SuggestionCreateForm, GroupCreateOrderForm, SendOrderForm
+from .models import Order, OperationCategories, Suggestion, AllCity, File, MassOrder, Detail
+from .forms import OrderCreateForm, SuggestionCreateForm, GroupCreateOrderForm, SendOrderForm, DetailCreateForm
+from django.forms import formset_factory, modelformset_factory
 
 
 # --------------------------------------------------Отображение всех заказов--------------------------------------
@@ -133,7 +134,7 @@ def create_many_order(request, pk):
     for file in file_path:
         folder.append(file)
     file_in_archive = []
-    form = OrderCreateForm(request.POST)
+
     for address, dirs, files in folder:
         for file in files:
             file_name = str(file)
@@ -146,16 +147,18 @@ def create_many_order(request, pk):
             else:
                 print('Error')
             file_in_archive.append(file)
-    #for order in data:
-        #print(order)
-        #for element in data[order]:
-            #print(element)
-    #json_data = json.dumps(data)
-    #print(data)
+
+    form = OrderCreateForm(request.POST)
+
+    many_detail_form = modelformset_factory(Detail,
+                                            fields=('title', 'file', 'amount', 'categories', 'material', 'note'),
+                                            extra=len(file_in_archive))
+    formset = many_detail_form()
     context = {
         'data': data,
         'file_path': archive_path,
         'form': form,
+        'many_detail_form': many_detail_form,
     }
     return render(request, 'orders/create_many_order.html', context)
 

@@ -7,6 +7,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from orders.models import Suggestion, OperationCategories
 
+
 class UserStripe(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     stripe_id = models.CharField(max_length=120, null=True, blank=True)
