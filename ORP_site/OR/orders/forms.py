@@ -1,7 +1,8 @@
 from django import forms
-from .models import Order, Suggestion, File, MassOrder, Detail, Material, GroupOrder
+from .models import Order, Suggestion, File, MassOrder
 from django.views.generic import CreateView
-from django.forms import formset_factory
+from django.forms import formset_factory, modelformset_factory
+from django.forms.models import inlineformset_factory
 
 
 class OrderCreateForm(forms.ModelForm):
@@ -27,6 +28,12 @@ class OrderUpdateForm(forms.ModelForm):
                   'status', 'categories']
 
 
+class CreateGroupOrderForm(forms.ModelForm):
+    class Meta:
+        model = Order
+        fields = ['title', 'description', 'city', 'lead_time', 'pdf_view', 'proposed_budget']
+
+
 class SuggestionCreateForm(forms.ModelForm):
     class Meta:
         model = Suggestion
@@ -37,22 +44,16 @@ class SuggestionCreateForm(forms.ModelForm):
 class GroupCreateOrderForm(forms.ModelForm):
     class Meta:
         model = MassOrder
-        fields = ['other_files']
+        fields = ['other_files', 'title', 'description', 'city', 'lead_time', 'proposed_budget', 'crushed_order']
 
         def form_valid(self, form):
             form.instance.author = self.request.user
             return super().form_valid(form)
-# --------------------------------------------------------------------------------
 
 
-# --------------------------------------------------------------------------------
-class DetailCreateForm(forms.ModelForm):
+class UpdateGroupOrderForm(forms.ModelForm):
     class Meta:
-        model = Detail
-        fields = ['title', 'file', 'amount', 'categories', 'material', 'note']
-
-        def form_valid(self, form):
-            return super().form_valid(form)
+        pass
 # --------------------------------------------------------------------------------
 
 

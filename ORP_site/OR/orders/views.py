@@ -4,6 +4,7 @@ import os
 from fpdf import FPDF, HTMLMixin
 from fpdf import fpdf
 import json
+import shutil
 # Django
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
@@ -14,26 +15,51 @@ from django.core.paginator import Paginator
 from django.core.mail import send_mail, EmailMessage
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
+from django.db import models
 # Apps
 from chat.models import Message
 from chat.forms import MessageCreateForm
 from users.models import Profile
 # Local
 from .handlers import convert_pdf_to_bnp, create_order_pdf
-from .models import Order, OperationCategories, Suggestion, AllCity, File, MassOrder, Detail
-from .forms import OrderCreateForm, SuggestionCreateForm, GroupCreateOrderForm, SendOrderForm, DetailCreateForm
-from django.forms import formset_factory, modelformset_factory
+from .models import Order, OperationCategories, Suggestion, AllCity, File, MassOrder
+from .forms import OrderCreateForm, SuggestionCreateForm, GroupCreateOrderForm, SendOrderForm, CreateGroupOrderForm
 
 
 # --------------------------------------------------Отображение всех заказов--------------------------------------
 def orders(request):
-    all_orders = Order.objects.all().order_by('-date_create')
+    all_orders = Order.objects.filter(group_order=False).order_by('-date_create')
+
+    all_group_orders = MassOrder.objects.filter(crushed_order=False).order_by('-date_create')
 
     filters = OperationCategories.objects.all()
 
     all_city = AllCity.objects.all()
 
-    paginator = Paginator(all_orders, 9)
+    all_orders_dict = {}
+
+    for order in all_orders:
+        order_date_create = str(order.date_create)
+        order_date_create = order_date_create[:19].replace("-", "")
+        all_orders_dict[order_date_create] = order
+
+    for order in all_group_orders:
+        order_date_create = str(order.date_create)
+        order_date_create = order_date_create[:19].replace("-", "")
+        all_orders_dict[order_date_create] = order
+
+    # Сортировка словаря
+    sort_all_orders_dict = {}
+    all_orders_list = list(all_orders_dict.keys())
+    all_orders_list.sort(reverse=True)
+
+    pag = []
+
+    for element in all_orders_list:
+        sort_all_orders_dict[element] = all_orders_dict[element]
+        pag.append(element)
+
+    paginator = Paginator(pag, 9)
 
     try:
         page = int(request.GET.get('page', '1'))
@@ -44,9 +70,11 @@ def orders(request):
     except(EmptyPage, InvalidPage):
         posts = paginator.page(paginator.num_pages)
     context = {
-        'all_orders': posts,
+        'all_orders': all_orders,
+        'all_group_orders': all_group_orders,
         'filters': filters,
         'all_city': all_city,
+        'sort_all_orders_dict': sort_all_orders_dict,
     }
     return render(request, 'orders/all_orders.html', context)
 # --------------------------------------------------Отображение всех заказов--------------------------------------
@@ -101,7 +129,7 @@ def add_order_archive(request):
             archive = form.save(commit=False)
             archive.author = request.user
             form.save()
-            return redirect('/order/view_archives')
+            return redirect('create_many_order', pk=archive.pk)
 
     else:
         form = GroupCreateOrderForm()
@@ -148,17 +176,34 @@ def create_many_order(request, pk):
                 print('Error')
             file_in_archive.append(file)
 
-    form = OrderCreateForm(request.POST)
+    for a in data:
+        order = Order()
+        order.author = request.user
+        order.mass_order = archive_files
+        order.group_order = True
+        order.title = 'Auto Header № ' + str(order.author)
+        order.save()
 
-    many_detail_form = modelformset_factory(Detail,
-                                            fields=('title', 'file', 'amount', 'categories', 'material', 'note'),
-                                            extra=len(file_in_archive))
-    formset = many_detail_form()
+        for element in data[a]:
+            # Записать файлы из data в заказ
+            order_file = File()
+            order_file.file = archive_path + '/' + element
+            order_file.order = order
+            print(order_file)
+            order_file.save()
+
+    shutil.rmtree(archive_path, ignore_errors=True)
+
+    if request.method == 'POST':
+        form = CreateGroupOrderForm(request.POST, request.FILES)
+        if form.is_valid():
+            pass
+    else:
+        form = CreateGroupOrderForm()
+
     context = {
         'data': data,
         'file_path': archive_path,
-        'form': form,
-        'many_detail_form': many_detail_form,
     }
     return render(request, 'orders/create_many_order.html', context)
 

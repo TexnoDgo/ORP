@@ -60,7 +60,55 @@
 
         <div class="orders-views">
             <div class="row row-cols-1 row-cols-md-3 ml-3">
-                {% for order in all_orders.object_list %}
+                {% for key, value in sort_all_orders_dict.items %}
+                    {% for order in all_orders %}
+                        {% if value == order %}
+                            <div class="col mb-4">
+                                <div class="card border-dark">
+                                    <img class="card-img-top" src="{{order.image_view.url }}" width="300" height="auto">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ order.title }}</h5>
+                                        <p class="card-text">{{ order.description }}</p>
+                                    </div>
+                                    <div class="card-footer bg-transparent border-dark">
+                                        <a class="btn btn-outline-success col-12" href="{{order.id}}">{% trans "Details" %}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    {% for order in all_group_orders %}
+                        {% if value == order %}
+                            <div class="col mb-4">
+                                <div class="card border-dark">
+                                    <img class="card-img-top" src="logo.png" width="300" height="auto">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ order.title }}</h5>
+                                        <p class="card-text">{{ order.description }}</p>
+                                    </div>
+                                    <div class="card-footer bg-transparent border-dark">
+                                        <a class="btn btn-outline-success col-12" href="{{order.id}}">{% trans "Details" %}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        </div>
+        <!--Заказы-->
+
+        <!--Пагинация-->
+
+        <!--Пагинация-->
+
+
+    </div>
+
+
+{% endblock %}
+
+{% for order in all_orders.object_list %}
                   <div class="col mb-4">
                     <div class="card border-dark">
                       <img class="card-img-top" src="{{order.image_view.url }}" width="300" height="auto">
@@ -74,19 +122,3 @@
                     </div>
                   </div>
                 {% endfor %}
-            </div>
-        </div>
-        <!--Заказы-->
-
-        <!--Пагинация-->
-        <div class="pagination">
-            {% bootstrap_paginate all_orders range=9 %}
-        </div>
-        <!--Пагинация-->
-
-
-    </div>
-
-
-{% endblock %}
-

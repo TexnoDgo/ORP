@@ -19,18 +19,23 @@
 
         <legend class="border-bottom mb-1" align="center">"МЯСОРУБКА"</legend>
         <a href="{% url 'view_archives' %}">Список архивов</a>
-        <form class="group-file" method="post" enctype="multipart/form-data">
+        <div class="jumbotron">
+            <h1 class="display-4">{% trans "Create Group Order" %}</h1>
+            <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+            <hr class="my-4">
+            <form class="group-file" method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            <p>Загрузите ваш архив</p>
+            <p>{% trans "Download archive with details" %}</p>
 
-            {{ form.other_files|as_crispy_field }}
+            {{ form|crispy }}
             <button type="submit" class="btn btn-outline-primary">Загрузить</button>
         </form>
-        <form class="text-left" method="POST" enctype="multipart/form-data">
 
-        </form>
+        </div>
+
     </div>
 {% endblock %}
+|as_crispy_field
 
 <!-- Привью обложки jpg
 <tr class="tr2">

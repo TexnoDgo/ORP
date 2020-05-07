@@ -16,6 +16,40 @@ class AllCity(models.Model):
         return self.title
 
 
+class MassOrder(models.Model):
+    BUDGET_EXAMPLE = (
+        (_('Unknown'), _('Unknown')),
+        (_('Small, less than $ 100'), _('Small, less than $ 100')),
+        (_('Medium, less than $ 1000'), _('Medium, less than $ 1000')),
+        (_('High, over $ 1000'), _('High, over $ 1000'))
+    )
+
+    ORDER_STATUS = (
+        (_('In discussion'), _('In discussion')),
+        (_('In work'), _('In work')),
+        (_('Done'), _('Done')),
+        (_('Canceled'), _('Canceled')),
+    )
+    author = models.ForeignKey(User, on_delete=models.PROTECT)  # Автор заказа. Автоматически
+    date_create = models.DateTimeField(default=timezone.now)  # Время создания заказа. Автоматически
+    other_files = models.FileField(upload_to='MassOrderArchive', verbose_name=_('Archive'))  # Другие файлы заказа
+    title = models.CharField(max_length=100, verbose_name=_('Headline'), default=_('Headline'))  # Заголовок заказа
+    description = models.TextField(verbose_name=_('Description Order'),
+                                   default=_('Description Order'))  # Описание заказа
+    city = models.ForeignKey(AllCity, on_delete=models.PROTECT, verbose_name=_('Order City'),
+                             null=True)  # Город заказа
+    lead_time = models.DateField(verbose_name=_('Deadline'), default=timezone.now)  # Срок выполнения заказа
+    proposed_budget = models.CharField(max_length=40, choices=BUDGET_EXAMPLE, default=_('Unknown'),
+                                       verbose_name=_('Budget'))  # Предложеный бюджет
+    activity = models.BooleanField(default=False)  # Активность заказа
+    status = models.CharField(max_length=20, choices=ORDER_STATUS, default=_('In discussion'),
+                              verbose_name=_('Order status'))  # Статус заказ
+    crushed_order = models.BooleanField(default=False)
+
+    def __str__(self):
+        return 'GroupOrder -' + str(self.title)
+
+
 class Order(models.Model):
     BUDGET_EXAMPLE = (
         (_('Unknown'), _('Unknown')),
@@ -30,11 +64,13 @@ class Order(models.Model):
         (_('Done'), _('Done')),
         (_('Canceled'), _('Canceled')),
     )
-
+    id = models.AutoField(primary_key=True)
+    mass_order = models.ForeignKey(MassOrder, on_delete=models.CASCADE, null=True)
     author = models.ForeignKey(User, on_delete=models.PROTECT)  # Автор заказа. Автоматически
     date_create = models.DateTimeField(default=timezone.now)  # Время создания заказа. Автоматически
-    title = models.CharField(max_length=100, verbose_name=_('Headline'))  # Заголовок заказа
-    description = models.TextField(verbose_name=_('Description Order'))  # Описание заказа
+    title = models.CharField(max_length=100, verbose_name=_('Headline'), default=_('Headline'))  # Заголовок заказа
+    description = models.TextField(verbose_name=_('Description Order'),
+                                   default=_('Description Order'))  # Описание заказа
     # Файл обложки заказа PDF
     pdf_view = models.FileField(default='default.pdf',
                                 upload_to='pdf',
@@ -43,17 +79,19 @@ class Order(models.Model):
     image_view = models.ImageField(default='default.jpg',
                                    upload_to='image_preview',
                                    verbose_name=_('Cover image'))
-    other_files = models.FileField(default=None, upload_to='otherFiles')  # Другие файлы заказа
     amount = models.PositiveIntegerField(default=1, verbose_name=_('Number of products'))  # Кол-во изделий
-    city = models.ForeignKey(AllCity, on_delete=models.PROTECT, verbose_name=_('Order City'))  # Город заказа
-    lead_time = models.DateField(verbose_name=_('Deadline'))  # Срок выполнения заказа
+    city = models.ForeignKey(AllCity, on_delete=models.PROTECT, verbose_name=_('Order City'),
+                             null=True)  # Город заказа
+    lead_time = models.DateField(verbose_name=_('Deadline'), default=timezone.now)  # Срок выполнения заказа
     proposed_budget = models.CharField(max_length=40, choices=BUDGET_EXAMPLE, default=_('Unknown'),
                                        verbose_name=_('Budget'))  # Предложеный бюджет
-    activity = models.BooleanField()  # Активность заказа
+    activity = models.BooleanField(default=False)  # Активность заказа
     status = models.CharField(max_length=20, choices=ORDER_STATUS, default=_('In discussion'),
                               verbose_name=_('Order status'))  # Статус заказ
     categories = models.ManyToManyField('OperationCategories', blank=True, related_name='orders',
-                                        verbose_name=_('Categories'))
+                                        verbose_name=_('Categories'), null=True)
+    group_order = models.BooleanField(default=False, verbose_name=_('Group?'))
+
     objects = models.Manager()
 
     def __str__(self):
@@ -71,31 +109,7 @@ class Material(models.Model):
 
     def __str__(self):
         return self.title
-
-
-class Detail(models.Model):
-    title = models.CharField(max_length=100, verbose_name=_('Detail title'))
-    file = models.FileField(default='default.jpg', upload_to='DetailFiles', verbose_name=_('DetailFile'))
-    amount = models.PositiveIntegerField(default=1, verbose_name=_('amount'))
-    categories = models.ManyToManyField('OperationCategories', blank=True, related_name='Detail',
-                                        verbose_name=_('Categories'))
-    material = models.ForeignKey(Material, on_delete=models.CASCADE, verbose_name=_('Detail material'))
-    note = models.TextField(verbose_name=_('detail note'))
-
-
-class GroupOrder(models.Model):
-    order = models.OneToOneField(Order, on_delete=models.CASCADE)
-    detail = models.ManyToManyField(Detail, blank=True, related_name='GroupOrder', verbose_name=_('Detail'))
 # -----------------------------------------------------------------
-
-
-class MassOrder(models.Model):
-    author = models.ForeignKey(User, on_delete=models.PROTECT)  # Автор заказа. Автоматически
-    date_create = models.DateTimeField(default=timezone.now)  # Время создания заказа. Автоматически
-    other_files = models.FileField(upload_to='MassOrderArchive', verbose_name=_('Archive'))  # Другие файлы заказа
-
-    def __str__(self):
-        return 'Archive-' + str(self.other_files.name) + '-' + self.author.username + '-' + str(date.today())
 
 
 class OperationCategories(models.Model):
@@ -109,7 +123,7 @@ class OperationCategories(models.Model):
 
 class File(models.Model):
     file = models.FileField(upload_to='files', blank=True, null=True, verbose_name=_('File'))
-    order = models.ForeignKey(Order, blank=True, null=True, on_delete=models.PROTECT)
+    order = models.ForeignKey(Order, blank=True, null=True, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = _('Files')
