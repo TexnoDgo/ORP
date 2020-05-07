@@ -22,7 +22,7 @@ from chat.forms import MessageCreateForm
 from users.models import Profile
 # Local
 from .handlers import convert_pdf_to_bnp, create_order_pdf
-from .models import Order, OperationCategories, Suggestion, AllCity, File, MassOrder
+from .models import Order, OperationCategories, Suggestion, AllCity, File, MassOrder, GroupSuggestion
 from .forms import OrderCreateForm, SuggestionCreateForm, GroupCreateOrderForm, SendOrderForm, CreateGroupOrderForm
 
 
@@ -386,6 +386,19 @@ class SuggestionView(DetailView):
                 count += 1
         context['true_sug'] = count
         context['messages'] = sug_mes
+        return context
+
+
+class GroupOrderAndSuggestionView(DetailView):
+    model = MassOrder
+
+    def get_context_data(self, **kwargs):
+        context = super(GroupOrderAndSuggestionView, self).get_context_data(**kwargs)
+        a = self.object.id
+        context['orders'] = Order.objects.filter(mass_order_id=a)
+        context['group_suggestion'] = GroupSuggestion.objects.filter(mass_order_id=a)
+        context['profiles'] = Profile.objects.all()
+        print(context)
         return context
 
 

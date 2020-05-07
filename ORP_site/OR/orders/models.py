@@ -157,6 +157,25 @@ class Suggestion(models.Model):
         return self.offer_description
 
 
+class GroupSuggestion(models.Model):
+    SUGGESTION_STATUS = (
+        (_('In discussion'), _('In discussion')),
+        (_('In work'), _('In work')),
+        (_('Done'), _('Done')),
+        (_('Canceled'), _('Canceled')),
+    )
+    mass_order = models.ForeignKey(MassOrder, on_delete=models.PROTECT)
+    author = models.ForeignKey(User, on_delete=models.PROTECT)
+    date_create = models.DateTimeField(default=timezone.now)
+    offer_description = models.TextField(verbose_name=_('Offer Description'))
+    deadline = models.DateTimeField(verbose_name=_('Production time'))
+    offer_price = models.PositiveIntegerField(verbose_name=_('Suggested price'))
+    status = models.CharField(max_length=20, choices=SUGGESTION_STATUS, default=_('In discussion'),
+                              verbose_name=_('Offer Status'))
+    selected_offer = models.BooleanField(default=False)
+    rating = models.PositiveIntegerField(default=0)
+
+
 class Feedback(models.Model):
     suggestion = models.ForeignKey(Suggestion, on_delete=models.CASCADE)
     date_create = models.DateField(default=timezone.now)

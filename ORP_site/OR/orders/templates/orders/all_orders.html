@@ -87,7 +87,10 @@
                                         <p class="card-text">{{ order.description }}</p>
                                     </div>
                                     <div class="card-footer bg-transparent border-dark">
-                                        <a class="btn btn-outline-success col-12" href="{{order.id}}">{% trans "Details" %}</a>
+                                        <a class="btn btn-outline-success col-12"
+                                           href="{% url 'group_order_detail' pk=order.pk %}">
+                                            {% trans "Details" %}
+                                        </a>
                                     </div>
                                 </div>
                             </div>
