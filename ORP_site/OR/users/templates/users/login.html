@@ -4,43 +4,57 @@
 {% load i18n %}
 {% load crispy_forms_tags %}
 {% block title %}{% trans "CrispyMachine - LOGIN" %}{% endblock %}
+{% load static %}
 
 {% block content %}
-    <div class="container">
-        <legend class="border-bottom mb-4" align="center">{% trans "WELCOME TO CRISPY MACHINE, PLEASE LOGIN" %}</legend>
-        <div class="col-mb-6" align="center">
-            <a class="btn btn-outline-primary btn-lg col-2 mr-4 mb-4"
-               href="{% provider_login_url 'facebook' method='oauth2' %}">
-                {% trans "Continue with Facebook" %}
-            </a>
-            <a class="btn btn-outline-danger btn-lg col-2 ml-4 mb-4"
-               href="{% provider_login_url 'google' method='oauth2' %}">
-                {% trans "Continue with Google" %}
-            </a>
-
-        </div>
-        <form class="text-left" method="POST">
-            <div class="container">
-                <div class="row justify-content-md-center">
-                    <div class="col-md-7" align="center">
-                      {% csrf_token %}
-                        <fieldset class="form-group">
-                            {{ form|crispy }}
-                        </fieldset>
+    <link rel="stylesheet" href="{% static 'users/style.css' %}">
+    <div class="container" align="center">
+        <div class="card" style="width: 24rem;" >
+            <div class="card-body">
+                <h5 class="card-title">{% trans "WELCOME TO CRISPY ORDER, PLEASE LOGIN" %}</h5>
+                <p class="card-text">
+                    {% trans "You can log in with google, facebook account or with username and password" %}
+                </p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <a class="btn btn-outline-primary btn-lg col"
+                       href="{% provider_login_url 'facebook' method='oauth2' %}">
+                        {% trans "Continue with Facebook" %}
+                    </a>
+                </li>
+                <li class="list-group-item">
+                    <a class="btn btn-outline-danger btn-lg col"
+                       href="{% provider_login_url 'google' method='oauth2' %}">
+                        {% trans "Continue with Google" %}
+                    </a>
+                </li>
+            </ul>
+            <div class="card-body">
+                <form class="text-left" method="POST">
+                    <div class="container-1">
+                        <div class="row justify-content-md-center">
+                            <div class="col" align="center">
+                              {% csrf_token %}
+                                <fieldset class="form-group">
+                                    {{ form|crispy }}
+                                </fieldset>
+                            </div>
+                          </div>
                     </div>
-                  </div>
+                    <div class="row justify-content-md-center " align="center">
+                        <button class="btn btn-lg btn-outline-dark col" type="submit">{% trans "LOGIN" %}</button>
+                    </div>
+                </form>
             </div>
-            <div class="row justify-content-md-center " align="center">
-                <button class="btn btn-lg btn-outline-dark col-5 mb-6" type="submit">{% trans "LOGIN" %}</button>
+            <div class="border-top pt-2 mb-2" align="center">
+                <small class="text-muted">
+                    {% trans "Need An Account?" %}
+                    <a class="ml-2" href="{% url 'signup' %}">
+                        {% trans "Sing Up" %}
+                    </a>
+                </small>
             </div>
-        </form>
-        <div class="border-top pt-3 mt-4" align="center">
-            <small class="text-muted">
-                {% trans "Need An Account?" %}
-                <a class="ml-2" href="{% url 'signup' %}">
-                    {% trans "Sing Up" %}
-                </a>
-            </small>
         </div>
     </div>
 {% endblock %}
