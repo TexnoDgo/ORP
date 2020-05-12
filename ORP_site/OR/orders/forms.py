@@ -76,8 +76,20 @@ class SingleOrderCreateForm(forms.ModelForm):
             return super().form_valid(form)
 
 
+class MultipleOrderCreateForm(forms.ModelForm):
+    class Meta:
+        model = CODOrder
+        fields = ['title', 'description', 'archive', 'pdf_cover', 'city', 'proposed_budget']
+
+        def form_valid(self, form):
+            form.instance.author = self.request.user
+            return super().form_valid(form)
+
+
 class AddedOneDetailForm(forms.ModelForm):
+    files = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}), required=False)
+
     class Meta:
         model = CODDetail
-        fields = ['amount', 'material', 'whose_material', 'Note', 'Categories', 'Deadline']
+        fields = ['amount', 'material', 'whose_material', 'Note', 'Categories', 'Deadline', 'files']
 # -------------------------------------------------------NEW MODELS----------------------------------------------------

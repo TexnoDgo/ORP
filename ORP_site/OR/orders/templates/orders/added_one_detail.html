@@ -10,9 +10,12 @@
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{% url 'index' %}">{% trans "Home" %}</a></li>
         <li class="breadcrumb-item active" aria-current="page">{% trans "Create Order" %}</li>
+        <li class="breadcrumb-item active" aria-current="page">{% trans "Added detail" %}</li>
     </ol>
 </nav>
 <div class="container">
+    <h1 class="display-5" align="center">{% trans "Order" %}</h1>
+    <hr>
     <div class="card mb-3">
       <img src="{{ added_order.image_cover.url }}" class="card-img-top" alt="...">
       <div class="card-body">
@@ -27,38 +30,66 @@
     </div>
 </div>
 <div class="container mb-4">
-    <form method="post">
+    <h1 class="display-5" align="center">{% trans "Order Details Description" %}</h1>
+    <hr>
+    <form class="text-left" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <ul class="list-group list-group-horizontal">
-            <li class="list-group-item col">{{ form.amount|as_crispy_field }}</li>
-            <li class="list-group-item ">Dapibus ac facilisis in</li>
+            <li class="list-group-item col-8">{{ form.amount|as_crispy_field }}</li>
+            <li class="list-group-item col-4">
+                <small>{% trans "Indicate the number of products to be manufactured." %}</small>
+            </li>
         </ul>
         <ul class="list-group list-group-horizontal">
-            <li class="list-group-item col">{{ form.material|as_crispy_field }}</li>
-            <li class="list-group-item ">Dapibus ac facilisis in</li>
+            <li class="list-group-item col-8">{{ form.material|as_crispy_field }}</li>
+            <li class="list-group-item col-4">
+                 <small>{% trans "Select material to make the part." %}</small>
+            </li>
         </ul>
         <ul class="list-group list-group-horizontal">
-            <li class="list-group-item col">{{ form.whose_material|as_crispy_field }}</li>
-            <li class="list-group-item ">Dapibus ac facilisis in</li>
+            <li class="list-group-item col-8">{{ form.whose_material|as_crispy_field }}</li>
+            <li class="list-group-item col-4">
+                 <small>{% trans "Indicate whose material will be used to manufacture this part." %}</small>
+            </li>
         </ul>
         <ul class="list-group list-group-horizontal">
-            <li class="list-group-item col">{{ form.Note|as_crispy_field }}</li>
-            <li class="list-group-item ">Dapibus ac facilisis in</li>
+            <li class="list-group-item col-8" >{{ form.Note|as_crispy_field }}</li>
+            <li class="list-group-item col-4">
+                  <small>{% trans "Describe the specifics of the part." %}</small>
+            </li>
         </ul>
         <ul class="list-group list-group-horizontal">
-            <li class="list-group-item col">{{ form.Categories|as_crispy_field }}</li>
-            <li class="list-group-item ">Dapibus ac facilisis in</li>
+            <li class="list-group-item col-8">{{ form.Categories|as_crispy_field }}</li>
+            <li class="list-group-item col-4">
+                <small>
+                    {% trans "Select the categories to which your order falls." %}
+                    {% trans "You can select several categories." %}
+                    {% trans "To do this, click on them in turn holding the 'Ctrl' button." %}
+                </small>
+            </li>
         </ul>
         <ul class="list-group list-group-horizontal">
-            <li class="list-group-item col">{{ form.Deadline|as_crispy_field }}</li>
-            <li class="list-group-item ">Dapibus ac facilisis in</li>
+            <li class="list-group-item col-8">{{ form.Deadline|as_crispy_field }}</li>
+            <li class="list-group-item col-4">
+                <small>
+                    {% trans "Set deadlines.Indicate the deadline in the format 'YYYY-MM-DD'. For example 2020-02-20" %}
+                </small>
+            </li>
         </ul>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">
+        <ul class="list-group list-group-horizontal">
+            <li class="list-group-item col-8">{{ form.files|as_crispy_field }}</li>
+            <li class="list-group-item col-4">
+                <small>
+                    {% trans "Add additional files to make an order. Such as 'DXF', 'Part', 'Stp' and others." %}
+                </small>
+            </li>
+        </ul>
+        <hr>
+        <button class="btn btn-lg btn-outline-primary btn-block" type="submit">
             {% trans "CREATE" %}
         </button>
+        <hr>
     </form>
 </div>
-
-
 {% endblock %}
 

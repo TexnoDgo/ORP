@@ -15,7 +15,7 @@ from django.core.paginator import Paginator
 from django.core.mail import send_mail, EmailMessage
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
-from django.db import models
+from django.forms import modelformset_factory
 # Apps
 from chat.models import Message
 from chat.forms import MessageCreateForm
@@ -30,7 +30,7 @@ from .forms import OrderCreateForm, SuggestionCreateForm, GroupCreateOrderForm, 
 # -------------------------------------------------------NEW MODELS----------------------------------------------------
 from .models import CODCity, CODMaterial, CODCategories, CODOrder, CODDetail, CODFile
 from suggestions.models import CODSuggestion, CODFeedback
-from .forms import SingleOrderCreateForm, AddedOneDetailForm
+from .forms import SingleOrderCreateForm, MultipleOrderCreateForm, AddedOneDetailForm
 
 # -------------------------------------------------------NEW MODELS----------------------------------------------------
 
@@ -601,22 +601,18 @@ def all_cod_order_view(request):
     return render(request, 'orders/AllOrderPage.html', context)
 
 
+@login_required
 def create_single_order(request):
     if request.method == 'POST':
         form = SingleOrderCreateForm(request.POST, request.FILES)
-        files = request.FILES.getlist('CODFiles')
 
         if form.is_valid():
             order = form.save(commit=False)
             order.author = request.user
             form.save()
-            print(order.pdf_cover.path)
             pdf_file_name = str(order.pdf_cover)
-            print(pdf_file_name)
             png_file_name = '{}{}'.format(pdf_file_name[20:-3], 'png')
-            print(png_file_name)
             png_full_path = 'C:/PP/ORP/ORP_site/OR/media/COD_order_image_cover/' + png_file_name
-            print(png_full_path)
             convert_pdf_to_bnp(order.pdf_cover.path, png_full_path)
             order.image_cover = png_full_path
             order.save()
@@ -626,7 +622,7 @@ def create_single_order(request):
                              # Формирование сообщения со вложенным именем
                              f'You order has been created!Wait for a response! ')
             url = order.pk
-            return redirect('views/detail/{}'.format(url))
+            return redirect('views/single_detail/{}'.format(url))
     else:
         form = SingleOrderCreateForm()
 
@@ -637,20 +633,102 @@ def create_single_order(request):
     return render(request, 'orders/create_single_order.html', context)
 
 
+@login_required
+def create_multiple_order(request):
+    if request.method == 'POST':
+        form = MultipleOrderCreateForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            order = form.save(commit=False)
+            order.author = request.user
+            form.save()
+            pdf_file_name = str(order.pdf_cover)
+            png_file_name = '{}{}'.format(pdf_file_name[20:-3], 'png')
+            png_full_path = 'C:/PP/ORP/ORP_site/OR/media/COD_order_image_cover/' + png_file_name
+            convert_pdf_to_bnp(order.pdf_cover.path, png_full_path)
+            order.image_cover = png_full_path
+            order.save()
+
+            # Работа с арихивом
+            zip_archive = zipfile.ZipFile(order.archive, 'r')
+            extract_archive_path = 'C:/PP/ORP/ORP_site/OR/media/temp/' + str(order.archive)
+            zip_archive.extractall(extract_archive_path)
+            file_path = os.walk(extract_archive_path)
+            folder = []
+            data = {}
+            for file in file_path:
+                folder.append(file)
+            file_in_archive = []
+
+            for address, dirs, files in folder:
+                for file in files:
+                    file_name = str(file)
+                    file_path_name = str(address + '/' + file)
+                    file_name = file_name.rsplit(".", 1)[0]
+                    if file_name not in data:
+                        data[file_name] = [file]
+                    elif file_name in data:
+                        data[file_name].append(file)
+                    else:
+                        print('Error')
+                    file_in_archive.append(file)
+            print(extract_archive_path)
+            print(data)
+            # Создание деталей из файлов архива
+            for a in data:
+                detail = CODDetail()
+                detail.order = order
+                detail.Availability_date = detail.Deadline
+                detail.save()
+
+                for element in data[a]:
+                    # Записать файлы из data в заказ
+                    detail_file = File()
+                    detail_file.file = extract_archive_path + '/' + element
+                    detail_file.detail = detail
+                    print(detail_file)
+                    detail_file.save()
+            # Очистка(Разобраться)
+            shutil.rmtree(extract_archive_path, ignore_errors=True)
+
+            title = form.cleaned_data.get('title')  # Получение названи заказка из формы
+            messages.success(request,
+                             # Формирование сообщения со вложенным именем
+                             f'You order has been created!Wait for a response! ')
+            url = order.pk
+            return redirect('views/multiple_detail/{}'.format(url))
+    else:
+        form = MultipleOrderCreateForm()
+
+    context = {
+        'form': form,
+    }
+
+    return render(request, 'orders/create_multiple_order.html', context)
+
+
+@login_required
 def added_one_detail(request, url):
     added_order = CODOrder.objects.get(pk=url)
-    print(added_order)
     if request.method == 'POST':
-        form = AddedOneDetailForm(request.POST)
-        print('post')
+        form = AddedOneDetailForm(request.POST, request.FILES)
+        files = request.FILES.getlist('files')
+        print(files)
+
         if form.is_valid():
-            print('kek')
             detail = form.save(commit=False)
             detail.order = CODOrder.objects.get(pk=url)
             detail.Availability_date = detail.Deadline
             added_order.status = 'Discussion'
             detail.save()
             added_order.save()
+
+            # Added files to detail
+            if files:
+                for f in files:
+                    print('Yes')
+                    f1 = File(detail=CODDetail.objects.get(pk=detail.id), file=f)
+                    f1.save()
 
             title = form.cleaned_data.get('title')  # Получение названи заказка из формы
             messages.success(request,
@@ -666,4 +744,27 @@ def added_one_detail(request, url):
     }
 
     return render(request, 'orders/added_one_detail.html', context)
+
+
+@login_required
+def added_multiple_detail(request, url):
+    added_order = CODOrder.objects.get(pk=url)
+    DetailFormset = modelformset_factory(CODDetail, fields=('order', 'amount', 'material', 'whose_material',
+                                                             'Note', 'Categories', 'Deadline', 'Availability_date',))
+    if request.method == 'POST':
+
+        formset = DetailFormset(request.POST, request.FILES,
+                                queryset=CODDetail.objects.filter(order=CODOrder.objects.get(pk=url)))
+        if formset.is_valid():
+            formset.save(commit=False)
+        return redirect('all_cod_order_view')
+    else:
+        formset = DetailFormset(queryset=CODDetail.objects.filter(order=CODOrder.objects.get(pk=url)))
+
+    context = {
+        'added_order': added_order,
+        'formset': formset,
+    }
+
+    return render(request, 'orders/added_multiple_detail.html', context)
 # -------------------------------------------------------NEW MODELS----------------------------------------------------

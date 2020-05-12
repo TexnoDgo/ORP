@@ -3,7 +3,7 @@ from django.conf.urls import url
 from .models import Order, MassOrder
 from django.urls import path, re_path
 from . import views
-from .views import all_cod_order_view, create_single_order, added_one_detail
+from .views import all_cod_order_view, create_single_order, added_one_detail, create_multiple_order, added_multiple_detail
 
 
 urlpatterns = [
@@ -27,5 +27,7 @@ urlpatterns = [
     url(r'^(?P<pk>\d+)/get_five_rating/', views.get_five_rating, name='get_five_rating'),
     path('view', all_cod_order_view, name='all_cod_order_view'),
     path('create_single_order', create_single_order, name='create_single_order'),
-    path(r'views/detail/<slug:url>', added_one_detail, name='added_one_detail'),
+    path('create_multiple_order', create_multiple_order, name='create_multiple_order'),
+    path(r'views/single_detail/<slug:url>', added_one_detail, name='added_one_detail'),
+    path(r'views/multiple_detail/<slug:url>', added_multiple_detail, name='added_multiple_detail'),
 ]

@@ -109,18 +109,6 @@ class OperationCategories(models.Model):
         return self.title
 
 
-class File(models.Model):
-    file = models.FileField(upload_to='files', blank=True, null=True, verbose_name=_('File'))
-    order = models.ForeignKey(Order, blank=True, null=True, on_delete=models.CASCADE)
-
-    class Meta:
-        verbose_name = _('Files')
-        verbose_name_plural = _('Files')
-
-    def __str__(self):
-        return self.file.name
-
-
 class Suggestion(models.Model):
     SUGGESTION_STATUS = (
         (_('In discussion'), _('In discussion')),
@@ -241,6 +229,9 @@ class CODOrder(models.Model):
     status = models.CharField(max_length=20, choices=ORDER_STATUS, default=_('Created'),
                               verbose_name=_('Order status'))  # Статус заказ
 
+    def __str__(self):
+        return self.title
+
 
 class CODDetail(models.Model):
     WHOSE = (
@@ -250,14 +241,14 @@ class CODDetail(models.Model):
 
     order = models.ForeignKey(CODOrder, on_delete=models.CASCADE)
     amount = models.PositiveIntegerField(default=1, verbose_name=_('Number of products'))  # Кол-во изделий
-    material = models.ManyToManyField(CODMaterial, blank=True, related_name=_('Material'),
-                                      verbose_name=_('Materials'), default='Default')
+    material = models.ForeignKey(CODMaterial, related_name=_('Material'),
+                                      verbose_name=_('Materials'), on_delete=models.CASCADE, null=True)
     whose_material = models.CharField(max_length=10, choices=WHOSE, default=_('Offeror'),
                                       verbose_name=_('Whose material?'))
     Note = models.TextField(default=_('You Note'), verbose_name=_('You Note'))
     Categories = models.ManyToManyField(CODCategories, blank=True, related_name='CODDetail',
                                         verbose_name=_('Categories'), default='Default')
-    Deadline = models.DateField(verbose_name=_('Deadline'))
+    Deadline = models.DateField(verbose_name=_('Deadline'), null=True)
     Availability_date = models.DateField(verbose_name=_('Availability date'), null=True)
     image_cover = models.ImageField(default='default.jpg', upload_to='COD_Detail_image_cover',
                                     verbose_name=_('Cover image'))
@@ -274,4 +265,15 @@ class CODFile(models.Model):
     def __str__(self):
         return self.file.name
 
+
+class File(models.Model):
+    file = models.FileField(upload_to='COD_detail_files', blank=True, null=True, verbose_name=_('File'))
+    detail = models.ForeignKey(CODDetail, blank=True, null=True, on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = _('Files')
+        verbose_name_plural = _('Files')
+
+    def __str__(self):
+        return self.file.name
 # -------------------------------------------------------NEW MODELS----------------------------------------------------
