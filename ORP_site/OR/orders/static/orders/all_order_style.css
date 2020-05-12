@@ -1,0 +1,18 @@
+
+.filters {
+    width: 10%;
+    float: left;
+}
+
+.orders {
+    width: 88%;
+    float: left;
+
+}
+
+.pagination {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  height: 40px;
+}

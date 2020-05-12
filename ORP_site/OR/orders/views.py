@@ -22,8 +22,17 @@ from chat.forms import MessageCreateForm
 from users.models import Profile
 # Local
 from .handlers import convert_pdf_to_bnp, create_order_pdf
+# -------------------------------------------------------OLD MODELS----------------------------------------------------
 from .models import Order, OperationCategories, Suggestion, AllCity, File, MassOrder, GroupSuggestion
 from .forms import OrderCreateForm, SuggestionCreateForm, GroupCreateOrderForm, SendOrderForm, CreateGroupOrderForm
+# -------------------------------------------------------OLD MODELS----------------------------------------------------
+
+# -------------------------------------------------------NEW MODELS----------------------------------------------------
+from .models import CODCity, CODMaterial, CODCategories, CODOrder, CODDetail, CODFile
+from suggestions.models import CODSuggestion, CODFeedback
+from .forms import SingleOrderCreateForm, AddedOneDetailForm
+
+# -------------------------------------------------------NEW MODELS----------------------------------------------------
 
 
 # --------------------------------------------------Отображение всех заказов--------------------------------------
@@ -77,6 +86,8 @@ def orders(request):
         'sort_all_orders_dict': sort_all_orders_dict,
     }
     return render(request, 'orders/all_orders.html', context)
+
+
 # --------------------------------------------------Отображение всех заказов--------------------------------------
 
 
@@ -118,6 +129,8 @@ def order_create(request):
         order_form = OrderCreateForm()
 
     return render(request, 'orders/order_create.html', {'order_form': order_form})
+
+
 # ------------------------------------------------------Создание заказа-------------------------------------------
 
 
@@ -235,6 +248,8 @@ class OrderUpdateView(UpdateView):
         print(order.image_view.path)
         order.save()
         return super().form_valid(form)
+
+
 # ------------------------------------------------------Обновление заказа-------------------------------------------
 
 
@@ -316,6 +331,8 @@ def filter_city(request, pk):
         'filcit': filcit,
     }
     return render(request, 'orders/filter.html', context)
+
+
 # -----------------------------------------------Фильтр заказов по категориям-------------------------------------
 
 
@@ -338,6 +355,8 @@ def suggestion_create(request, pk):
         suggestion = SuggestionCreateForm()
 
     return render(request, 'orders/suggestion_create.html', {'suggestion': suggestion})
+
+
 # -----------------------------------------------Создание предложения-------------------------------------
 
 
@@ -433,6 +452,8 @@ def status_ready(request, pk):
     selected_suggestion.save()
     order.save()
     return redirect(request.META['HTTP_REFERER'])
+
+
 # ------------------------------------------Конец функций изминения статуса заказов-------------------------------------
 
 
@@ -509,13 +530,13 @@ def get_five_rating(request, pk):
     print(suggestion.rating)
     return redirect(request.META['HTTP_REFERER'])
 
+
 # -----------------------------------------------Конец функций изминения заказов-------------------------------------
 
 
 # Отправка заказа другу
 @login_required
 def send_order_to_friend(request, pk):
-
     order = Order.objects.get(pk=pk)
 
     if request.method == 'POST':
@@ -543,8 +564,8 @@ def send_order_to_friend(request, pk):
             msg = EmailMessage(subject, message, email_from, recipient_list)
             msg.attach_file(pdf_order_url)
             msg.send()
-            #message.attach_file = pdf_order_url
-            #send_mail(subject, message, email_from, recipient_list)
+            # message.attach_file = pdf_order_url
+            # send_mail(subject, message, email_from, recipient_list)
         return redirect('orders')
 
     else:
@@ -555,3 +576,94 @@ def send_order_to_friend(request, pk):
     }
     return render(request, 'orders/send_order_to_friend.html', context)
 
+
+# -------------------------------------------------------NEW MODELS----------------------------------------------------
+def all_cod_order_view(request):
+    # Загрузка моделей
+    orders_all = CODOrder.objects.all().order_by('-date_create')
+    categories = CODCategories.objects.all()
+    city = CODCity.objects.all()
+    # Пагинация
+    paginator = Paginator(orders_all, 4)
+    try:
+        page = int(request.GET.get('page', '1'))
+    except:
+        page = 1
+    try:
+        posts = paginator.page(page)
+    except(EmptyPage, InvalidPage):
+        posts = paginator.page(paginator.num_pages)
+    context = {
+        'orders_all': posts,
+        'categories': categories,
+        'city': city,
+    }
+    return render(request, 'orders/AllOrderPage.html', context)
+
+
+def create_single_order(request):
+    if request.method == 'POST':
+        form = SingleOrderCreateForm(request.POST, request.FILES)
+        files = request.FILES.getlist('CODFiles')
+
+        if form.is_valid():
+            order = form.save(commit=False)
+            order.author = request.user
+            form.save()
+            print(order.pdf_cover.path)
+            pdf_file_name = str(order.pdf_cover)
+            print(pdf_file_name)
+            png_file_name = '{}{}'.format(pdf_file_name[20:-3], 'png')
+            print(png_file_name)
+            png_full_path = 'C:/PP/ORP/ORP_site/OR/media/COD_order_image_cover/' + png_file_name
+            print(png_full_path)
+            convert_pdf_to_bnp(order.pdf_cover.path, png_full_path)
+            order.image_cover = png_full_path
+            order.save()
+
+            title = form.cleaned_data.get('title')  # Получение названи заказка из формы
+            messages.success(request,
+                             # Формирование сообщения со вложенным именем
+                             f'You order has been created!Wait for a response! ')
+            url = order.pk
+            return redirect('views/detail/{}'.format(url))
+    else:
+        form = SingleOrderCreateForm()
+
+    context = {
+        'form': form,
+    }
+
+    return render(request, 'orders/create_single_order.html', context)
+
+
+def added_one_detail(request, url):
+    added_order = CODOrder.objects.get(pk=url)
+    print(added_order)
+    if request.method == 'POST':
+        form = AddedOneDetailForm(request.POST)
+        print('post')
+        if form.is_valid():
+            print('kek')
+            detail = form.save(commit=False)
+            detail.order = CODOrder.objects.get(pk=url)
+            detail.Availability_date = detail.Deadline
+            added_order.status = 'Discussion'
+            detail.save()
+            added_order.save()
+
+            title = form.cleaned_data.get('title')  # Получение названи заказка из формы
+            messages.success(request,
+                             # Формирование сообщения со вложенным именем
+                             f'You order has been created!Wait for a response! ')
+            return redirect('all_cod_order_view')
+    else:
+        form = AddedOneDetailForm()
+
+    context = {
+        'added_order': added_order,
+        'form': form,
+    }
+
+    return render(request, 'orders/added_one_detail.html', context)
+# -------------------------------------------------------NEW MODELS----------------------------------------------------

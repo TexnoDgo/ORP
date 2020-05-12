@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'orders.apps.OrdersConfig',
     'bootstrap_pagination',
     'dashboard',
+    'suggestions',
     'chat.apps.ChatConfig',
 
     #allauth

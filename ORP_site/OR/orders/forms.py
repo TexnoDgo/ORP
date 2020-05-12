@@ -5,6 +5,9 @@ from django.forms import formset_factory, modelformset_factory
 from django.forms.models import inlineformset_factory
 
 
+from .models import CODCity, CODMaterial, CODCategories, CODOrder, CODDetail, CODFile
+
+
 class OrderCreateForm(forms.ModelForm):
 
     files = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}), required=False)
@@ -60,3 +63,21 @@ class UpdateGroupOrderForm(forms.ModelForm):
 class SendOrderForm(forms.Form):
     email = forms.EmailField(label='Введите email')
     fields = ['email']
+
+
+# -------------------------------------------------------NEW MODELS----------------------------------------------------
+class SingleOrderCreateForm(forms.ModelForm):
+    class Meta:
+        model = CODOrder
+        fields = ['title', 'description', 'pdf_cover', 'city', 'proposed_budget']
+
+        def form_valid(self, form):
+            form.instance.author = self.request.user
+            return super().form_valid(form)
+
+
+class AddedOneDetailForm(forms.ModelForm):
+    class Meta:
+        model = CODDetail
+        fields = ['amount', 'material', 'whose_material', 'Note', 'Categories', 'Deadline']
+# -------------------------------------------------------NEW MODELS----------------------------------------------------

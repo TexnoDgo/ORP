@@ -1,0 +1,64 @@
+{% extends "HomePage/base.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block title %}{% trans "CrispyMachine - Create Order" %}{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'orders/create_single_order.css' %}">
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'index' %}">{% trans "Home" %}</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{% trans "Create Order" %}</li>
+    </ol>
+</nav>
+<div class="container">
+    <div class="card mb-3">
+      <img src="{{ added_order.image_cover.url }}" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title">{{added_order.title}}</h5>
+        <p class="card-text">{{added_order.description}}</p>
+        <p class="card-text">{{added_order.proposed_budget}}</p>
+        <p class="card-text">
+            <small class="text-muted">{{added_order.city}}</small>
+            <small class="text-muted">{{added_order.date_create}}</small>
+        </p>
+      </div>
+    </div>
+</div>
+<div class="container mb-4">
+    <form method="post">
+        {% csrf_token %}
+        <ul class="list-group list-group-horizontal">
+            <li class="list-group-item col">{{ form.amount|as_crispy_field }}</li>
+            <li class="list-group-item ">Dapibus ac facilisis in</li>
+        </ul>
+        <ul class="list-group list-group-horizontal">
+            <li class="list-group-item col">{{ form.material|as_crispy_field }}</li>
+            <li class="list-group-item ">Dapibus ac facilisis in</li>
+        </ul>
+        <ul class="list-group list-group-horizontal">
+            <li class="list-group-item col">{{ form.whose_material|as_crispy_field }}</li>
+            <li class="list-group-item ">Dapibus ac facilisis in</li>
+        </ul>
+        <ul class="list-group list-group-horizontal">
+            <li class="list-group-item col">{{ form.Note|as_crispy_field }}</li>
+            <li class="list-group-item ">Dapibus ac facilisis in</li>
+        </ul>
+        <ul class="list-group list-group-horizontal">
+            <li class="list-group-item col">{{ form.Categories|as_crispy_field }}</li>
+            <li class="list-group-item ">Dapibus ac facilisis in</li>
+        </ul>
+        <ul class="list-group list-group-horizontal">
+            <li class="list-group-item col">{{ form.Deadline|as_crispy_field }}</li>
+            <li class="list-group-item ">Dapibus ac facilisis in</li>
+        </ul>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">
+            {% trans "CREATE" %}
+        </button>
+    </form>
+</div>
+
+
+{% endblock %}
+

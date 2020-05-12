@@ -1,0 +1,47 @@
+{% extends "HomePage/base.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block title %}{% trans "CrispyMachine - Create Order" %}{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'orders/create_single_order.css' %}">
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'index' %}">{% trans "Home" %}</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{% trans "Create Order" %}</li>
+    </ol>
+</nav>
+
+<div class="container">
+    <form class="text-left" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <ul class="list-group list-group-horizontal">
+            <li class="list-group-item col">{{ form.title|as_crispy_field }}</li>
+            <li class="list-group-item ">Dapibus ac facilisis in</li>
+        </ul>
+        <ul class="list-group list-group-horizontal">
+            <li class="list-group-item col">{{ form.description|as_crispy_field }}</li>
+            <li class="list-group-item ">Dapibus ac facilisis in</li>
+        </ul>
+        <ul class="list-group list-group-horizontal">
+            <li class="list-group-item col">{{ form.pdf_cover|as_crispy_field }}</li>
+            <li class="list-group-item ">Dapibus ac facilisis in</li>
+        </ul>
+        <ul class="list-group list-group-horizontal">
+            <li class="list-group-item col">{{ form.city|as_crispy_field }}</li>
+            <li class="list-group-item ">Dapibus ac facilisis in</li>
+        </ul>
+        <ul class="list-group list-group-horizontal">
+            <li class="list-group-item col">{{ form.proposed_budget|as_crispy_field }}</li>
+            <li class="list-group-item ">Dapibus ac facilisis in</li>
+        </ul>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">
+            {% trans "CONTINUE" %}
+        </button>
+    </form>
+</div>
+
+
+{% endblock %}
+

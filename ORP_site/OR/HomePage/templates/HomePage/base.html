@@ -27,14 +27,14 @@
                         {% trans "Create Order" %}
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">{% trans "Single order" %}</a>
+                        <a class="dropdown-item" href="{% url 'create_single_order' %}">{% trans "Single order" %}</a>
                         <a class="dropdown-item" href="#">{% trans "Group order" %}</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="#">Something else here</a>
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">{% trans "All Orders" %}</a>
+                    <a class="nav-link" href="{% url 'all_cod_order_view' %}">{% trans "All Orders" %}</a>
                 </li>
                 <li class="nav-item ">
                     <a class="nav-link disabled" href="#">{% trans "About AS" %}<span class="sr-only">(current)</span></a>
@@ -70,13 +70,13 @@
 
     {% endblock %}
     <!-- Footer -->
-    <footer class="footer pt-4">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark" >
-            <div class="footer-copyright text-center text-white py-3 col ">© 2020 Copyright:
-                <a class="text-white" href="{% url 'index' %}"> Crispy Order</a>
-            </div>
-        </nav>
-    </footer>
+            <footer class="footer pt-4">
+                <nav class="navbar navbar-expand-lg navbar-dark bg-dark" >
+                    <div class="footer-copyright text-center text-white py-3 col ">© 2020 Copyright:
+                        <a class="text-white" href="{% url 'index' %}"> Crispy Order</a>
+                    </div>
+                </nav>
+            </footer>
     <!-- Footer -->
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
             integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"

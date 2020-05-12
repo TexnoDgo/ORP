@@ -1,0 +1,100 @@
+{% extends "HomePage/base.html" %}
+{% load i18n %}
+{% block title %}{% trans "CrispyMachine - All orders" %}{% endblock %}
+{% load static %}
+{% load bootstrap_pagination %}
+
+{% block content %}
+    <link rel="stylesheet" href="{% static 'orders/all_order_style.css' %}">
+    <!--Навигация-->
+    <div class="navigation" align="center">
+        <nav aria-label="breadcrumb ">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'index' %}">{% trans "Home" %}</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{% trans "All orders" %}</li>
+            </ol>
+        </nav>
+    </div>
+    <!--Навигация-->
+
+    <!--Уведомления-->
+    <div class="container">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+    <!--Уведомления-->
+
+    <div class="page">
+        <!--Фильтры-->
+        <div class="filters">
+            <div class="list-group">
+                <li class="list-group-item list-group-item list-group-item-secondary">
+                    {% trans "Category Filtering" %}
+                </li>
+                <div class="overflow-auto" style="height: 20rem;">
+                    {% for category in categories %}
+                        <a href="{% url 'order_category_view' pk=category.pk %}"
+                            class="list-group-item list-group-item-action list-group-item">
+                            {{ category.title }}
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="list-group mt-4">
+                <li class="list-group-item list-group-item list-group-item-secondary">
+                    {% trans "City Filtering" %}
+                </li>
+                <div class="overflow-auto" style="height: 20rem;">
+                {% for one_city in city %}
+                    <a href="{% url 'order_city_view' pk=one_city.pk %}" class="list-group-item list-group-item-action list-group-item">
+                        {{ one_city.title }}
+                    </a>
+                {% endfor %}
+                </div>
+            </div>
+        </div>
+        <!--Фильтры-->
+
+        <!--Заказы-->
+        <div class="orders">
+            <h4 class="border-bottom col mb-4 ml-4" align="center">{% trans "ALL ORDERS" %}</h4>
+            <div class="row row-cols-1 row-cols-md-4 ml-3">
+            {% for order in orders_all.object_list %}
+                <div class="col mb-4">
+                    <div class="card border-dark">
+                        <img class="card-img-top" src="{{order.image_cover.url }}" width="200" height="auto">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ order.title }}</h5>
+                            <p class="card-text">{{ order.description }}</p>
+                        </div>
+                        <div class="card-footer bg-transparent border-dark">
+                            <a class="btn btn-outline-success col-12" href="{{order.id}}">{% trans "Details" %}</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+        </div>
+        <!--Заказы-->
+
+
+
+
+    </div>
+    <!--Пагинация-->
+    <div class="pagination">
+        {% bootstrap_paginate orders_all range=4 %}
+    </div>
+    <!--Пагинация-->
+
+
+
+
+{% endblock %}
+
