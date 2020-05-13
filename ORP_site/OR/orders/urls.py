@@ -3,7 +3,8 @@ from django.conf.urls import url
 from .models import Order, MassOrder
 from django.urls import path, re_path
 from . import views
-from .views import all_cod_order_view, create_single_order, added_one_detail, create_multiple_order, added_multiple_detail
+from .views import (all_cod_order_view, create_single_order, added_one_detail,
+                    create_multiple_order, added_multiple_detail, order_and_suggestion_view)
 
 
 urlpatterns = [
@@ -30,4 +31,5 @@ urlpatterns = [
     path('create_multiple_order', create_multiple_order, name='create_multiple_order'),
     path(r'views/single_detail/<slug:url>', added_one_detail, name='added_one_detail'),
     path(r'views/multiple_detail/<slug:url>', added_multiple_detail, name='added_multiple_detail'),
+    path(r'view/<slug:url>', order_and_suggestion_view, name='order_and_suggestion_view'),
 ]

@@ -74,7 +74,10 @@
                             <p class="card-text">{{ order.description }}</p>
                         </div>
                         <div class="card-footer bg-transparent border-dark">
-                            <a class="btn btn-outline-success col-12" href="{{order.id}}">{% trans "Details" %}</a>
+                            <a class="btn btn-outline-dark col"
+                               href="{% url 'order_and_suggestion_view' url=order.pk %}">
+                                {% trans "Details" %}
+                            </a>
                         </div>
                     </div>
                 </div>

@@ -641,6 +641,7 @@ def create_multiple_order(request):
         if form.is_valid():
             order = form.save(commit=False)
             order.author = request.user
+            order.group_status = True
             form.save()
             pdf_file_name = str(order.pdf_cover)
             png_file_name = '{}{}'.format(pdf_file_name[20:-3], 'png')
@@ -749,6 +750,7 @@ def added_one_detail(request, url):
 @login_required
 def added_multiple_detail(request, url):
     added_order = CODOrder.objects.get(pk=url)
+
     DetailFormset = modelformset_factory(CODDetail, fields=('order', 'amount', 'material', 'whose_material',
                                                              'Note', 'Categories', 'Deadline', 'Availability_date',))
     if request.method == 'POST':
@@ -756,7 +758,7 @@ def added_multiple_detail(request, url):
         formset = DetailFormset(request.POST, request.FILES,
                                 queryset=CODDetail.objects.filter(order=CODOrder.objects.get(pk=url)))
         if formset.is_valid():
-            formset.save(commit=False)
+            formset.save()
         return redirect('all_cod_order_view')
     else:
         formset = DetailFormset(queryset=CODDetail.objects.filter(order=CODOrder.objects.get(pk=url)))
@@ -767,4 +769,12 @@ def added_multiple_detail(request, url):
     }
 
     return render(request, 'orders/added_multiple_detail.html', context)
+
+
+def order_and_suggestion_view(request, url):
+    order = CODOrder.objects.get(pk=url)
+    context = {
+        'order': order,
+    }
+    return render(request, 'orders/order_and_suggestion_view.html', context)
 # -------------------------------------------------------NEW MODELS----------------------------------------------------
