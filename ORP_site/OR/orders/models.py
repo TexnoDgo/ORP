@@ -240,6 +240,7 @@ class CODDetail(models.Model):
     )
 
     order = models.ForeignKey(CODOrder, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100, default='Detail', verbose_name=_('Detail name'))
     amount = models.PositiveIntegerField(default=1, verbose_name=_('Number of products'))  # Кол-во изделий
     material = models.ForeignKey(CODMaterial, related_name=_('Material'),
                                       verbose_name=_('Materials'), on_delete=models.CASCADE, null=True)
@@ -250,7 +251,7 @@ class CODDetail(models.Model):
                                         verbose_name=_('Categories'), default='Default')
     Deadline = models.DateField(verbose_name=_('Deadline'), null=True)
     Availability_date = models.DateField(verbose_name=_('Availability date'), null=True)
-    image_cover = models.ImageField(default='default.jpg', upload_to='COD_Detail_image_cover',
+    image_cover = models.ImageField(default='COD_Detail_image_cover/default.jpg', upload_to='COD_Detail_image_cover',
                                     verbose_name=_('Cover image'))
 
 

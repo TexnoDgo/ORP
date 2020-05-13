@@ -1,0 +1,17 @@
+body {
+    height: 60rem;
+}
+
+.order {
+    width: 30%;
+    float: left;
+}
+.detail {
+    width: 45%;
+    float: left;
+}
+
+.suggestions {
+    width: 25%;
+    float: left;
+}

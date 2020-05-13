@@ -643,6 +643,7 @@ def create_multiple_order(request):
             order.author = request.user
             order.group_status = True
             form.save()
+            # Создание обложки заказа
             pdf_file_name = str(order.pdf_cover)
             png_file_name = '{}{}'.format(pdf_file_name[20:-3], 'png')
             png_full_path = 'C:/PP/ORP/ORP_site/OR/media/COD_order_image_cover/' + png_file_name
@@ -673,13 +674,12 @@ def create_multiple_order(request):
                     else:
                         print('Error')
                     file_in_archive.append(file)
-            print(extract_archive_path)
-            print(data)
             # Создание деталей из файлов архива
             for a in data:
                 detail = CODDetail()
                 detail.order = order
                 detail.Availability_date = detail.Deadline
+                detail.name = a
                 detail.save()
 
                 for element in data[a]:
@@ -687,8 +687,21 @@ def create_multiple_order(request):
                     detail_file = File()
                     detail_file.file = extract_archive_path + '/' + element
                     detail_file.detail = detail
-                    print(detail_file)
                     detail_file.save()
+                    # Создание обложки
+                    halyard = element[-3:]
+                    print(halyard)
+                    if halyard == 'PDF':
+                        detail_png_file_name = '{}{}'.format(element[:-3], 'png')
+                        print(detail_png_file_name)
+                        detail_pdf_full_path = extract_archive_path + '/' + element
+                        print(detail_pdf_full_path)
+                        detail_png_full_path = 'C:/PP/ORP/ORP_site/OR/media/COD_Detail_image_cover/' + detail_png_file_name
+                        print(detail_png_full_path)
+                        convert_pdf_to_bnp(detail_pdf_full_path, detail_png_full_path)
+                        detail.image_cover = detail_png_full_path
+                        detail.save()
+
             # Очистка(Разобраться)
             shutil.rmtree(extract_archive_path, ignore_errors=True)
 
@@ -714,7 +727,6 @@ def added_one_detail(request, url):
     if request.method == 'POST':
         form = AddedOneDetailForm(request.POST, request.FILES)
         files = request.FILES.getlist('files')
-        print(files)
 
         if form.is_valid():
             detail = form.save(commit=False)
@@ -727,7 +739,6 @@ def added_one_detail(request, url):
             # Added files to detail
             if files:
                 for f in files:
-                    print('Yes')
                     f1 = File(detail=CODDetail.objects.get(pk=detail.id), file=f)
                     f1.save()
 
@@ -751,7 +762,7 @@ def added_one_detail(request, url):
 def added_multiple_detail(request, url):
     added_order = CODOrder.objects.get(pk=url)
 
-    DetailFormset = modelformset_factory(CODDetail, fields=('order', 'amount', 'material', 'whose_material',
+    DetailFormset = modelformset_factory(CODDetail, fields=('order', 'name', 'amount', 'material', 'whose_material',
                                                              'Note', 'Categories', 'Deadline', 'Availability_date',))
     if request.method == 'POST':
 
@@ -773,8 +784,10 @@ def added_multiple_detail(request, url):
 
 def order_and_suggestion_view(request, url):
     order = CODOrder.objects.get(pk=url)
+    details = CODDetail.objects.filter(order__pk=url)
     context = {
         'order': order,
+        'details': details,
     }
     return render(request, 'orders/order_and_suggestion_view.html', context)
 # -------------------------------------------------------NEW MODELS----------------------------------------------------

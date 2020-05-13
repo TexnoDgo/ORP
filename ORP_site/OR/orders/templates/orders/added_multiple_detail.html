@@ -5,7 +5,7 @@
 {% block title %}{% trans "CrispyMachine - Create Order" %}{% endblock %}
 
 {% block content %}
-<link rel="stylesheet" href="{% static 'orders/create_single_order.css' %}">
+<link rel="stylesheet" href="{% static 'orders/add_multiple_detail.css' %}">
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{% url 'index' %}">{% trans "Home" %}</a></li>
@@ -13,7 +13,65 @@
         <li class="breadcrumb-item active" aria-current="page">{% trans "Added detail" %}</li>
     </ol>
 </nav>
-<div class="container">
+<div class="detailform mb-4 ml-5">
+    <h1 class="display-5" align="center">{% trans "Order Details Description" %}</h1>
+    <hr>
+    <form class="text-left" method="POST" enctype="multipart/form-data">
+        <div class="overflow-auto" style="height: 40rem;">
+        <div class="row row-cols-1 row-cols-md-2">
+                {% csrf_token %}
+                {{ formset.management_form|crispy }}
+                {% for form in formset %}
+                <div class="col mb-4">
+                    <div class="card">
+                        <img src="{{detail.image_cover.url}}" class="card-img-top" alt="...">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                {% trans "Detail name: " %}
+                                {{ form.name }}
+                            </li>
+                            <li class="list-group-item">
+                                {% trans "Amount: " %}
+                                {{ form.amount }}
+                            </li>
+                            <li class="list-group-item">
+                                {% trans "Material: " %}
+                                {{ form.material }}
+                            </li>
+                            <li class="list-group-item">
+                                {% trans "Whose material: " %}
+                                {{ form.whose_material }}
+                            </li>
+                            <li class="list-group-item">
+                                {% trans "Note: " %}
+                                {{ form.Note }}
+                            </li>
+                            <li class="list-group-item">
+                                {% trans "Categories: " %}
+                                {{ form.Categories }}
+                            </li>
+                            <li class="list-group-item">
+                                {% trans "Deadline: " %}
+                                {{ form.Deadline }}
+                            </li>
+                            <li class="list-group-item">
+                                {% trans "Availability date: " %}
+                                {{ form.Availability_date }}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <hr>
+        <button class="btn btn-lg btn-outline-primary btn-block" type="submit">
+            {% trans "CREATE" %}
+        </button>
+        <hr>
+    </form>
+</div>
+<div class="order">
     <h1 class="display-5" align="center">{% trans "Order" %}</h1>
     <hr>
     <div class="card mb-3">
@@ -28,22 +86,6 @@
         </p>
       </div>
     </div>
-</div>
-<div class="container mb-4">
-    <h1 class="display-5" align="center">{% trans "Order Details Description" %}</h1>
-    <hr>
-    <form class="text-left" method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ formset.management_form }}
-        {% for form in formset %}
-            {{ form }}
-        {% endfor %}
-        <hr>
-        <button class="btn btn-lg btn-outline-primary btn-block" type="submit">
-            {% trans "CREATE" %}
-        </button>
-        <hr>
-    </form>
 </div>
 {% endblock %}
 
