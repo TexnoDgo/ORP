@@ -702,7 +702,7 @@ def create_multiple_order(request):
                         detail.image_cover = detail_png_full_path
                         detail.save()
 
-            # Очистка(Разобраться)
+            # Очистка(Удаляет файлы. Убрать очистку)
             shutil.rmtree(extract_archive_path, ignore_errors=True)
 
             title = form.cleaned_data.get('title')  # Получение названи заказка из формы
