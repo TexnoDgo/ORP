@@ -1,5 +1,5 @@
 body {
-    height: 60rem;
+    height: 80rem;
 }
 
 .order {
@@ -13,5 +13,15 @@ body {
 
 .suggestions {
     width: 25%;
+    float: left;
+}
+
+.order2 {
+    width: 60%;
+    float: left;
+}
+
+.suggestions2 {
+    width: 40%;
     float: left;
 }

@@ -14,167 +14,285 @@
       </ol>
     </nav>
     <!--Навигация-->
-    <!--Заказ-->
-    <div class="order">
-        <h3 class="display-5" align="center">{% trans "Order" %}</h3>
-        <hr>
-        <div class="card ml-2 mr-2 mb-4">
-            <div class="card-header bg-transparent border-dark">
-                <p class="card-text">
-                    <small class="text-muted col-5">
-                        {% trans "Order created: " %}{{ order.date_create }}
-                    </small>
-                    <small class="text-muted col-5 ml-5">
-                        {% trans "Order author: " %} {{ order.author }}
-                    </small>
-                </p>
-                <p class="card-text">
-                    <small class="text-muted ml-5 col-5 mr-5">
-                        {% trans "Order City: " %} {{ order.city }}
-                    </small>
-                    <small class="text-muted ml-5">
-                        {% trans "Order Budget: " %} {{ order.proposed_budget }}
-                    </small>
-                 </p>
-            </div>
-            <div class="card-body">
-                <h5 class="card-title">
-                    {{ order.title }}
-                    <small>
-                        {% if order.status == 'Discussion' %}
-                            <span class="badge badge-pill badge-warning">{{ order.status }}</span>
-                        {% elif order.status == 'InWork' %}
-                            <span class="badge badge-pill badge-success">{{ order.status }}</span>
-                        {% elif order.status == 'Done' %}
-                            <span class="badge badge-pill badge-secondary">{{ order.status }}</span>
-                        {% elif order.status == 'Canceled' %}
-                            <span class="badge badge-pill badge-danger">{{ order.status }}</span>
+
+    {% if order.group_status == True %}
+        <!--Заказ-->
+        <div class="order">
+            <div class="card ml-2 mr-2 border-dark">
+                <div class="card-header text-white bg-dark mb-3">
+                    <h3 class="display-5" align="center">{% trans "Order" %}</h3>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">
+                        {{ order.title }}
+                        <small>
+                            {% if order.status == 'Discussion' %}
+                                <span class="badge badge-pill badge-warning">{{ order.status }}</span>
+                            {% elif order.status == 'InWork' %}
+                                <span class="badge badge-pill badge-success">{{ order.status }}</span>
+                            {% elif order.status == 'Done' %}
+                                <span class="badge badge-pill badge-secondary">{{ order.status }}</span>
+                            {% elif order.status == 'Canceled' %}
+                                <span class="badge badge-pill badge-danger">{{ order.status }}</span>
+                            {% endif %}
+                        </small>
+                    </h5>
+                    <p class="card-text">{{ order.description }}</p>
+                </div>
+                <a href="{{ order.pdf_cover.url }}">
+                    <img src="{{order.image_cover.url}}" class="card-img-top" alt="...">
+                </a>
+                <div class="card-body">
+                    <p class="card-text">
+                        <small class="text-muted col-5">
+                            {% trans "Order created: " %}{{ order.date_create }}
+                        </small>
+                        <small class="text-muted col-5 ml-5">
+                            {% trans "Order author: " %} {{ order.author }}
+                        </small>
+                    </p>
+                    <p class="card-text">
+                        <small class="text-muted ml-5 col-5 mr-5">
+                            {% trans "Order City: " %} {{ order.city }}
+                        </small>
+                        <small class="text-muted ml-5">
+                            {% trans "Order Budget: " %} {{ order.proposed_budget }}
+                        </small>
+                     </p>
+                </div>
+                <div class="card-footer bg-transparent border-dark">
+                    <small class="col ml-2">
+                        {% if user == order.author %}
+                            <a href="{% url 'cod_order_delete' pk=order.id %}"
+                               class="btn btn-danger btn-lg active btn-sm" role="button" aria-pressed="true">
+                                {% trans "Delete order" %}
+                            </a>
                         {% endif %}
                     </small>
-                </h5>
-                <p class="card-text">{{ order.description }}</p>
-
-            </div>
-            <a href="{{ order.pdf_cover.url }}">
-                <img src="{{order.image_cover.url}}" class="card-img-top" alt="...">
-            </a>
-            <div class="card-body">
-                <small class="text-muted">
-                    {% trans "Order files" %}
-                </small>
-                <small>
-
-                </small>
-            </div>
-            <div class="card-footer bg-transparent border-dark">
-                    <p class="card-text" align="center">
-
-                    </p>
                 </div>
+            </div>
         </div>
-    </div>
-    <!--Заказ-->
-    <!--Деталь(ли)-->
-    <div class="detail">
-        <h3 class="display-5" align="center">{% trans "Order Details Description" %}</h3>
-        <hr>
-        <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
-            <li class="nav-item">
-                <a class="nav-link active" id="Collage-tab"
-                   data-toggle="tab" href="#Collage"
-                   role="tab" aria-controls="Collage"
-                   aria-selected="true">{% trans "Collage" %}</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="Table-tab"
-                   data-toggle="tab" href="#Table"
-                   role="tab" aria-controls="Table"
-                   aria-selected="false">{% trans "Table" %}</a>
-            </li>
-        </ul>
-        <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade show active" id="Collage" role="tabpanel" aria-labelledby="Collage-tab">
-                <div class="overflow-auto" style="height: 40rem;">
-                    <div class="row row-cols-1 row-cols-2">
-                        {% for detail in details %}
-                            <div class="card mb-2 ">
-                                <img src="{{detail.image_cover.url}}" class="card-img-top" alt="...">
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">
-                                        {% trans "Detail name: " %}
-                                        {{ detail.name }}
-                                    </li>
-                                    <li class="list-group-item">
-                                        {% trans "Amount: " %}
-                                        {{ detail.amount }}
-                                    </li>
-                                    <li class="list-group-item">
-                                        {% trans "Material: " %}
-                                        {{ detail.material }}
-                                    </li>
-                                    <li class="list-group-item">
-                                        {% trans "Whose material: " %}
-                                        {{ detail.whose_material }}
-                                    </li>
-                                    <li class="list-group-item">
-                                        {% trans "Note: " %}
-                                        {{ detail.Note }}
-                                    </li>
-                                    <li class="list-group-item">
-                                        {% trans "Categories: " %}
-                                        {{ detail.Categories }}
-                                    </li>
-                                    <li class="list-group-item">
-                                        {% trans "Deadline: " %}
-                                        {{ detail.Deadline }}
-                                    </li>
-                                    <li class="list-group-item">
-                                        {% trans "Availability date: " %}
-                                        {{ detail.Availability_date }}
-                                    </li>
-                                </ul>
+        <!--Заказ-->
+        <!--Деталь(ли)-->
+        <div class="detail">
+            <div class="card ml-2 mr-2 mb-4 border-dark">
+                <div class="card-header text-white bg-dark">
+                    <h3 class="display-5" align="center">{% trans "Order Details Description" %}</h3>
+                </div>
+                <ul class="nav nav-pills nav-fill" id="pills-tab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="pills-Collage-tab"
+                               data-toggle="pill" href="#pills-Collage"
+                               role="tab" aria-controls="pills-Collage"
+                               aria-selected="true">{% trans "Collage" %}
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="pills-Table-tab"
+                               data-toggle="pill" href="#pills-Table"
+                               role="tab" aria-controls="pills-Table"
+                               aria-selected="false">{% trans "Table" %}
+                            </a>
+                        </li>
+                    </ul>
+                <div class="tab-content" id="pills-tabContent">
+                    <div class="tab-pane fade show active" id="pills-Collage" role="tabpanel" aria-labelledby="pills-Collage-tab">
+                        <div class="overflow-auto" style="height: 62rem;">
+                            <div class="row row-cols-1 row-cols-2 col">
+                                {% for detail in details %}
+                                    <div class="card mb-2">
+                                        <img src="{{detail.image_cover.url}}" class="card-img-top" alt="...">
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item">
+                                                {% trans "Detail name: " %}
+                                                {{ detail.name }}
+                                            </li>
+                                            <li class="list-group-item">
+                                                {% trans "Amount: " %}
+                                                {{ detail.amount }}
+                                            </li>
+                                            <li class="list-group-item">
+                                                {% trans "Material: " %}
+                                                {{ detail.material }}
+                                            </li>
+                                            <li class="list-group-item">
+                                                {% trans "Whose material: " %}
+                                                {{ detail.whose_material }}
+                                            </li>
+                                            <li class="list-group-item">
+                                                {% trans "Note: " %}
+                                                {{ detail.Note }}
+                                            </li>
+                                            <li class="list-group-item">
+                                                {% trans "Categories: " %}
+                                                {{ detail.Categories }}
+                                            </li>
+                                            <li class="list-group-item">
+                                                {% trans "Deadline: " %}
+                                                {{ detail.Deadline }}
+                                            </li>
+                                            <li class="list-group-item">
+                                                {% trans "Availability date: " %}
+                                                {{ detail.Availability_date }}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                {% endfor %}
                             </div>
-                        {% endfor %}
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="pills-Table" role="tabpanel" aria-labelledby="pills-Table-tab">
+                        <div class="card mb-4">
+                            <table class="col">
+                                <tbody >
+                                    <tr>
+                                        <td>{% trans "Name" %}</td>
+                                        <td>{% trans "amount" %}</td>
+                                        <td>{% trans "material" %}</td>
+                                        <td>{% trans "whose_material" %}</td>
+                                        <td>{% trans "Note" %}</td>
+                                        <td>{% trans "Categories" %}</td>
+                                        <td>{% trans "Deadline" %}</td>
+                                        <td>{% trans "Availability_date" %}</td>
+                                    </tr>
+                                    {% for detail in details %}
+                                    <tr>
+                                        <td>{% trans "Name" %}</td>
+                                        <td>{{ detail.amount }}</td>
+                                        <td>{{ detail.material }}</td>
+                                        <td>{{ detail.whose_material }}</td>
+                                        <td>{{ detail.Note }}</td>
+                                        <td>{% trans "Categories" %}</td>
+                                        <td>{{ detail.Deadline }}</td>
+                                        <td>{{ detail.Availability_date }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="tab-pane fade" id="Table" role="tabpanel" aria-labelledby="Table-tab">
-                <div class="card mb-4">
-                    <table class="col">
-                        <tbody >
-                            <tr>
-                                <td>{% trans "Name" %}</td>
-                                <td>{% trans "amount" %}</td>
-                                <td>{% trans "material" %}</td>
-                                <td>{% trans "whose_material" %}</td>
-                                <td>{% trans "Note" %}</td>
-                                <td>{% trans "Categories" %}</td>
-                                <td>{% trans "Deadline" %}</td>
-                                <td>{% trans "Availability_date" %}</td>
-                            </tr>
-                            {% for detail in details %}
-                            <tr>
-                                <td>{% trans "Name" %}</td>
-                                <td>{{ detail.amount }}</td>
-                                <td>{{ detail.material }}</td>
-                                <td>{{ detail.whose_material }}</td>
-                                <td>{{ detail.Note }}</td>
-                                <td>{% trans "Categories" %}</td>
-                                <td>{{ detail.Deadline }}</td>
-                                <td>{{ detail.Availability_date }}</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+        </div>
+        <!--Деталь(ли)-->
+        <!--Предложения для автора-->
+        <div class="suggestions">
+            <div class="card ml-2 mr-2 border-dark">
+                <div class="card-header text-white bg-dark mb-3">
+                    <h3 class="display-5" align="center">{% trans "Suggestions" %}</h3>
                 </div>
             </div>
         </div>
-    </div>
-    <!--Деталь(ли)-->
-    <!--Предложения для автора-->
-    <div class="suggestions">
-        <h3 class="display-5" align="center">{% trans "Suggestions" %}</h3>
-        <hr>
-    </div>
-    <!--Предложения для автора-->
+        <!--Предложения для автора-->
+    {% elif order.group_status == False %}
+        <!--Заказ-->
+        <div class="order2">
+            <div class="card border-dark" style="max-width: 100rem;">
+                <div class="card-header col text-white bg-dark mb-3">
+                    <h3 class="display-5" align="center">{% trans "Order" %}</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row no-gutters">
+                    <div class="col-md-4">
+                        <a href="{{ order.pdf_cover.url }}">
+                            <img src="{{order.image_cover.url}}" class="card-img-top" alt="...">
+                        </a>
+                        <div >
+
+                        </div>
+                    </div>
+                    <div class="col-md-8" >
+                        <div class="card-body" style="height: 50rem;">
+                            <h5 class="card-title">
+                                {{ order.title }}
+                                <small>
+                                    {% if order.status == 'Discussion' %}
+                                        <span class="badge badge-pill badge-warning">{{ order.status }}</span>
+                                    {% elif order.status == 'InWork' %}
+                                        <span class="badge badge-pill badge-success">{{ order.status }}</span>
+                                    {% elif order.status == 'Done' %}
+                                        <span class="badge badge-pill badge-secondary">{{ order.status }}</span>
+                                    {% elif order.status == 'Canceled' %}
+                                        <span class="badge badge-pill badge-danger">{{ order.status }}</span>
+                                    {% endif %}
+                                </small>
+                            </h5>
+                            <div class="card mb-2">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">
+                                        {% trans "Order created: " %}
+                                        {{ order.date_create }}
+                                    </li>
+                                    <li class="list-group-item">
+                                        {% trans "Order author: " %}
+                                        {{ order.author }}
+                                    </li>
+                                    <li class="list-group-item">
+                                        {% trans "Order City: " %}
+                                        {{ order.city }}
+                                    </li>
+                                    <li class="list-group-item">
+                                        {% trans "Order Budget: " %}
+                                        {{ order.proposed_budget }}
+                                    </li>
+                                    {% for detail in details %}
+                                        <li class="list-group-item">
+                                            {% trans "Detail name: " %}
+                                            {{ detail.name }}
+                                        </li>
+                                        <li class="list-group-item">
+                                            {% trans "Amount: " %}
+                                            {{ detail.amount }}
+                                        </li>
+                                        <li class="list-group-item">
+                                            {% trans "Material: " %}
+                                            {{ detail.material }}
+                                        </li>
+                                        <li class="list-group-item">
+                                            {% trans "Whose material: " %}
+                                            {{ detail.whose_material }}
+                                        </li>
+                                        <li class="list-group-item">
+                                            {% trans "Note: " %}
+                                            {{ detail.Note }}
+                                        </li>
+                                        <li class="list-group-item">
+                                            {% trans "Categories: " %}
+                                            {% for cat in detail.Categories.all %}
+                                                {{ cat }},
+                                            {% endfor %}
+                                        </li>
+                                        <li class="list-group-item">
+                                            {% trans "Deadline: " %}
+                                            {{ detail.Deadline }}
+                                        </li>
+                                        <li class="list-group-item">
+                                            {% trans "Availability date: " %}
+                                            {{ detail.Availability_date }}
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            <p class="card-text">
+                                {% trans "Description: " %}
+                                {{ order.description }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+        <!--Заказ-->
+        <!--Предложения для автора-->
+        <div class="suggestions2">
+            <div class="card ml-2 mr-2 border-dark">
+                <div class="card-header text-white bg-dark mb-3">
+                    <h3 class="display-5" align="center">{% trans "Suggestions" %}</h3>
+                </div>
+            </div>
+        </div>
+        <!--Предложения для автора-->
+    {% endif %}
+
 {% endblock %}

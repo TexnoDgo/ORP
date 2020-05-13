@@ -32,4 +32,5 @@ urlpatterns = [
     path(r'views/single_detail/<slug:url>', added_one_detail, name='added_one_detail'),
     path(r'views/multiple_detail/<slug:url>', added_multiple_detail, name='added_multiple_detail'),
     path(r'view/<slug:url>', order_and_suggestion_view, name='order_and_suggestion_view'),
+    re_path(r'view/(?P<pk>\d+)/delete', views.CODDeleteOrderView.as_view(), name='cod_order_delete')
 ]

@@ -642,6 +642,7 @@ def create_multiple_order(request):
             order = form.save(commit=False)
             order.author = request.user
             order.group_status = True
+            order.status = 'Discussion'
             form.save()
             # Создание обложки заказа
             pdf_file_name = str(order.pdf_cover)
@@ -790,4 +791,17 @@ def order_and_suggestion_view(request, url):
         'details': details,
     }
     return render(request, 'orders/order_and_suggestion_view.html', context)
+
+
+class CODDeleteOrderView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = CODOrder
+
+    success_url = '/'
+
+    def test_func(self):
+        order = self.get_object()
+        if self.request.user == order.author:
+            return True
+        return False
+
 # -------------------------------------------------------NEW MODELS----------------------------------------------------
