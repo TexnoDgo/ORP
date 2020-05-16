@@ -41,18 +41,15 @@ urlpatterns = [
     path('order/view_archives', orders_views.view_archives, name='view_archives'),
     url('order/create_many_order/(?P<pk>\d+)$', orders_views.create_many_order, name='create_many_order'),
 
-    #path('order_create_new/', orders_views.test_order_create, name='order_create_new'),
     path('orders/', include('orders.urls')),
+    path('suggestions/', include('suggestions.urls')),
+
     path('', include('chat.urls')),
     path('conf_reg/', user_views.conf_reg, name='conf_reg'),
 
-    url(r'suggestion/(?P<pk>\d+)$', orders_views.suggestion_create, name='suggestion'),
+    #url(r'suggestion/(?P<pk>\d+)$', orders_views.suggestion_create, name='suggestion'),
 
-    #url(r'suggestion/view/(?P<pk>\d+)$', orders_views.SuggestionView.as_view(model=Suggestion,
-    #                                                                    template_name='orders/suggestion_view.html'),
-    #    name='suggestion_detail'),
-
-    url(r'suggestion/view/(?P<pk>\d+)$', chat_views.message_of_suggestion, name='message_and_suggestion'),
+    #url(r'suggestion/view/(?P<pk>\d+)$', chat_views.message_of_suggestion, name='message_and_suggestion'),
 
     path('dashboard', include('dashboard.urls')),
 
@@ -61,6 +58,7 @@ urlpatterns = [
     url(r'^signup/$', user_views.signup, name='signup'),
     url(r'^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
         user_views.activate, name='activate'),
+
 ]
 
 

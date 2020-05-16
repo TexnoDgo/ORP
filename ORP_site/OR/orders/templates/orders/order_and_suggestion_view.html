@@ -18,11 +18,11 @@
     {% if order.group_status == True %}
         <!--Заказ-->
         <div class="order">
-            <div class="card ml-2 mr-2 border-dark">
-                <div class="card-header text-white bg-dark mb-3">
-                    <h3 class="display-5" align="center">{% trans "Order" %}</h3>
+            <div class="card border-success ml-2 mr-2" style="height: 45rem;">
+                <div class="card-header mb-3" align="center">
+                    {% trans "Order #" %}{{order.pk}}
                 </div>
-                <div class="card-body">
+                <div class="card-body" >
                     <h5 class="card-title">
                         {{ order.title }}
                         <small>
@@ -60,24 +60,30 @@
                         </small>
                      </p>
                 </div>
-                <div class="card-footer bg-transparent border-dark">
-                    <small class="col ml-2">
-                        {% if user == order.author %}
-                            <a href="{% url 'cod_order_delete' pk=order.id %}"
-                               class="btn btn-danger btn-lg active btn-sm" role="button" aria-pressed="true">
-                                {% trans "Delete order" %}
-                            </a>
-                        {% endif %}
-                    </small>
+                <div class="card-footer bg-transparent border-success" align="center">
+                    <div class="list-group list-group-horizontal">
+                        <a href="{% url 'cod_order_delete' pk=order.pk %}"
+                           class="list-group-item list-group-item-action list-group-item-danger">
+                            {% trans "Delete" %}
+                        </a>
+                        <a href="{% url 'order_update' pk=order.pk %}"
+                           class="list-group-item list-group-item-action list-group-item-warning">
+                            {% trans "Update" %}
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action list-group-item-success disabled"
+                           tabindex="-1" aria-disabled="true">
+                            {% trans "Send friend" %}
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
         <!--Заказ-->
         <!--Деталь(ли)-->
         <div class="detail">
-            <div class="card ml-2 mr-2 mb-4 border-dark">
-                <div class="card-header text-white bg-dark">
-                    <h3 class="display-5" align="center">{% trans "Order Details Description" %}</h3>
+            <div class="card ml-2 mr-2 mb-4">
+                <div class="card-header" align="center">
+                    {% trans "Order Details Description" %}
                 </div>
                 <ul class="nav nav-pills nav-fill" id="pills-tab" role="tablist">
                         <li class="nav-item">
@@ -97,7 +103,7 @@
                     </ul>
                 <div class="tab-content" id="pills-tabContent">
                     <div class="tab-pane fade show active" id="pills-Collage" role="tabpanel" aria-labelledby="pills-Collage-tab">
-                        <div class="overflow-auto" style="height: 62rem;">
+                        <div class="overflow-auto" style="height: 40rem;">
                             <div class="row row-cols-1 row-cols-2 col">
                                 {% for detail in details %}
                                     <div class="card mb-2">
@@ -177,17 +183,73 @@
         <!--Деталь(ли)-->
         <!--Предложения для автора-->
         <div class="suggestions">
-            <div class="card ml-2 mr-2 border-dark">
-                <div class="card-header text-white bg-dark mb-3">
-                    <h3 class="display-5" align="center">{% trans "Suggestions" %}</h3>
+            <div class="card ml-2 mr-2">
+                <div class="card-header mb-3" align="center">
+                    {% trans "Suggestions" %}
                 </div>
+                {% if request.user == order.author %}
+                    <div class="overflow-auto" style="height: 41rem;">
+                        {% for suggestion in suggestions %}
+                        <div class="card-body">
+                            <div class="card mb-3" style="max-width: 44rem;">
+                                {% if suggestion.status == 'Discussion' %}
+                                <div class="card-header text-white bg-dark" align="center">
+                                {% elif suggestion.status == 'InWork' %}
+                                <div class="card-header text-white bg-success" align="center">
+                                {% elif suggestion.status == 'Done' %}
+                                <div class="card-header text-white bg-primary" align="center">
+                                {% elif suggestion.status == 'Canceled' %}
+                                <div class="card-header text-white bg-secondary" align="center">
+                                {% endif %}
+                                    <small class="col-5"></small>{{suggestion.author}}
+                                    <small class="col-5"></small>{{suggestion.date_create}}
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title col" align="center">{{suggestion.offer_price}}</h5>
+                                    <p class="card-text col" align="center">{{suggestion.offer_description}}</p>
+                                </div>
+                                <div class="card-footer bg-transparent border-dark" align="center">
+                                    <div class="list-group list-group-horizontal">
+                                        <a href="{% url 'suggestion_detail' url=suggestion.pk %}"
+                                           class="list-group-item list-group-item-action list-group-item-info">
+                                            {% trans "Detail" %}
+                                        </a>
+                                        {% if order.status == 'Discussion' %}
+                                        <a href="{% url 'change_status' url=suggestion.pk %}"
+                                           class="list-group-item list-group-item-action list-group-item-success"
+                                           tabindex="-1" aria-disabled="true">
+                                            {% trans "Select" %}
+                                        </a>
+                                        {% else %}
+                                        <a href="{% url 'change_status' url=suggestion.pk %}" class="list-group-item list-group-item-action list-group-item-success disabled"
+                                           tabindex="-1" aria-disabled="true">
+                                            {% trans "Select" %}
+                                        </a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% elif request.user != order.author %}
+                    <div class="card-body">
+                    <div class="card bg-light ml-3 mb-3" style="max-width: 44rem;">
+                      <div class="card-body">
+                        <a href="{% url 'create_suggestion' url=order.pk %}">
+                            <h3 class="card-title" align="center">Create suggestion</h3>
+                        </a>
+                      </div>
+                    </div>
+                </div>
+                {% endif %}
             </div>
         </div>
         <!--Предложения для автора-->
     {% elif order.group_status == False %}
         <!--Заказ-->
         <div class="order2">
-            <div class="card border-dark" style="max-width: 100rem;">
+            <div class="card ml-2 border-dark" style="max-width: 100rem;">
                 <div class="card-header col text-white bg-dark mb-3">
                     <h3 class="display-5" align="center">{% trans "Order" %}</h3>
                 </div>
@@ -281,6 +343,22 @@
                     </div>
                 </div>
                 </div>
+                <div class="card-footer bg-transparent border-dark" align="center">
+                    <div class="list-group list-group-horizontal">
+                        <a href="{% url 'cod_order_delete' pk=order.pk %}"
+                           class="list-group-item list-group-item-action list-group-item-danger">
+                            {% trans "Delete" %}
+                        </a>
+                        <a href="{% url 'order_update' pk=order.pk %}"
+                           class="list-group-item list-group-item-action list-group-item-warning">
+                            {% trans "Update" %}
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action list-group-item-success disabled"
+                           tabindex="-1" aria-disabled="true">
+                            {% trans "Send friend" %}
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
         <!--Заказ-->
@@ -290,6 +368,62 @@
                 <div class="card-header text-white bg-dark mb-3">
                     <h3 class="display-5" align="center">{% trans "Suggestions" %}</h3>
                 </div>
+                {% if request.user == order.author %}
+                    <div class="overflow-auto" style="height: 52rem;">
+                        {% for suggestion in suggestions %}
+                        <div class="card-body">
+                            <div class="card mb-3" style="max-width: 44rem;">
+                                {% if suggestion.status == 'Discussion' %}
+                                <div class="card-header text-white bg-dark" align="center">
+                                {% elif suggestion.status == 'InWork' %}
+                                <div class="card-header text-white bg-success" align="center">
+                                {% elif suggestion.status == 'Done' %}
+                                <div class="card-header text-white bg-primary" align="center">
+                                {% elif suggestion.status == 'Canceled' %}
+                                <div class="card-header text-white bg-secondary" align="center">
+                                {% endif %}
+                                    <small class="col-5"></small>{{suggestion.author}}
+                                    <small class="col-5"></small>{{suggestion.date_create}}
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title col" align="center">{{suggestion.offer_price}}</h5>
+                                    <p class="card-text col" align="center">{{suggestion.offer_description}}</p>
+                                </div>
+                                <div class="card-footer bg-transparent border-dark" align="center">
+                                    <div class="list-group list-group-horizontal">
+                                        <a href="{% url 'suggestion_detail' url=suggestion.pk %}"
+                                           class="list-group-item list-group-item-action list-group-item-info">
+                                            {% trans "Detail" %}
+                                        </a>
+                                        {% if order.status == 'Discussion' %}
+                                        <a href="{% url 'change_status' url=suggestion.pk %}"
+                                           class="list-group-item list-group-item-action list-group-item-success"
+                                           tabindex="-1" aria-disabled="true">
+                                            {% trans "Select" %}
+                                        </a>
+                                        {% else %}
+                                        <a href="{% url 'change_status' url=suggestion.pk %}" class="list-group-item list-group-item-action list-group-item-success disabled"
+                                           tabindex="-1" aria-disabled="true">
+                                            {% trans "Select" %}
+                                        </a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% elif request.user != order.author %}
+                    <div class="card-body">
+                    <div class="card bg-light ml-3 mb-3" style="max-width: 44rem;">
+                      <div class="card-body">
+                        <a href="{% url 'create_suggestion' url=order.pk %}">
+                            <h3 class="card-title" align="center">Create suggestion</h3>
+                        </a>
+                      </div>
+                    </div>
+                </div>
+                {% endif %}
             </div>
         </div>
         <!--Предложения для автора-->

@@ -786,9 +786,11 @@ def added_multiple_detail(request, url):
 def order_and_suggestion_view(request, url):
     order = CODOrder.objects.get(pk=url)
     details = CODDetail.objects.filter(order__pk=url)
+    suggestions = CODSuggestion.objects.filter(order=order)
     context = {
         'order': order,
         'details': details,
+        'suggestions': suggestions,
     }
     return render(request, 'orders/order_and_suggestion_view.html', context)
 
@@ -803,5 +805,61 @@ class CODDeleteOrderView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         if self.request.user == order.author:
             return True
         return False
+
+
+class CODOrderUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = CODOrder
+
+    success_url = '/'
+
+    def test_func(self):
+        order = self.get_object()
+        if self.request.user == order.author:
+            return True
+        return False
+
+    def get_context_data(self, **kwargs):
+        context = super(CODOrderUpdateView, self).get_context_data(**kwargs)
+        a = self.object.id
+        context['details'] = CODDetail.objects.filter(order=a)
+        return context
+
+    fields = ['title', 'description', 'city', 'archive', 'image_cover', 'pdf_cover', 'proposed_budget',
+              ]
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        order = form.save(commit=False)
+        order.title = 'kek'
+        order.save()
+        return super().form_valid(form)
+
+
+# ------------------------------------------- Статусы заказов и предложений---------------------------------------
+def change_status(request, url):
+    suggestion = CODSuggestion.objects.get(pk=url)
+    order = CODOrder.objects.get(pk=suggestion.order.pk)
+
+    if suggestion.status == 'Discussion' and order.status == 'Discussion':
+        suggestion.status = 'InWork'
+        order.status = 'InWork'
+    elif suggestion.status == 'InWork' and order.status == 'InWork':
+        suggestion.status = 'Done'
+        order.status = 'Done'
+    else:
+        print('Error status')
+
+    suggestion.save()
+    order.save()
+
+    other_suggestions = CODSuggestion.objects.filter(order=order)
+    for other_suggestion in other_suggestions:
+        if other_suggestion != suggestion:
+            other_suggestion.status = 'Canceled'
+            other_suggestion.save()
+
+    return redirect(request.META['HTTP_REFERER'])
+# ------------------------------------------- Статусы заказов и предложений---------------------------------------
+
 
 # -------------------------------------------------------NEW MODELS----------------------------------------------------
