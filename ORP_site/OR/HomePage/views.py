@@ -6,18 +6,21 @@ from django.utils.translation import ugettext as _
 # Apps
 # ----
 # Local
-from .models import HomePageFile
+from .models import HomePageFile, CADFile
 
 
 def index(request):
     model1 = HomePageFile.objects.filter(pk=1)
     model2 = HomePageFile.objects.filter(pk=2)
     model3 = HomePageFile.objects.filter(pk=3)
+    dwg = CADFile.objects.get(pk=1)
     context = {
         'model1': model1,
         'model2': model2,
         'model3': model3,
+        'dwg': dwg,
     }
+
     return render(request, 'HomePage/HomePage.html', context)
 
 
