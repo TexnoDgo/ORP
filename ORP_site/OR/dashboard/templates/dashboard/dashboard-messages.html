@@ -28,7 +28,7 @@
                 {% for key, value in sort_suggestions.items %}
                     {% if value in suggestions %}
                     <small class="col">
-                    <a href="{% url 'dashboard-message-view' pk=value.id %}"
+                    <a href="{% url 'dashboard-message-view' url=value.pk %}"
                        class="list-group-item list-group-item-action">
                         {{value.order}}
                         <hr>

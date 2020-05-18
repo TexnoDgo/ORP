@@ -6,17 +6,18 @@ from django.http import HttpResponseRedirect
 from django.core.paginator import Paginator
 from django.contrib.auth.models import User
 # Apps
-from orders.models import Order, Suggestion
-from chat.models import Message
+from orders.models import CODOrder
+from suggestions.models import CODSuggestion
+from chat.models import CODMessage
 from users.models import Profile
-from chat.forms import MessageCreateForm
+from chat.forms import CODMessageCreateForm
 # Local
 # ----
 
 
 def index(request):
-    user_order = Order.objects.filter(author=request.user)
-    user_suggestion = Suggestion.objects.filter(author=request.user)
+    user_order = CODOrder.objects.filter(author=request.user)
+    user_suggestion = CODSuggestion.objects.filter(author=request.user)
     user_profile = Profile.objects.get(user=request.user)
     order_len = len(user_order)
     suggestion_len = len(user_suggestion)
@@ -90,10 +91,7 @@ def index(request):
 
 
 def dashboard_order(request):
-    order = Order.objects.filter(author=request.user)
-    for ord in order:
-        print(ord)
-        print(ord.status)
+    order = CODOrder.objects.filter(author=request.user)
 
     paginator = Paginator(order, 10)
 
@@ -112,7 +110,7 @@ def dashboard_order(request):
 
 
 def dashboard_order_dis(request):
-    order = Order.objects.filter(author=request.user)
+    order = CODOrder.objects.filter(author=request.user)
 
     paginator = Paginator(order, 3)
 
@@ -132,7 +130,7 @@ def dashboard_order_dis(request):
 
 
 def dashboard_order_ready(request):
-    order = Order.objects.filter(author=request.user)
+    order = CODOrder.objects.filter(author=request.user)
 
     paginator = Paginator(order, 3)
 
@@ -153,9 +151,9 @@ def dashboard_order_ready(request):
 
 def dashboard_sug_active(request):
 
-    suggestions = Suggestion.objects.filter(author=request.user)
+    suggestions = CODSuggestion.objects.filter(author=request.user)
 
-    orders = Order.objects.all()
+    orders = CODOrder.objects.all()
 
     paginator = Paginator(suggestions, 3)
 
@@ -176,9 +174,9 @@ def dashboard_sug_active(request):
 
 
 def dialogsView(request):
-    suggestions = Suggestion.objects.all()
-    user_suggestions = Suggestion.objects.filter(author=request.user)
-    order_suggestion = Suggestion.objects.filter(order__author=request.user)
+    suggestions = CODSuggestion.objects.all()
+    user_suggestions = CODSuggestion.objects.filter(author=request.user)
+    order_suggestion = CODSuggestion.objects.filter(order__author=request.user)
     all_suggestions = {}
 
     # Сбор предложений пользователя
@@ -209,10 +207,10 @@ def dialogsView(request):
     return render(request, 'dashboard/dashboard-messages.html', context)
 
 
-def messages(request, pk):
-    suggestions = Suggestion.objects.all()
-    user_suggestions = Suggestion.objects.filter(author=request.user)
-    order_suggestion = Suggestion.objects.filter(order__author=request.user)
+def messages(request, url):
+    suggestions = CODSuggestion.objects.all()
+    user_suggestions = CODSuggestion.objects.filter(author=request.user)
+    order_suggestion = CODSuggestion.objects.filter(order__author=request.user)
     all_suggestions = {}
 
     # Сбор предложений пользователя
@@ -234,10 +232,10 @@ def messages(request, pk):
     for element in suggestion_list:
         sort_suggestions[element] = all_suggestions[element]
 
-    suggestion = Suggestion.objects.get(pk=pk)
-    suggestion_order = Order.objects.get(pk=suggestion.order.pk)
+    suggestion = CODSuggestion.objects.get(pk=url)
+    suggestion_order = CODOrder.objects.get(pk=suggestion.order.pk)
     if request.method == 'POST':
-        form = MessageCreateForm(request.POST)
+        form = CODMessageCreateForm(request.POST)
         if form.is_valid():
             mes_form = form.save(commit=False)
             mes_form.suggestion = suggestion
@@ -246,9 +244,9 @@ def messages(request, pk):
             mes_form.save()
             return HttpResponseRedirect(request.path_info)
     else:
-        form = MessageCreateForm()
+        form = CODMessageCreateForm()
 
-    message = Message.objects.filter(suggestion_id=pk)
+    message = CODMessage.objects.filter(suggestion_id=url)
 
     context = {
         'message1': message,

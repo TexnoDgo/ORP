@@ -15,152 +15,116 @@
   </ol>
 </nav>
 
-<legend class="border-bottom mb-4" align="center">{% trans "DASHBOARD" %}</legend>
 
-<ul class="list-unstyled">
-        <!-- Средний блок -->
+<div class="last">
+    <div class="card bg-light ml-2 mb-3" style="max-width: 120rem;">
+        <div class="card-header">
+            {% trans "Recent orders and offers" %}
+            <small class="ml-3"><a href="{% url 'dashboard-order' %}">{% trans "You orders" %}</a></small>
+            <small class="ml-3"><a href="{% url 'dashboard_sug_active' %}">{% trans "You suggestions" %}</a></small>
+        </div>
         <ul class="list-group list-group-horizontal">
-            <!--Заказы и предложения инфопанели-->
-            {% if sort_order_and_suggestion_dict %}
-            <li class="list-group-item list-group-item" style="width: 54rem;">
-                <div class="col-12 mb-2">
-                    <small class="ml-3"><a href="{% url 'dashboard-order' %}">{% trans "You orders" %}</a></small>
-                    <small class="ml-3"><a href="{% url 'dashboard_sug_active' %}">{% trans "You suggestions" %}</a></small>
-                </div>
+                <!--Заказы и предложения инфопанели-->
+                {% if sort_order_and_suggestion_dict %}
+                <li class="list-group-item list-group-item" style="width: 120rem; height: 51rem;">
+                    <div class="row row-cols-1 row-cols-md-3">
 
-                <div class="row row-cols-1 row-cols-md-3">
+                        {% for key, value in sort_order_and_suggestion_dict.items %}
+                            {% if forloop.counter < 10 %}
+                                <div class="col mb-4">
+                                {% for suggestion in user_suggestion %}
+                                    {% if value == suggestion %}
+                                        <div class="card">
+                                            <div class="card-body text-info ">
+                                              <p class="card-text">{{ suggestion.offer_description }}</p>
+                                            </div>
+                                            <div class="card-footer">
+                                              <a href="{% url 'suggestion_detail' url=suggestion.id %}"
+                                                 class="btn btn-outline-info col">
+                                                  {% trans "Details" %}
+                                              </a>
+                                              <small class="text-muted">{% trans "Create: " %}{{ suggestion.date_create }}</small>
+                                            </div>
+                                          </div>
+                                    {% endif %}
+                                {% endfor %}
+                                {% for order in user_order %}
+                                    {% if value == order %}
+                                        <div class="card">
+                                            <div class="card-body text-success ">
+                                              <h5 class="card-title">{{ order.title }}</h5>
+                                              <p class="card-text">{{ order.description }}</p>
+                                            </div>
+                                            <div class="card-footer">
+                                              <a href="{% url 'order_detail' pk=order.id %}"
+                                                 class="btn btn-outline-success col">
+                                                  {% trans "Details" %}
+                                              </a>
+                                              <small class="text-muted">{% trans "Create: " %}{{ order.date_create }}</small>
+                                            </div>
+                                          </div>
+                                    {% endif %}
+                                {% endfor %}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
 
-                    {% for key, value in sort_order_and_suggestion_dict.items %}
-                        {% if forloop.counter < 10 %}
-                            <div class="col mb-4">
-                            {% for suggestion in user_suggestion %}
-                                {% if value == suggestion %}
-                                    <div class="card">
-                                        <div class="card-body text-info ">
-                                          <p class="card-text">{{ suggestion.offer_description }}</p>
-                                        </div>
-                                        <div class="card-footer">
-                                          <a href="{% url 'message_and_suggestion' pk=suggestion.id %}"
-                                             class="btn btn-outline-info col">
-                                              {% trans "Details" %}
-                                          </a>
-                                          <small class="text-muted">{% trans "Create: " %}{{ suggestion.date_create }}</small>
-                                        </div>
-                                      </div>
-                                {% endif %}
-                            {% endfor %}
-                            {% for order in user_order %}
-                                {% if value == order %}
-                                    <div class="card">
-                                        <div class="card-body text-success ">
-                                          <h5 class="card-title">{{ order.title }}</h5>
-                                          <p class="card-text">{{ order.description }}</p>
-                                        </div>
-                                        <div class="card-footer">
-                                          <a href="{% url 'order_detail' pk=order.id %}"
-                                             class="btn btn-outline-success col">
-                                              {% trans "Details" %}
-                                          </a>
-                                          <small class="text-muted">{% trans "Create: " %}{{ order.date_create }}</small>
-                                        </div>
-                                      </div>
-                                {% endif %}
-                            {% endfor %}
-                            </div>
-                        {% endif %}
-                    {% endfor %}
-
-                </div>
-            </li>
-            {% else %}
-                <li class="list-group-item list-group-item" style="width: 54rem;">
-                    <div class="col mb-4">
-                        hi
                     </div>
                 </li>
-            {% endif %}
-            <!--Заказы и предложения инфопанели-->
-
-            <!--Информация о пользователе + статистика-->
-            <li class="list-group-item">
-                <div class="card" style="width: 13rem;">
-                    <img src="{{ user.profile.image.url }}" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">
-                            {{ user.username }}
-                            <span class="badge badge-dark badge-pill">
-                                {{user_profile.rating}}
-                            </span>
-                        </h5>
-                    </div>
-
-                    <!-- Статистика заказов -->
-                    <ul class="list-group list-group-flush text-success">
-                        <li class="list-group-item">
-                            <h4>{% trans "Statistics" %}</h4>
-                        </li>
-                        <li class="list-group-item">
-                            <p><small>
-                                {% trans "Created Orders: " %}
-                                <span class="badge badge-success badge-pill">{{ user_order_count }}</span>
-                            </small></p>
-                            <p><small>
-                                {% trans "Discussion orders: " %}
-                                <span class="badge badge-success badge-pill">{{ user_order_count_dis }}</span>
-                            </small></p>
-                            <p><small>
-                                {% trans "Work orders: " %}
-                                <span class="badge badge-success badge-pill">{{ user_order_count_in_work }}</span>
-                            </small></p>
-                            <p><small>
-                                {% trans "Сompleted orders: " %}
-                                <span class="badge badge-success badge-pill">{{ user_order_count_ready }}</span>
-                            </small></p>
-                        </li>
-                    </ul>
-                    <!-- Статистика заказов -->
-
-                    <!-- Статистика предложений -->
-                    <ul class="list-group list-group-flush text-info">
-
-                        <li class="list-group-item">
-                            <p><small>
-                                {% trans "Created Suggestions: " %}
-                                <span class="badge badge-info badge-pill">{{ user_suggestion_count }}</span>
-                            </small></p>
-                            <p><small>
-                                {% trans "Discussion suggestions: " %}
-                                <span class="badge badge-info badge-pill">{{ user_suggestion_count_dis }}</span>
-                            </small></p>
-                            <p><small>
-                                {% trans "Work suggestions: " %}
-                                <span class="badge badge-info badge-pill">{{ user_suggestion_count_in_work }}</span>
-                            </small></p>
-                            <p><small>
-                                {% trans "Сompleted suggestions: " %}
-                                <span class="badge badge-info badge-pill">{{ user_suggestion_count_ready }}</span>
-                            </small></p>
-                        </li>
-
-                    </ul>
-                    <!-- Статистика предложений -->
-
-                    <div class="card-body">
-                        <a href="#" class="card-link">Card link</a>
-                        <a href="#" class="card-link">Another link</a>
-                    </div>
-                </div>
-
-            </li>
-            <!--Информация о пользователе + статистика-->
-        </ul>
-        <!-- Средний блок -->
-
-        <!-- Нижний блок -->
-        <a href="#" class="list-group-item list-group-item-action list-group-item-secondary">
-            Лента новостей
-        </a>
-        <!-- Нижний блок -->
-</ul>
+                {% else %}
+                    <li class="list-group-item list-group-item" style="width: 120rem; height: 48rem;">
+                        <div class="col mb-4">
+                            hi
+                        </div>
+                    </li>
+                {% endif %}
+                <!--Заказы и предложения инфопанели-->
+            </ul>
+    </div>
+</div>
+<div class="info">
+<div class="card bg-light ml-2 mb-3 mr-2" style="max-width: 50rem;" align="center">
+    <div class="card-header">
+        {% trans "Statistic | " %}{{user.username}}
+    </div>
+    <img src="{{ user.profile.image.url }}" class="card-img-top" alt="...">
+    <ul class="list-group text-success">
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            {% trans "Created Orders: " %}
+            <span class="badge badge-success badge-pill">{{ user_order_count }}</span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            {% trans "Discussion orders: " %}
+            <span class="badge badge-success badge-pill">{{ user_order_count_dis }}</span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            {% trans "Work orders: " %}
+            <span class="badge badge-success badge-pill">{{ user_order_count_in_work }}</span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            {% trans "Сompleted orders: " %}
+            <span class="badge badge-success badge-pill">{{ user_order_count_ready }}</span>
+        </li>
+    </ul>
+    <ul class="list-group text-info">
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            {% trans "Created Suggestions: " %}
+            <span class="badge badge-info badge-pill">{{ user_order_count }}</span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            {% trans "Discussion suggestions: " %}
+            <span class="badge badge-info badge-pill">{{ user_suggestion_count_dis }}</span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            {% trans "Work suggestions: " %}
+            <span class="badge badge-info badge-pill">{{ user_suggestion_count_in_work }}</span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            {% trans "Сompleted suggestions: " %}
+            <span class="badge badge-info badge-pill">{{ user_suggestion_count_ready }}</span>
+        </li>
+    </ul>
+</div>
+</div>
 
 {% endblock %}

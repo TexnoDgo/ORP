@@ -48,6 +48,40 @@ def conf_reg(request):
 
 def profile_view(request):
     profile = Profile.objects.get(user=request.user)
+
+    if request.method == 'POST':
+        form = CompanyProfileCreateForm(request.POST)
+
+        if form.is_valid():
+            company_profile = form.save(commit=False)
+
+            # -----API-----
+            empty_field = 'edrpou'
+            value = company_profile.edrpou
+            print(value)
+            prelink = '{%22' + empty_field + '%22:%22' + value + '%22}'
+            print(prelink)
+            link = 'http://edr.data-gov-ua.org/api/companies?where=' + prelink
+            print('link:' + link)
+            response = requests.get(link)
+            data = json.loads(response.text)
+            print(data)
+            first = data[0]
+            print(first)
+            # -----API-----
+            company_profile.user_name = request.user
+            company_profile.name = first["name"]
+            company_profile.officialName = first["officialName"]
+            company_profile.address = first["address"]
+            company_profile.mainPerson = first["mainPerson"]
+            company_profile.occupation = first["occupation"]
+            company_profile.status = first["status"]
+            company_profile.save()
+
+            return redirect('/')
+    else:
+        form = CompanyProfileCreateForm()
+
     try:
         company = CompanyProfile.objects.get(user_name=request.user)
     except:
@@ -55,12 +89,14 @@ def profile_view(request):
     context = {
         'profile_view': profile,
         'company': company,
+        'form': form,
     }
     return render(request, 'users/profile.html', context)
 
 
 @login_required
 def profile_update(request):
+    profile = Profile.objects.get(user=request.user)
     if request.method == 'POST':
         u_form = UserUpdateForm(request.POST, instance=request.user)
         p_form = ProfileUpdateForm(request.POST,
@@ -79,7 +115,8 @@ def profile_update(request):
 
     context = {
         'u_form': u_form,
-        'p_form': p_form
+        'p_form': p_form,
+        'profile_view': profile,
     }
 
     return render(request, 'users/profile_update.html', context)

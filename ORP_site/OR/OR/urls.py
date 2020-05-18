@@ -22,9 +22,7 @@ urlpatterns = [
     path('register/', user_views.register, name='register'),
     path('all_users/', user_views.UserListViews.as_view(), name='all_users'),
 
-    path('profile/update/', user_views.profile_update, name='profile_update'),
-    path('profile/view/', user_views.profile_view, name='profile_view'),
-    path('profile/CompanyProfile/create', user_views.createCompanyProfile, name='createCompanyProfile'),
+
     path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
     path('account/', include('allauth.urls')),
@@ -43,6 +41,8 @@ urlpatterns = [
 
     path('orders/', include('orders.urls')),
     path('suggestions/', include('suggestions.urls')),
+    path('profile/', include('users.urls')),
+    path('dashboard/', include('dashboard.urls')),
 
     path('', include('chat.urls')),
     path('conf_reg/', user_views.conf_reg, name='conf_reg'),
@@ -51,7 +51,7 @@ urlpatterns = [
 
     #url(r'suggestion/view/(?P<pk>\d+)$', chat_views.message_of_suggestion, name='message_and_suggestion'),
 
-    path('dashboard', include('dashboard.urls')),
+
 
     url(r'send_order_to_friend/(?P<pk>\d+)$', orders_views.send_order_to_friend, name='send_order_to_friend'),
 
