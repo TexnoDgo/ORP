@@ -17,6 +17,7 @@ from django.core.mail import send_mail, EmailMessage
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.forms import modelformset_factory
+from django.http import HttpResponse, Http404
 # Apps
 from chat.models import Message
 from chat.forms import MessageCreateForm
@@ -728,7 +729,6 @@ def added_one_detail(request, url):
     added_order = CODOrder.objects.get(pk=url)
     if request.method == 'POST':
         form = AddedOneDetailForm(request.POST, request.FILES)
-        files = request.FILES.getlist('files')
 
         if form.is_valid():
             detail = form.save(commit=False)
@@ -738,11 +738,6 @@ def added_one_detail(request, url):
             detail.save()
             added_order.save()
 
-            # Added files to detail
-            if files:
-                for f in files:
-                    f1 = File(detail=CODDetail.objects.get(pk=detail.id), file=f)
-                    f1.save()
 
             title = form.cleaned_data.get('title')  # Получение названи заказка из формы
             messages.success(request,
@@ -787,11 +782,17 @@ def added_multiple_detail(request, url):
 def order_and_suggestion_view(request, url):
     order = CODOrder.objects.get(pk=url)
     details = CODDetail.objects.filter(order__pk=url)
+    single_detail = CODDetail.objects.filter(order__pk=url).first()
     suggestions = CODSuggestion.objects.filter(order=order)
+    files = File.objects.all()
+    files_for_single_order = File.objects.filter(detail=single_detail)
     context = {
         'order': order,
         'details': details,
+        'single_detail': single_detail,
+        'files_for_single_order': files_for_single_order,
         'suggestions': suggestions,
+        'files': files,
     }
     return render(request, 'orders/order_and_suggestion_view.html', context)
 
@@ -949,5 +950,9 @@ def create_xls_project(request, url):
         row += 1
     order_name = "media/temp2/{}.xlsx".format(order.title)
     obj = wb.save(order_name)
-    return redirect(r'C:\PP\ORP\ORP_site\OR\{}'.format(order_name))
-
+    table_path = os.path.join(settings.MEDIA_ROOT, 'temp2', "{}.xlsx".format(order.title))
+    print(table_path)
+    with open(table_path, 'rb') as ft:
+        response = HttpResponse(ft.read(), content_type="application/vnd.ms-excel")
+        response['Content-Disposition'] = 'inline; filename=' + os.path.basename(table_path)
+        return response

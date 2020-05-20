@@ -217,6 +217,7 @@ class CODOrder(models.Model):
     group_status = models.BooleanField(default=False, verbose_name=_('Group Status'))
     archive = models.FileField(upload_to='COD_order_archive',
                                verbose_name=_('Group Order Archive'), null=True)
+    table = models.FileField(upload_to='COD_order_tables', null=True)
     pdf_cover = models.FileField(default='default.pdf', upload_to='COD_order_pdf_cover',
                                  verbose_name=_('Pdf order cover'))
     image_cover = models.ImageField(default='default.jpg', upload_to='COD_order_image_cover',
@@ -253,6 +254,10 @@ class CODDetail(models.Model):
     Availability_date = models.DateField(verbose_name=_('Availability date'), null=True)
     image_cover = models.ImageField(default='COD_Detail_image_cover/default.jpg', upload_to='COD_Detail_image_cover',
                                     verbose_name=_('Cover image'))
+    pdf = models.FileField(upload_to='COD_detail_files', blank=True, null=True, verbose_name=_('PDF'))
+    dxf = models.FileField(upload_to='COD_detail_files', blank=True, null=True, verbose_name=_('DXF'))
+    step = models.FileField(upload_to='COD_detail_files', blank=True, null=True, verbose_name=_('STEP'))
+    part = models.FileField(upload_to='COD_detail_files', blank=True, null=True, verbose_name=_('PART'))
 
 
 class CODFile(models.Model):

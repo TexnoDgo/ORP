@@ -87,9 +87,8 @@ class MultipleOrderCreateForm(forms.ModelForm):
 
 
 class AddedOneDetailForm(forms.ModelForm):
-    files = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}), required=False)
 
     class Meta:
         model = CODDetail
-        fields = ['amount', 'material', 'whose_material', 'Note', 'Categories', 'Deadline', 'files']
+        fields = ['amount', 'material', 'whose_material', 'Note', 'Categories', 'Deadline', 'pdf', 'dxf', 'step', 'part ']
 # -------------------------------------------------------NEW MODELS----------------------------------------------------
