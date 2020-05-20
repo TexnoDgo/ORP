@@ -109,37 +109,107 @@
                                     <div class="card mb-2">
                                         <img src="{{detail.image_cover.url}}" class="card-img-top" alt="...">
                                         <ul class="list-group list-group-flush">
-                                            <li class="list-group-item">
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
                                                 {% trans "Detail name: " %}
-                                                {{ detail.name }}
+                                                <span class="badge badge-primary mr-2">{{ detail.name }}</span>
                                             </li>
-                                            <li class="list-group-item">
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
                                                 {% trans "Amount: " %}
-                                                {{ detail.amount }}
+                                                <span class="badge badge-primary mr-2">{{ detail.amount }}</span>
                                             </li>
-                                            <li class="list-group-item">
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
                                                 {% trans "Material: " %}
-                                                {{ detail.material }}
+                                                <span class="badge badge-primary mr-2">{{ detail.material }}</span>
                                             </li>
-                                            <li class="list-group-item">
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
                                                 {% trans "Whose material: " %}
-                                                {{ detail.whose_material }}
+                                                <span class="badge badge-primary mr-2">{{ detail.whose_material }}</span>
                                             </li>
-                                            <li class="list-group-item">
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
                                                 {% trans "Note: " %}
-                                                {{ detail.Note }}
+                                                <span class="badge badge-primary mr-2">{{ detail.Note }}</span>
                                             </li>
-                                            <li class="list-group-item">
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
                                                 {% trans "Categories: " %}
-                                                {{ detail.Categories }}
+                                                <span class="badge badge-primary mr-2">{{ detail.Categories }}</span>
                                             </li>
-                                            <li class="list-group-item">
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
                                                 {% trans "Deadline: " %}
-                                                {{ detail.Deadline }}
+                                                <span class="badge badge-primary mr-2">{{ detail.Deadline }}</span>
+                                            </li>
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                {% trans "Availability date: " %}
+                                                <span class="badge badge-primary mr-2">{{ detail.Availability_date }}</span>
                                             </li>
                                             <li class="list-group-item">
-                                                {% trans "Availability date: " %}
-                                                {{ detail.Availability_date }}
+                                                {% trans "Detail files:" %}
+                                            </li>
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                <div class="mr-2">{% trans "PDF:" %}</div>
+                                                <a href="#" class="btn btn-success col btn-sm">download</a>
+                                                <a href="#" class="btn btn-info col btn-sm ml-2" target="_blank">view</a>
+                                            </li>
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                <div class="mr-2">{% trans "DXF:" %}</div>
+                                                <a href="#" class="btn btn-success col btn-sm">download</a>
+                                                <!-- Button trigger modal -->
+                                                <button type="button" class="btn btn-info col btn-sm ml-2" data-toggle="modal" data-target="#exampleModalCenter3">
+                                                  view
+                                                </button>
+
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="exampleModalCenter3" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" >
+                                                  <div class="modal-dialog modal-dialog-centered" role="document">
+                                                    <div class="modal-content" style="width:55rem; right:10rem;" align="center">
+                                                      <div class="modal-header" >
+                                                        <h5 class="modal-title" id="exampleModalCenterTitle3" >DXF Veiwer</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                          <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                      </div>
+                                                      <div class="modal-body">
+                                                          <!-- Заменить ссылку в iframe -->
+                                                        <iframe src="//sharecad.org/cadframe/load?url=http://www.cadsofttools.com/dwgviewer/floorplan.dwg" scrolling="no" style="height:40rem; width:50rem;"></iframe>
+                                                      </div>
+                                                      <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary col" data-dismiss="modal">Close</button>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                            </li>
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                <div class="mr-2">{% trans "STEP:" %}</div>
+                                                <a href="#" class="btn btn-success col btn-sm">download</a>
+                                                <!-- Button trigger modal -->
+                                                <button type="button" class="btn btn-info col btn-sm ml-2" data-toggle="modal" data-target="#exampleModalCenter4">
+                                                  view
+                                                </button>
+
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="exampleModalCenter4" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" >
+                                                  <div class="modal-dialog modal-dialog-centered" role="document">
+                                                    <div class="modal-content" style="width:55rem; right:10rem;" align="center">
+                                                      <div class="modal-header" >
+                                                        <h5 class="modal-title" id="exampleModalCenterTitle4" >DXF Veiwer</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                          <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                      </div>
+                                                      <div class="modal-body">
+                                                          <!-- Заменить ссылку в iframe -->
+                                                        <iframe src="//sharecad.org/cadframe/load?url=http://www.cadsofttools.com/dwgviewer/floorplan.dwg" scrolling="no" style="height:40rem; width:50rem;"></iframe>
+                                                      </div>
+                                                      <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary col" data-dismiss="modal">Close</button>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                            </li>
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                <div class="mr-2">{% trans "PART:" %}</div>
+                                                <a href="#" class="btn btn-success col btn-sm">download</a>
                                             </li>
                                         </ul>
                                     </div>
@@ -175,6 +245,12 @@
                                     {% endfor %}
                                 </tbody>
                             </table>
+                        </div>
+                        <div class="mt-4" align="center">
+                            <a href="#"
+                               class="list-group-item list-group-item-action list-group-item-primary">
+                                {% trans "CREATE 'XLS' PROJECT" %}
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -259,8 +335,79 @@
                         <a href="{{ order.pdf_cover.url }}">
                             <img src="{{order.image_cover.url}}" class="card-img-top" alt="...">
                         </a>
-                        <div >
+                        <div class="card mb-2">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    {% trans "Detail files:" %}
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div class="mr-2">{% trans "PDF:" %}</div>
+                                    <a href="#" class="btn btn-success col btn-sm">download</a>
+                                    <a href="{{order.pdf_cover.url}}" class="btn btn-info col btn-sm ml-2" target="_blank">view</a>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div class="mr-2">{% trans "DXF:" %}</div>
+                                    <a href="#" class="btn btn-success col btn-sm">download</a>
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-info col btn-sm ml-2" data-toggle="modal" data-target="#exampleModalCenter">
+                                      view
+                                    </button>
 
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" >
+                                      <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content" style="width:55rem; right:10rem;" align="center">
+                                          <div class="modal-header" >
+                                            <h5 class="modal-title" id="exampleModalCenterTitle" >DXF Veiwer</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                              <span aria-hidden="true">&times;</span>
+                                            </button>
+                                          </div>
+                                          <div class="modal-body">
+                                              <!-- Заменить ссылку в iframe -->
+                                            <iframe src="//sharecad.org/cadframe/load?url=http://www.cadsofttools.com/dwgviewer/floorplan.dwg" scrolling="no" style="height:40rem; width:50rem;"></iframe>
+                                          </div>
+                                          <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary col" data-dismiss="modal">Close</button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div class="mr-2">{% trans "STEP:" %}</div>
+                                    <a href="#" class="btn btn-success col btn-sm">download</a>
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-info col btn-sm ml-2" data-toggle="modal" data-target="#exampleModalCenter">
+                                      view
+                                    </button>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="exampleModalCenter2" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" >
+                                      <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content" style="width:55rem; right:10rem;" align="center">
+                                          <div class="modal-header" >
+                                            <h5 class="modal-title" id="exampleModalCenterTitle2" >DXF Veiwer</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                              <span aria-hidden="true">&times;</span>
+                                            </button>
+                                          </div>
+                                          <div class="modal-body">
+                                              <!-- Заменить ссылку в iframe -->
+                                            <iframe src="//sharecad.org/cadframe/load?url=http://www.cadsofttools.com/dwgviewer/floorplan.dwg" scrolling="no" style="height:40rem; width:50rem;"></iframe>
+                                          </div>
+                                          <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary col" data-dismiss="modal">Close</button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div class="mr-2">{% trans "PART:" %}</div>
+                                    <a href="#" class="btn btn-success col btn-sm">download</a>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                     <div class="col-md-8" >
@@ -281,56 +428,58 @@
                             </h5>
                             <div class="card mb-2">
                                 <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
                                         {% trans "Order created: " %}
-                                        {{ order.date_create }}
+                                        <span class="badge badge-primary mr-2">{{ order.date_create }}</span>
                                     </li>
-                                    <li class="list-group-item">
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
                                         {% trans "Order author: " %}
-                                        {{ order.author }}
+                                        <span class="badge badge-primary mr-2">{{ order.author }}</span>
                                     </li>
-                                    <li class="list-group-item">
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
                                         {% trans "Order City: " %}
-                                        {{ order.city }}
+                                        <span class="badge badge-primary mr-2">{{ order.city }}</span>
                                     </li>
-                                    <li class="list-group-item">
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
                                         {% trans "Order Budget: " %}
-                                        {{ order.proposed_budget }}
+                                        <span class="badge badge-primary mr-2">{{ order.proposed_budget }}</span>
                                     </li>
                                     {% for detail in details %}
-                                        <li class="list-group-item">
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
                                             {% trans "Detail name: " %}
-                                            {{ detail.name }}
+                                            <span class="badge badge-primary mr-2">{{ detail.name }}</span>
                                         </li>
-                                        <li class="list-group-item">
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
                                             {% trans "Amount: " %}
-                                            {{ detail.amount }}
+                                            <span class="badge badge-primary mr-2">{{ detail.amount }}</span>
                                         </li>
-                                        <li class="list-group-item">
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
                                             {% trans "Material: " %}
-                                            {{ detail.material }}
+                                            <span class="badge badge-primary mr-2">{{ detail.material }}</span>
+
                                         </li>
-                                        <li class="list-group-item">
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
                                             {% trans "Whose material: " %}
-                                            {{ detail.whose_material }}
+                                            <span class="badge badge-primary mr-2">{{ detail.whose_material }}</span>
                                         </li>
-                                        <li class="list-group-item">
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
                                             {% trans "Note: " %}
-                                            {{ detail.Note }}
+                                            <span class="badge badge-primary mr-2">{{ detail.Note }}</span>
                                         </li>
-                                        <li class="list-group-item">
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
                                             {% trans "Categories: " %}
                                             {% for cat in detail.Categories.all %}
-                                                {{ cat }},
+                                                <span class="badge badge-primary mr-2">{{ cat }}</span>
+                                                ,
                                             {% endfor %}
                                         </li>
-                                        <li class="list-group-item">
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
                                             {% trans "Deadline: " %}
-                                            {{ detail.Deadline }}
+                                            <span class="badge badge-primary mr-2">{{ detail.Deadline }}</span>
                                         </li>
-                                        <li class="list-group-item">
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
                                             {% trans "Availability date: " %}
-                                            {{ detail.Availability_date }}
+                                            <span class="badge badge-primary mr-2">{{ detail.Availability_date }}</span>
                                         </li>
                                     {% endfor %}
                                 </ul>

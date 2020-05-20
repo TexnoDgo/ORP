@@ -13,7 +13,7 @@ def index(request):
     model1 = HomePageFile.objects.filter(pk=1)
     model2 = HomePageFile.objects.filter(pk=2)
     model3 = HomePageFile.objects.filter(pk=3)
-    dwg = CADFile.objects.get(pk=1)
+    dwg = CADFile.objects.get(pk=2)
     context = {
         'model1': model1,
         'model2': model2,

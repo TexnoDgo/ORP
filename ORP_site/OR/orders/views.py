@@ -5,6 +5,7 @@ from fpdf import FPDF, HTMLMixin
 from fpdf import fpdf
 import json
 import shutil
+from openpyxl import Workbook
 # Django
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
@@ -863,3 +864,58 @@ def change_status(request, url):
 
 
 # -------------------------------------------------------NEW MODELS----------------------------------------------------
+def create_xls_project(request, url):
+    order = CODOrder.objects.get(pk=url)
+    details = CODDetail.objects.filter(order=order)
+    files = File.objects.all()
+
+    # created xls document
+    wb = Workbook()
+    # grab the active worksheet
+    ws = wb.active
+    # ORDER CAP
+    ws.merge_cells('A1:H1')
+    ws['A1'] = 'ORDER'
+    ws['A2'] = 'id'
+    ws['B2'] = 'author'
+    ws['C2'] = 'date create'
+    ws['D2'] = 'title'
+    ws['E2'] = 'description'
+    ws['F2'] = 'city'
+    ws['G2'] = 'budget'
+    ws['H2'] = 'status'
+    # DATA
+    ws['A3'] = order.id
+    ws['B3'] = order.author
+    ws['C3'] = order.date_create
+    ws['D3'] = order.title
+    ws['E3'] = order.description
+    ws['F3'] = order.city
+    ws['G3'] = order.proposed_budget
+    ws['H3'] = order.status
+
+    # DETAILS CAP
+    ws.merge_cells('A5:H5')
+    ws['A5'] = 'DETAILS'
+    ws['A6'] = 'name'
+    ws['B6'] = 'amount'
+    ws['C6'] = 'material'
+    ws['D6'] = 'whose material'
+    ws['E6'] = 'note'
+    ws['F6'] = 'categories'
+    ws['G6'] = 'deadline'
+    ws['H6'] = 'availability date'
+
+    for detail in details:
+        ws.append([
+            detail.name,
+            detail.amount,
+            detail.material,
+            detail.whose_material,
+            detail.Note,
+            detail.Categories,
+            detail.Deadline,
+            detail.Availability_date
+        ])
+
+

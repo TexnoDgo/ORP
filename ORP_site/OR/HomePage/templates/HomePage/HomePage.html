@@ -4,14 +4,6 @@
 {% block content %}
 {% load static %}
 
-
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<script type="text/javascript" src="https://api.autodesk.com/content/gateway/2013.1.363776.288/z/Scripts/a360Viewer/widget.js"></script>
-<script type="text/javascript">
-    var adskViewerWidget = adskViewerWidget();
-    adskViewerWidget.Init('#a360widgetDropAreaContainer', true);
-</script>
-{% endblock %}
 <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
             <ol class="carousel-indicators">
                 <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
@@ -60,3 +52,8 @@
                 <span class="sr-only">Next</span>
             </a>
         </div>
+
+{% endblock %}
+
+
+

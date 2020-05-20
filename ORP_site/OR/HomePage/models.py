@@ -8,4 +8,4 @@ class HomePageFile(models.Model):
 
 
 class CADFile(models.Model):
-    file = models.FileField()
+    file = models.FileField(upload_to='otherFiles')
