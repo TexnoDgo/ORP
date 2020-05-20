@@ -705,7 +705,7 @@ def create_multiple_order(request):
                         detail.save()
 
             # Очистка(Удаляет файлы. Убрать очистку)
-            shutil.rmtree(extract_archive_path, ignore_errors=True)
+            #shutil.rmtree(extract_archive_path, ignore_errors=True)
 
             title = form.cleaned_data.get('title')  # Получение названи заказка из формы
             messages.success(request,
@@ -867,7 +867,6 @@ def change_status(request, url):
 def create_xls_project(request, url):
     order = CODOrder.objects.get(pk=url)
     details = CODDetail.objects.filter(order=order)
-    files = File.objects.all()
 
     # created xls document
     wb = Workbook()
@@ -886,11 +885,11 @@ def create_xls_project(request, url):
     ws['H2'] = 'status'
     # DATA
     ws['A3'] = order.id
-    ws['B3'] = order.author
+    ws['B3'] = order.author.username
     ws['C3'] = order.date_create
     ws['D3'] = order.title
     ws['E3'] = order.description
-    ws['F3'] = order.city
+    ws['F3'] = str(order.city)
     ws['G3'] = order.proposed_budget
     ws['H3'] = order.status
 
@@ -905,17 +904,50 @@ def create_xls_project(request, url):
     ws['F6'] = 'categories'
     ws['G6'] = 'deadline'
     ws['H6'] = 'availability date'
-
+    ws['I6'] = 'PDF file'
+    ws['J6'] = 'DXF file'
+    ws['K6'] = 'STEP file'
+    ws['L6'] = 'PART file'
+    row = 7
     for detail in details:
-        ws.append([
-            detail.name,
-            detail.amount,
-            detail.material,
-            detail.whose_material,
-            detail.Note,
-            detail.Categories,
-            detail.Deadline,
-            detail.Availability_date
-        ])
+        files = File.objects.filter(detail=detail)
 
+        stroka = ''
+        for cat in detail.Categories.all():
+            stroka += str(cat) + ', '
+        pdf = 'None'
+        dxf = 'None'
+        step = 'None'
+        part = 'None'
+        for file in files:
+            file_name = str(file)
+            if file_name[-3:] == 'PDF':
+                pdf = str(file.file)
+            elif file_name[-3:] == 'DXF':
+                dxf = str(file.file)
+            elif file_name[-4:] == 'STEP' or file_name[-3:] == 'STP':
+                step = str(file.file)
+            elif file_name[-4:] == 'PART' or file_name[-3:] == 'PRT':
+                part = str(file.file)
+
+        cell_a = ws.cell(row=row, column=1, value=detail.name)
+        cell_b = ws.cell(row=row, column=2, value=detail.amount)
+        cell_c = ws.cell(row=row, column=3, value=str(detail.material))
+        cell_d = ws.cell(row=row, column=4, value=detail.whose_material)
+        cell_e = ws.cell(row=row, column=5, value=detail.Note)
+        cell_f = ws.cell(row=row, column=6, value=stroka)
+        cell_g = ws.cell(row=row, column=7, value=detail.Deadline)
+        cell_h = ws.cell(row=row, column=8, value=detail.Availability_date)
+        cell_i = ws.cell(row=row, column=9, value=pdf)
+        cell_i.hyperlink = str(pdf)
+        cell_j = ws.cell(row=row, column=10, value=dxf)
+        cell_j.hyperlink = dxf
+        cell_k = ws.cell(row=row, column=11, value=step)
+        cell_k.hyperlink = step
+        cell_l = ws.cell(row=row, column=12, value=part)
+        cell_l.hyperlink = part
+        row += 1
+    order_name = "media/temp2/{}.xlsx".format(order.title)
+    obj = wb.save(order_name)
+    return redirect(r'C:\PP\ORP\ORP_site\OR\{}'.format(order_name))
 

@@ -5,7 +5,7 @@ from django.urls import path, re_path
 from . import views
 from .views import (all_cod_order_view, create_single_order, added_one_detail,
                     create_multiple_order, added_multiple_detail, order_and_suggestion_view,
-                    CODDeleteOrderView, CODOrderUpdateView, change_status)
+                    CODDeleteOrderView, CODOrderUpdateView, change_status, create_xls_project)
 from .models import CODOrder
 
 urlpatterns = [
@@ -41,5 +41,5 @@ urlpatterns = [
     re_path(r'view/(?P<pk>\d+)/update', CODOrderUpdateView.as_view(model=CODOrder,
                                                                    template_name='orders/cod_update.html'),
             name='order_update'),
-
+    path(r'view/<slug:url>/create_xls_project', create_xls_project, name='create_xls_project'),
 ]
