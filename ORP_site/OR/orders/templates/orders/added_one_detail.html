@@ -77,7 +77,31 @@
             </li>
         </ul>
         <ul class="list-group list-group-horizontal">
-            <li class="list-group-item col-8">{{ form.files|as_crispy_field }}</li>
+            <li class="list-group-item col-8">{{ form.pdf|as_crispy_field }}</li>
+            <li class="list-group-item col-4">
+                <small>
+                    {% trans "Add additional files to make an order. Such as 'DXF', 'Part', 'Stp' and others." %}
+                </small>
+            </li>
+        </ul>
+        <ul class="list-group list-group-horizontal">
+            <li class="list-group-item col-8">{{ form.dxf|as_crispy_field }}</li>
+            <li class="list-group-item col-4">
+                <small>
+                    {% trans "Add additional files to make an order. Such as 'DXF', 'Part', 'Stp' and others." %}
+                </small>
+            </li>
+        </ul>
+        <ul class="list-group list-group-horizontal">
+            <li class="list-group-item col-8">{{ form.step|as_crispy_field }}</li>
+            <li class="list-group-item col-4">
+                <small>
+                    {% trans "Add additional files to make an order. Such as 'DXF', 'Part', 'Stp' and others." %}
+                </small>
+            </li>
+        </ul>
+        <ul class="list-group list-group-horizontal">
+            <li class="list-group-item col-8">{{ form.part|as_crispy_field }}</li>
             <li class="list-group-item col-4">
                 <small>
                     {% trans "Add additional files to make an order. Such as 'DXF', 'Part', 'Stp' and others." %}

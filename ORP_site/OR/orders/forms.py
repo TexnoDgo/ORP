@@ -90,5 +90,6 @@ class AddedOneDetailForm(forms.ModelForm):
 
     class Meta:
         model = CODDetail
-        fields = ['amount', 'material', 'whose_material', 'Note', 'Categories', 'Deadline', 'pdf', 'dxf', 'step', 'part ']
+        fields = ['amount', 'material', 'whose_material',
+                  'Note', 'Categories', 'Deadline', 'pdf', 'dxf', 'step', 'part']
 # -------------------------------------------------------NEW MODELS----------------------------------------------------

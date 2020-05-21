@@ -18,7 +18,7 @@
     {% if order.group_status == True %}
         <!--Заказ-->
         <div class="order">
-            <div class="card border-success ml-2 mr-2" style="height: 45rem;">
+            <div class="card ml-2 mr-2" style="height: 45rem;">
                 <div class="card-header mb-3" align="center">
                     {% trans "Order #" %}{{order.pk}}
                 </div>
@@ -85,7 +85,7 @@
                 <div class="card-header" align="center">
                     {% trans "Order Details Description" %}
                 </div>
-                <ul class="nav nav-pills nav-fill" id="pills-tab" role="tablist">
+                <ul class="nav nav-pills nav-fill " id="pills-tab" role="tablist">
                         <li class="nav-item">
                             <a class="nav-link active" id="pills-Collage-tab"
                                data-toggle="pill" href="#pills-Collage"
@@ -265,6 +265,7 @@
                 </div>
                 {% if request.user == order.author %}
                     <div class="overflow-auto" style="height: 41rem;">
+                        {% if suggestions %}
                         {% for suggestion in suggestions %}
                         <div class="card-body">
                             <div class="card mb-3" style="max-width: 44rem;">
@@ -307,6 +308,15 @@
                             </div>
                         </div>
                         {% endfor %}
+                        {% else %}
+                            <div class="col">
+                                <small>
+                                    {% trans "There are no offers yet for this order. If the situation does" %}
+                                    {% trans "not change over a long period of time, then complete the" %}
+                                    {% trans "order with information or files by clicking 'UPDATE' order." %}
+                                </small>
+                            </div>
+                        {% endif %}
                     </div>
                 {% elif request.user != order.author %}
                     <div class="card-body">
@@ -340,7 +350,6 @@
                                 <li class="list-group-item">
                                     {% trans "Detail files:" %}
                                 </li>
-                                {% for file in files_for_single_order %}
 
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <div class="mr-2">{% trans "PDF:" %}</div>
@@ -350,7 +359,7 @@
 
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <div class="mr-2">{% trans "DXF:" %}</div>
-                                    <a href="#" class="btn btn-success col btn-sm">download</a>
+                                    <a href="{{ single_detail.dxf.url }}" class="btn btn-success col btn-sm" download>download</a>
                                     <!-- Button trigger modal -->
                                     <button type="button" class="btn btn-info col btn-sm ml-2" data-toggle="modal" data-target="#exampleModalCenter">
                                       view
@@ -379,7 +388,7 @@
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <div class="mr-2">{% trans "STEP:" %}</div>
-                                    <a href="#" class="btn btn-success col btn-sm">download</a>
+                                    <a href="{{ single_detail.step.url }}" class="btn btn-success col btn-sm" download>download</a>
                                     <!-- Button trigger modal -->
                                     <button type="button" class="btn btn-info col btn-sm ml-2" data-toggle="modal" data-target="#exampleModalCenter">
                                       view
@@ -408,9 +417,8 @@
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <div class="mr-2">{% trans "PART:" %}</div>
-                                    <a href="#" class="btn btn-success col btn-sm">download</a>
+                                    <a href="{{ single_detail.part.url }}" class="btn btn-success col btn-sm" download>download</a>
                                 </li>
-                                {% endfor %}
                             </ul>
                         </div>
                     </div>
@@ -523,6 +531,7 @@
                 </div>
                 {% if request.user == order.author %}
                     <div class="overflow-auto" style="height: 52rem;">
+                        {% if suggestions %}
                         {% for suggestion in suggestions %}
                         <div class="card-body">
                             <div class="card mb-3" style="max-width: 44rem;">
@@ -565,6 +574,15 @@
                             </div>
                         </div>
                         {% endfor %}
+                        {% else %}
+                            <div class="col">
+                                <small>
+                                    {% trans "There are no offers yet for this order. If the situation does" %}
+                                    {% trans "not change over a long period of time, then complete the" %}
+                                    {% trans "order with information or files by clicking 'UPDATE' order." %}
+                                </small>
+                            </div>
+                        {% endif %}
                     </div>
                 {% elif request.user != order.author %}
                     <div class="card-body">

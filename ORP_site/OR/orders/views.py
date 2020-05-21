@@ -687,10 +687,10 @@ def create_multiple_order(request):
 
                 for element in data[a]:
                     # Записать файлы из data в заказ
-                    detail_file = File()
-                    detail_file.file = extract_archive_path + '/' + element
-                    detail_file.detail = detail
-                    detail_file.save()
+                    #detail_file = File()
+                    #detail_file.file = extract_archive_path + '/' + element
+                    #detail_file.detail = detail
+                    #detail_file.save()
                     # Создание обложки
                     halyard = element[-3:]
                     print(halyard)
@@ -703,8 +703,19 @@ def create_multiple_order(request):
                         print(detail_png_full_path)
                         convert_pdf_to_bnp(detail_pdf_full_path, detail_png_full_path)
                         detail.image_cover = detail_png_full_path
+                        detail.pdf = element
                         detail.save()
-
+                    elif halyard == 'DXF':
+                        detail.dxf = element
+                        detail.save()
+                    elif halyard == 'STP' or halyard == 'STEP':
+                        detail.step = element
+                        detail.save()
+                    elif halyard == 'PART' or halyard == 'PRT':
+                        detail.part = element
+                        detail.save()
+                    else:
+                        print('Error element')
             # Очистка(Удаляет файлы. Убрать очистку)
             #shutil.rmtree(extract_archive_path, ignore_errors=True)
 
@@ -738,7 +749,6 @@ def added_one_detail(request, url):
             detail.save()
             added_order.save()
 
-
             title = form.cleaned_data.get('title')  # Получение названи заказка из формы
             messages.success(request,
                              # Формирование сообщения со вложенным именем
@@ -760,7 +770,8 @@ def added_multiple_detail(request, url):
     added_order = CODOrder.objects.get(pk=url)
 
     DetailFormset = modelformset_factory(CODDetail, fields=('order', 'name', 'amount', 'material', 'whose_material',
-                                                             'Note', 'Categories', 'Deadline', 'Availability_date',))
+                                                             'Note', 'Categories', 'Deadline', 'Availability_date',
+                                                            'pdf', 'dxf', 'step', 'part'))
     if request.method == 'POST':
 
         formset = DetailFormset(request.POST, request.FILES,
@@ -784,15 +795,11 @@ def order_and_suggestion_view(request, url):
     details = CODDetail.objects.filter(order__pk=url)
     single_detail = CODDetail.objects.filter(order__pk=url).first()
     suggestions = CODSuggestion.objects.filter(order=order)
-    files = File.objects.all()
-    files_for_single_order = File.objects.filter(detail=single_detail)
     context = {
         'order': order,
         'details': details,
         'single_detail': single_detail,
-        'files_for_single_order': files_for_single_order,
         'suggestions': suggestions,
-        'files': files,
     }
     return render(request, 'orders/order_and_suggestion_view.html', context)
 
@@ -832,7 +839,6 @@ class CODOrderUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def form_valid(self, form):
         form.instance.author = self.request.user
         order = form.save(commit=False)
-        order.title = 'kek'
         order.save()
         return super().form_valid(form)
 
