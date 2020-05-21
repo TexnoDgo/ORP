@@ -7,8 +7,8 @@
 {% block content %}
     <link rel="stylesheet" href="{% static 'orders/all_order_style.css' %}">
     <!--Навигация-->
-    <div class="navigation" align="center">
-        <nav aria-label="breadcrumb ">
+    <div class="navigation">
+        <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{% url 'index' %}">{% trans "Home" %}</a></li>
                 <li class="breadcrumb-item active" aria-current="page">{% trans "All orders" %}</li>
@@ -17,17 +17,6 @@
     </div>
     <!--Навигация-->
 
-    <!--Уведомления-->
-    <div class="container">
-        {% if messages %}
-            {% for message in messages %}
-                <div class="alert alert-{{ message.tags }}">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        {% endif %}
-    </div>
-    <!--Уведомления-->
 
     <div class="page">
         <!--Фильтры-->
@@ -63,7 +52,6 @@
 
         <!--Заказы-->
         <div class="orders">
-            <h4 class="border-bottom col mb-4 ml-4" align="center">{% trans "ALL ORDERS" %}</h4>
             <div class="row row-cols-1 row-cols-md-4 ml-3">
             {% for order in orders_all.object_list %}
                 <div class="col mb-4">

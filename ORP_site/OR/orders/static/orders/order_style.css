@@ -1,5 +1,10 @@
-body {
+
+.page1 {
     height: 50rem;
+}
+
+.page2 {
+    height: 61rem;
 }
 
 .order {
