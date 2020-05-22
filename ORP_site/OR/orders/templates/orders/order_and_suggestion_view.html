@@ -515,6 +515,7 @@
                 </div>
                 </div>
                 <div class="card-footer bg-transparent" align="center">
+                    {% if user == order.author %}
                     <div class="list-group list-group-horizontal">
                         <a href="{% url 'cod_order_delete' pk=order.pk %}"
                            class="list-group-item list-group-item-action list-group-item-danger">
@@ -529,6 +530,7 @@
                             {% trans "Send friend" %}
                         </a>
                     </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
