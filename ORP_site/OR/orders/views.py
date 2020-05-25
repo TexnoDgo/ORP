@@ -616,7 +616,7 @@ def create_single_order(request):
             form.save()
             pdf_file_name = str(order.pdf_cover)
             png_file_name = '{}{}'.format(pdf_file_name[20:-3], 'png')
-            png_full_path = os.path.join(BASE_DIR, "ORP_site/OR/media/COD_order_image_cover/") + png_file_name
+            png_full_path = os.path.join(BASE_DIR, "ORP_site\\OR\\media\\COD_order_image_cover\\") + png_file_name
             convert_pdf_to_bnp(order.pdf_cover.path, png_full_path)
             order.image_cover = png_full_path
             order.save()
