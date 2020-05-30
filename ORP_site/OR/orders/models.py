@@ -63,7 +63,7 @@ class Order(models.Model):
         (_('Done'), _('Done')),
         (_('Canceled'), _('Canceled')),
     )
-    id = models.AutoField(primary_key=True)
+    #id = models.AutoField(primary_key=True)
     mass_order = models.ForeignKey(MassOrder, on_delete=models.CASCADE, null=True)
     author = models.ForeignKey(User, on_delete=models.PROTECT)  # Автор заказа. Автоматически
     date_create = models.DateTimeField(default=timezone.now)  # Время создания заказа. Автоматически
@@ -207,8 +207,7 @@ class CODOrder(models.Model):
         (_('Done'), _('Done')),
         (_('Canceled'), _('Canceled')),
     )
-
-    id = models.AutoField(primary_key=True)  # ID пользователя
+    #id = models.AutoField(primary_key=True)  # ID пользователя
     author = models.ForeignKey(User, on_delete=models.PROTECT)  # Автор заказа. Автоматически
     date_create = models.DateTimeField(default=timezone.now)  # Время создания заказа. Автоматически
     title = models.CharField(max_length=100, verbose_name=_('Headline'), default=_('Headline'))  # Заголовок заказа

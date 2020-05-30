@@ -616,7 +616,7 @@ def create_single_order(request):
             form.save()
             pdf_file_name = str(order.pdf_cover)
             png_file_name = '{}{}'.format(pdf_file_name[20:-3], 'png')
-            png_full_path = os.path.join(BASE_DIR, "ORP_site\\OR\\media\\COD_order_image_cover\\") + png_file_name
+            png_full_path = os.path.join(BASE_DIR, "media\\COD_order_image_cover\\") + png_file_name
             convert_pdf_to_bnp(order.pdf_cover.path, png_full_path)
             order.image_cover = png_full_path
             order.save()
@@ -651,14 +651,14 @@ def create_multiple_order(request):
             # Создание обложки заказа
             pdf_file_name = str(order.pdf_cover)
             png_file_name = '{}{}'.format(pdf_file_name[20:-3], 'png')
-            png_full_path = os.path.join(BASE_DIR, "ORP_site/OR/media/COD_order_image_cover/") + png_file_name
+            png_full_path = os.path.join(BASE_DIR, "media\\COD_order_image_cover\\") + png_file_name
             convert_pdf_to_bnp(order.pdf_cover.path, png_full_path)
             order.image_cover = png_full_path
             order.save()
 
             # Работа с арихивом
             zip_archive = zipfile.ZipFile(order.archive, 'r')
-            extract_archive_path = os.path.join(BASE_DIR, "ORP_site/OR/media/temp/") + str(order.archive)
+            extract_archive_path = os.path.join(BASE_DIR, "media\\temp\\") + str(order.archive)
             zip_archive.extractall(extract_archive_path)
             file_path = os.walk(extract_archive_path)
             folder = []
@@ -701,7 +701,7 @@ def create_multiple_order(request):
                         print(detail_png_file_name)
                         detail_pdf_full_path = extract_archive_path + '/' + element
                         print(detail_pdf_full_path)
-                        detail_png_full_path = os.path.join(BASE_DIR, "ORP_site/OR/media/COD_Detail_image_cover/") + detail_png_file_name
+                        detail_png_full_path = os.path.join(BASE_DIR, "media\\COD_Detail_image_cover\\") + detail_png_file_name
                         print(detail_png_full_path)
                         convert_pdf_to_bnp(detail_pdf_full_path, detail_png_full_path)
                         detail.image_cover = detail_png_full_path
