@@ -156,10 +156,13 @@
                                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                                 <div class="mr-2">{% trans "DXF:" %}</div>
                                                 <a href="{{ detail.dxf.url }}" class="btn btn-success col btn-sm" download>download</a>
+                                                <a href="//beta.sharecad.org/cadframe/load?url=http://54.93.42.116:8000{{ detail.dxf.url }}" class="btn btn-info col btn-sm ml-2" target="_blank">view</a>
                                                 <!-- Button trigger modal -->
+                                                <!--
                                                 <button type="button" class="btn btn-info col btn-sm ml-2" data-toggle="modal" data-target="#exampleModalCenter3">
                                                   view
                                                 </button>
+                                                -->
 
                                                 <!-- Modal -->
                                                 <div class="modal fade" id="exampleModalCenter3" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" >
@@ -173,7 +176,7 @@
                                                       </div>
                                                       <div class="modal-body">
                                                           <!-- Заменить ссылку в iframe -->
-                                                        <iframe src="//sharecad.org/cadframe/load?url=http://www.cadsofttools.com/dwgviewer/floorplan.dwg" scrolling="no" style="height:40rem; width:50rem;"></iframe>
+                                                        <iframe src="//sharecad.org/cadframe/load?url=http://54.93.42.116:8000{{ detail.dxf.url }}" scrolling="no" style="height:40rem; width:50rem;"></iframe>
                                                       </div>
                                                       <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary col" data-dismiss="modal">Close</button>
@@ -187,10 +190,13 @@
                                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                                 <div class="mr-2">{% trans "STEP:" %}</div>
                                                 <a href="{{ detail.step.url }}" class="btn btn-success col btn-sm" download>download</a>
+                                                <a href="//beta.sharecad.org/cadframe/load?url=http://54.93.42.116:8000{{ detail.step.url }}" class="btn btn-info col btn-sm ml-2" target="_blank">view</a>
                                                 <!-- Button trigger modal -->
+                                                <!--
                                                 <button type="button" class="btn btn-info col btn-sm ml-2" data-toggle="modal" data-target="#exampleModalCenter4">
                                                   view
                                                 </button>
+                                                -->
 
                                                 <!-- Modal -->
                                                 <div class="modal fade" id="exampleModalCenter4" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" >
@@ -204,7 +210,7 @@
                                                       </div>
                                                       <div class="modal-body">
                                                           <!-- Заменить ссылку в iframe -->
-                                                        <iframe src="//sharecad.org/cadframe/load?url=http://www.cadsofttools.com/dwgviewer/floorplan.dwg" scrolling="no" style="height:40rem; width:50rem;"></iframe>
+                                                        <iframe src="//sharecad.org/cadframe/load?url=http://54.93.42.116:8000{{ detail.step.url }}" scrolling="no" style="height:40rem; width:50rem;"></iframe>
                                                       </div>
                                                       <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary col" data-dismiss="modal">Close</button>
@@ -367,14 +373,17 @@
                                     <a href="{{order.pdf_cover.url}}" class="btn btn-success col btn-sm" download>download</a>
                                     <a href="{{order.pdf_cover.url}}" class="btn btn-info col btn-sm ml-2" target="_blank">view</a>
                                 </li>
-
+                                {% if single_detail.dxf %}
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <div class="mr-2">{% trans "DXF:" %}</div>
                                     <a href="{{ single_detail.dxf.url }}" class="btn btn-success col btn-sm" download>download</a>
                                     <!-- Button trigger modal -->
+                                    <a href="//beta.sharecad.org/cadframe/load?url=http://54.93.42.116:8000{{ single_detail.dxf.url }}" class="btn btn-info col btn-sm ml-2" target="_blank">view</a>
+                                    <!--
                                     <button type="button" class="btn btn-info col btn-sm ml-2" data-toggle="modal" data-target="#exampleModalCenter">
                                       view
                                     </button>
+                                    -->
 
                                     <!-- Modal -->
                                     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" >
@@ -388,7 +397,7 @@
                                           </div>
                                           <div class="modal-body">
                                               <!-- Заменить ссылку в iframe -->
-                                            <iframe src="//sharecad.org/cadframe/load?url=http://www.cadsofttools.com/dwgviewer/floorplan.dwg" scrolling="no" style="height:40rem; width:50rem;"></iframe>
+                                            <iframe src="//sharecad.org/cadframe/load?url=http://54.93.42.116:8000{{ single_detail.dxf.url }}" scrolling="no" style="height:40rem; width:50rem;"></iframe>
                                           </div>
                                           <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary col" data-dismiss="modal">Close</button>
@@ -397,27 +406,31 @@
                                       </div>
                                     </div>
                                 </li>
+                                {% endif %}
+                                {% if single_detail.step %}
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <div class="mr-2">{% trans "STEP:" %}</div>
                                     <a href="{{ single_detail.step.url }}" class="btn btn-success col btn-sm" download>download</a>
                                     <!-- Button trigger modal -->
-                                    <button type="button" class="btn btn-info col btn-sm ml-2" data-toggle="modal" data-target="#exampleModalCenter">
+                                    <a href="//beta.sharecad.org/cadframe/load?url=http://54.93.42.116:8000{{ single_detail.step.url }}" class="btn btn-info col btn-sm ml-2" target="_blank">view</a>
+                                    <!--<button type="button" class="btn btn-info col btn-sm ml-2" data-toggle="modal" data-target="#exampleModalCenter2">
                                       view
                                     </button>
+                                    -->
 
                                     <!-- Modal -->
                                     <div class="modal fade" id="exampleModalCenter2" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" >
                                       <div class="modal-dialog modal-dialog-centered" role="document">
                                         <div class="modal-content" style="width:55rem; right:10rem;" align="center">
                                           <div class="modal-header" >
-                                            <h5 class="modal-title" id="exampleModalCenterTitle2" >DXF Veiwer</h5>
+                                            <h5 class="modal-title" id="exampleModalCenterTitle2" >STEP Veiwer</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                               <span aria-hidden="true">&times;</span>
                                             </button>
                                           </div>
                                           <div class="modal-body">
                                               <!-- Заменить ссылку в iframe -->
-                                            <iframe src="//sharecad.org/cadframe/load?url=http://www.cadsofttools.com/dwgviewer/floorplan.dwg" scrolling="no" style="height:40rem; width:50rem;"></iframe>
+                                            <iframe src="//beta.sharecad.org/cadframe/load?url=http://54.93.42.116:8000{{ single_detail.step.url }}" scrolling="no" style="height:40rem; width:50rem;"></iframe>
                                           </div>
                                           <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary col" data-dismiss="modal">Close</button>
@@ -426,10 +439,13 @@
                                       </div>
                                     </div>
                                 </li>
+                                {% endif %}
+                                {% if single_detail.part %}
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <div class="mr-2">{% trans "PART:" %}</div>
                                     <a href="{{ single_detail.part.url }}" class="btn btn-success col btn-sm" download>download</a>
                                 </li>
+                                {% endif %}
                             </ul>
                         </div>
                     </div>
@@ -525,7 +541,7 @@
                            class="list-group-item list-group-item-action list-group-item-warning">
                             {% trans "Update" %}
                         </a>
-                        <a href="#" class="list-group-item list-group-item-action list-group-item-success disabled"
+                        <a href="{% url 'send_order_to_friend' pk=order.pk %}" class="list-group-item list-group-item-action list-group-item-success disabled"
                            tabindex="-1" aria-disabled="true">
                             {% trans "Send friend" %}
                         </a>

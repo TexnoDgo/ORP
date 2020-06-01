@@ -557,7 +557,7 @@ def send_order_to_friend(request, pk):
                     [_('Number of items:'), str(order.amount)],
                     [_('Order Budget:'), str(order.proposed_budget)],
                     [_('Order City:'), str(order.city)],
-                    [_('Order reference:'), 'http://127.0.0.1:8000/orders/{}'.format(str(order.pk))]
+                    [_('Order reference:'), 'http://54.93.42.116:8000/orders/{}'.format(str(order.pk))]
                     ]
             fpdf.set_global("SYSTEM_TTFONTS", os.path.join(os.path.dirname(__file__), 'fonts'))
             ordef_image_view = str(order.image_view)
@@ -616,9 +616,12 @@ def create_single_order(request):
             form.save()
             pdf_file_name = str(order.pdf_cover)
             png_file_name = '{}{}'.format(pdf_file_name[20:-3], 'png')
-            png_full_path = os.path.join(BASE_DIR, "media\\COD_order_image_cover\\") + png_file_name
+            png_full_path = os.path.join(BASE_DIR, 'media/COD_order_image_cover/') + png_file_name
             convert_pdf_to_bnp(order.pdf_cover.path, png_full_path)
-            order.image_cover = png_full_path
+            png_path_name = 'COD_order_image_cover/' + png_file_name
+            print(png_path_name)
+            print(order.pdf_cover)
+            order.image_cover = png_path_name
             order.save()
 
             title = form.cleaned_data.get('title')  # Получение названи заказка из формы
@@ -651,14 +654,15 @@ def create_multiple_order(request):
             # Создание обложки заказа
             pdf_file_name = str(order.pdf_cover)
             png_file_name = '{}{}'.format(pdf_file_name[20:-3], 'png')
-            png_full_path = os.path.join(BASE_DIR, "media\\COD_order_image_cover\\") + png_file_name
+            png_full_path = os.path.join(BASE_DIR, 'media/COD_order_image_cover/') + png_file_name
             convert_pdf_to_bnp(order.pdf_cover.path, png_full_path)
-            order.image_cover = png_full_path
+            png_path_name = 'COD_order_image_cover/' + png_file_name
+            order.image_cover = png_path_name
             order.save()
 
             # Работа с арихивом
             zip_archive = zipfile.ZipFile(order.archive, 'r')
-            extract_archive_path = os.path.join(BASE_DIR, "media\\temp\\") + str(order.archive)
+            extract_archive_path = os.path.join(BASE_DIR, 'media/temp/') + str(order.archive)
             zip_archive.extractall(extract_archive_path)
             file_path = os.walk(extract_archive_path)
             folder = []
@@ -695,26 +699,30 @@ def create_multiple_order(request):
                     #detail_file.save()
                     # Создание обложки
                     halyard = element[-3:]
-                    print(halyard)
                     if halyard == 'PDF':
                         detail_png_file_name = '{}{}'.format(element[:-3], 'png')
-                        print(detail_png_file_name)
+                        print('detail_png_file_name: ' + detail_png_file_name)
                         detail_pdf_full_path = extract_archive_path + '/' + element
-                        print(detail_pdf_full_path)
-                        detail_png_full_path = os.path.join(BASE_DIR, "media\\COD_Detail_image_cover\\") + detail_png_file_name
-                        print(detail_png_full_path)
+                        print('detail_pdf_full_path: ' + detail_pdf_full_path)
+                        detail_png_full_path = os.path.join(BASE_DIR, 'media/COD_Detail_image_cover/') + detail_png_file_name
                         convert_pdf_to_bnp(detail_pdf_full_path, detail_png_full_path)
-                        detail.image_cover = detail_png_full_path
-                        detail.pdf = element
+                        detail_png_path_name = 'COD_Detail_image_cover/' + detail_png_file_name
+                        detail.image_cover = detail_png_path_name
+                        detail_file_full_path_name = 'temp/' + str(order.archive) + '/' + element
+                        print(detail_file_full_path_name)
+                        detail.pdf = detail_file_full_path_name
                         detail.save()
                     elif halyard == 'DXF':
-                        detail.dxf = element
+                        detail_file_full_path_name = 'temp/' + str(order.archive) + '/' + element
+                        detail.dxf = detail_file_full_path_name
                         detail.save()
-                    elif halyard == 'STP' or halyard == 'STEP':
-                        detail.step = element
+                    elif halyard == 'STP' or halyard == 'STEP' or halyard == 'TEP':
+                        detail_file_full_path_name = 'temp/' + str(order.archive) + '/' + element
+                        detail.step = detail_file_full_path_name
                         detail.save()
-                    elif halyard == 'PART' or halyard == 'PRT':
-                        detail.part = element
+                    elif halyard == 'PART' or halyard == 'PRT' or halyard == 'ART':
+                        detail_file_full_path_name = 'temp/' + str(order.archive) + '/' + element
+                        detail.part = detail_file_full_path_name
                         detail.save()
                     else:
                         print('Error element')
@@ -740,6 +748,7 @@ def create_multiple_order(request):
 @login_required
 def added_one_detail(request, url):
     added_order = CODOrder.objects.get(pk=url)
+    print(added_order.image_cover)
     if request.method == 'POST':
         form = AddedOneDetailForm(request.POST, request.FILES)
 
@@ -956,9 +965,8 @@ def create_xls_project(request, url):
         cell_l = ws.cell(row=row, column=12, value=part)
         cell_l.hyperlink = part
         row += 1
-    order_name = "media/temp2/{}.xlsx".format(order.title)
-    obj = wb.save(order_name)
-    table_path = os.path.join(settings.MEDIA_ROOT, 'temp2', "{}.xlsx".format(order.title))
+    table_path = os.path.join(settings.MEDIA_ROOT, 'temp', "{}.xlsx".format(order.title))
+    obj = wb.save(table_path)
     print(table_path)
     with open(table_path, 'rb') as ft:
         response = HttpResponse(ft.read(), content_type="application/vnd.ms-excel")
